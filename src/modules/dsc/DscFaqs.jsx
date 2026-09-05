@@ -102,6 +102,7 @@ export default function DscFaqs({ path = dscFaqsPage.path }) {
           { id: dscFaqSectionIds.faqs, label: "FAQs" },
         ]}
       />
+      {/* <NoticeBoard id={dscFaqSectionIds.notices} /> */}
 
       {/* Notice board — directly under the hero. ⚠️ SURFACE STAYS `light-alt`
           (set inside NoticeBoard): the hero above is `deep`, so a dark board
