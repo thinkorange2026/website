@@ -27,6 +27,7 @@ import DscBuyToken from "@/modules/dsc/DscBuyToken";
 import DscEsign from "@/modules/dsc/DscEsign";
 import DscDrivers from "@/modules/dsc/DscDrivers";
 import DscFaqs from "@/modules/dsc/DscFaqs";
+import DscHyp2003 from "@/modules/dsc/DscHyp2003";
 import About from "@/modules/about";
 import PartnerWithUs from "@/modules/partner-with-us";
 import Contact from "@/modules/contact";
@@ -48,6 +49,7 @@ const components = {
   DscEsign,
   DscDrivers,
   DscFaqs,
+  DscHyp2003,
   About,
   PartnerWithUs,
   Contact,

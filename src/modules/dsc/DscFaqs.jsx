@@ -94,9 +94,9 @@ export default function DscFaqs({ path = dscFaqsPage.path }) {
 
       <SubNav
         sections={[
-          ...(boardNotices.length > 0
-            ? [{ id: dscFaqSectionIds.notices, label: "Notices" }]
-            : []),
+          // ...(boardNotices.length > 0
+          //   ? [{ id: dscFaqSectionIds.notices, label: "Notices" }]
+          //   : []),
           { id: dscFaqSectionIds.process, label: "How issuance works" },
           { id: dscFaqSectionIds.renewal, label: "Validity & renewal" },
           { id: dscFaqSectionIds.faqs, label: "FAQs" },
@@ -110,7 +110,7 @@ export default function DscFaqs({ path = dscFaqsPage.path }) {
           because `deep` and `dark` are different strings. The process section
           below is `light`, so `light-alt` also avoids a repeat here, exactly
           as it did on /dsc. */}
-      <NoticeBoard id={dscFaqSectionIds.notices} />
+      {/* <NoticeBoard id={dscFaqSectionIds.notices} /> */}
 
       {/* StepFlow renders its own Container and heading, not a <section>, so
           the surface and the id belong to this wrapper. */}

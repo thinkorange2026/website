@@ -21,6 +21,7 @@ export function resolveComponent(entry, components) {
     DscEsign,
     DscDrivers,
     DscFaqs,
+    DscHyp2003,
     About,
     PartnerWithUs,
     Contact,
@@ -60,6 +61,12 @@ export function resolveComponent(entry, components) {
       return DscDrivers;
     case "T13":
       return DscFaqs;
+    // T14 — /dsc/about-hyp2003 (05-09-2026). Its own branch for the same reason
+    // T11–T13 each have one: T5 and T12 resolve unconditionally, so reusing
+    // either would serve the wrong page under this URL in the bundle AND the
+    // prerendered HTML, silently.
+    case "T14":
+      return DscHyp2003;
     case "T6":
       return entry.path === "/about" ? About : PartnerWithUs;
     case "T7":

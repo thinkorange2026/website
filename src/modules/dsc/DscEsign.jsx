@@ -70,13 +70,13 @@ export function DscEsign({ path = dscEsignPage.path }) {
         textureId="dsc-esign-hero"
       />
 
-      {/* <ComingSoon
+      <ComingSoon
         heading="This comparison is being finalised"
         message="We're rewriting the eSign and Class 3 comparison so it reflects exactly what each portal accepts today. In the meantime, tell us the portal and what you need to sign and we'll tell you which of the two it takes."
-      /> */}
+      />
 
     
-      <SubNav
+      {/* <SubNav
         sections={[
           { id: "comparison", label: "Side by side" },
           { id: "which-one", label: "Which one do you need" },
@@ -174,7 +174,7 @@ export function DscEsign({ path = dscEsignPage.path }) {
         />
        
         <JsonLd data={faqPageJsonLd(esignOrDscContent.faqs)} />
-      </Section>
+      </Section> */}
 
       <CtaBand
         heading="Still not sure which one the portal wants?"

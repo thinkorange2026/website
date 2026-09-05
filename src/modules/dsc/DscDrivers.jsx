@@ -206,6 +206,22 @@ export default function DscDrivers({ path = dscDriversPage.path }) {
   );
 }
 
+// ⛔ A CROSS-ORIGIN URL CANNOT USE THE `download` ATTRIBUTE. Browsers ignore it
+// on any origin but this one, silently — so a file hosted off-site and rendered
+// as `<a href download>` produces a button that says "Download" and then
+// navigates. HYP2003's two builds live on Clinton's Drive (drivers.js), so both
+// download surfaces route their anchor props through this one helper rather
+// than each deciding for itself.
+//
+// ⚠️ `target="_blank"` is deliberate for the external case: the direct-download
+// endpoint 303s to Google's file host, and doing that in the current tab
+// replaces the page the reader was using.
+function fileLinkProps(file) {
+  return file.external
+    ? { href: file.url, target: "_blank", rel: "noopener noreferrer" }
+    : { href: file.url, download: true };
+}
+
 /**
  * The hero's token driver row — "add download link in hero also".
  *
@@ -257,7 +273,7 @@ function DriverPicker() {
           return (
             <li key={driver.slug}>
               {file ? (
-                <a href={file.url} download className={shared}>
+                <a {...fileLinkProps(file)} className={shared}>
                   <Download
                     className="h-4 w-4 text-ember-300 transition-transform duration-[var(--dur-fast)] group-hover:translate-y-0.5"
                     strokeWidth={1.5}
@@ -340,7 +356,7 @@ function DriverPanel({ driver, dark = false }) {
       {driver.warning && (
         <p
           className={cn(
-            "flex max-w-[74ch] gap-3 rounded-[var(--radius-md)] border-l-2 border-ember-400 px-5 py-4 text-body-sm leading-relaxed",
+            "flex max-w-[82ch] gap-3 rounded-[var(--radius-md)] border-l-2 border-ember-400 px-5 py-4 text-body-sm leading-relaxed",
             dark ? "bg-ink-950/45 text-ink-100" : "bg-ember-50 text-ink-600",
           )}
         >
@@ -370,8 +386,7 @@ function DriverPanel({ driver, dark = false }) {
               .map((file) => (
                 <li key={file.platform}>
                   <a
-                    href={file.url}
-                    download
+                    {...fileLinkProps(file)}
                     className="group inline-flex items-center gap-2.5 rounded-full bg-ember-400 px-5 py-2.5 text-body-sm font-medium text-ink-950 transition-colors duration-[var(--dur-fast)] hover:bg-ember-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2"
                   >
                     <Download

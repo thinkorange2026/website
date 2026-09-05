@@ -311,6 +311,35 @@ export const dscDriverSectionIds = {
   drivers: "drivers",
 };
 
+// ⛔ 05-09-2026 (Clinton): "i want to create new page call - About HYP2003 keep
+// in the token & driver section." The token's own page — what the HYP2003 is,
+// its full specification, and what the FIPS 140-3 change means for a
+// certificate held on one.
+//
+// ⚠️ ITS OWN TEMPLATE, T14. Not T5 and not T12: `routeComponents.js` resolves
+// T5 unconditionally to `DscBuyToken` and T12 to `DscDrivers`, so reusing
+// either would have served the wrong page under this URL in BOTH the client
+// bundle and the prerendered HTML, with nothing failing. `lib/seo.js` needs the
+// matching case for the same reason — falling through would give this page
+// another page's title and description.
+export const dscHyp2003Page = {
+  slug: "about-hyp2003",
+  path: "/dsc/about-hyp2003",
+  label: "About HYP2003",
+  template: "T14",
+};
+
+// Its section anchors. Same discipline as every other id map here: the sub-nav,
+// the sections and any deep link all read this object, so a tab and a section
+// cannot disagree by one character and scroll nowhere.
+export const dscHyp2003SectionIds = {
+  why: "why-this-token",
+  specs: "specifications",
+  change: "fips-change",
+  compare: "compare",
+  faqs: "faqs",
+};
+
 // ⛔ 02-09-2026, later the same day (Clinton): "i want to keep the page
 // minimal. now it['s] filled up with the content… remove the pan-drive and
 // content. for [token] keep it in another tab like digital signature."
@@ -358,7 +387,17 @@ export const dscResourcesPage = {
 export const dscEsignPage = {
   slug: "esign-or-dsc",
   path: "/dsc/esign-or-dsc",
-  label: "eSign or DSC — Which Do You Need?",
+  // ⛔ 05-09-2026 (Clinton): "change this name to eSign Solution."
+  // ⚠️ THIS LABEL IS ALSO THE PAGE'S <h1> — `DscEsign.jsx` renders
+  // `h1={dscEsignPage.label}` — as well as the mega-panel item, the breadcrumb
+  // and the footer row. One string, four surfaces, deliberately: a nav entry
+  // that says one thing and a heading that says another is the drift this file
+  // exists to prevent. Give the page its own `h1` field if the two ever need
+  // to differ; do not fork the string.
+  // ⚠️ The PATH is unchanged. `/dsc/esign-or-dsc` is live, prerendered and
+  // linked from notices.js, so renaming the slug would break real URLs for a
+  // copy change.
+  label: "eSign Solution",
   template: "T11",
 };
 
@@ -411,6 +450,8 @@ export const dscPanelColumns = [
         path: dscDriversPage.path,
         label: "Driver Downloads",
       },
+      // 05-09-2026 (Clinton): "keep in the token & driver section."
+      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
     ],
   },
   // ⛔ UNPAUSED 03-09-2026. ONE item, not the two the paused version carried:
@@ -636,6 +677,7 @@ export const allRoutes = [
   { ...dscResourcesPage, parent: "/dsc" },
   { ...dscDriversPage, parent: "/dsc" },
   { ...dscFaqsPage, parent: "/dsc" },
+  { ...dscHyp2003Page, parent: "/dsc" },
   { ...dscEsignPage, parent: "/dsc" },
   insightsIndexPage,
   ...insightArticlePages,
@@ -667,8 +709,12 @@ export const footerColumns = [
       { path: dscResourcesPage.path, label: "Buy a DSC Token" },
       { path: dscDriversPage.path, label: "Token Driver Downloads" },
       { path: dscFaqsPage.path, label: "DSC FAQs" },
+      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
       // ⛔ UNPAUSED 03-09-2026 — a live route again, so the footer lists it.
-      { path: dscEsignPage.path, label: "eSign or DSC?" },
+      // ⚠️ DERIVED, not retyped. This carried its own hardcoded "eSign or DSC?"
+      // until 05-09-2026, so renaming the page left the footer asserting the
+      // old name — exactly the drift the sibling rows avoid by deriving.
+      { path: dscEsignPage.path, label: dscEsignPage.label },
     ],
   },
   {
@@ -792,6 +838,7 @@ const slugIndex = new Map([
   [dscResourcesPage.slug, dscResourcesPage],
   [dscDriversPage.slug, dscDriversPage],
   [dscFaqsPage.slug, dscFaqsPage],
+  [dscHyp2003Page.slug, dscHyp2003Page],
   [dscEsignPage.slug, dscEsignPage],
   [insightsIndexPage.slug, insightsIndexPage],
   ...insightArticlePages.map((a) => [a.slug, a]),

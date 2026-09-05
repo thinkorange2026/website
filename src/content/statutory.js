@@ -1403,6 +1403,38 @@ export const statutory = {
     basis: "Industry-standard scoring range used by TransUnion CIBIL, Experian, Equifax and CRIF High Mark — not a statutory figure, but a consistent, checkable industry fact rather than something typed from memory.",
     source: "https://www.paisabazaar.com/credit-score/credit-information-companies-india/",
   },
+
+  // --- DSC crypto tokens — the FIPS 140-3 transition ------------------------
+  // Added 05-09-2026, researched for the About HYP2003 page. NOT tax law, but
+  // it belongs here for exactly the reason this file exists: it is a dated
+  // regulatory deadline that a page makes a commercial argument on, and the
+  // reference document Clinton supplied carried it as a bare literal with its
+  // own note attached — "verify the 21 September 2026 date before publishing.
+  // The commercial argument on this page depends on it."
+  //
+  // ⚠️ THESE ARE TWO SEPARATE CLAIMS AND THEY HAVE DIFFERENT EVIDENCE. The
+  // NIST date is primary-sourced. The Indian consequence is corroborated by
+  // several industry sources but NOT by a CCA circular I could locate — see
+  // its own note, and MISSING-PAGES.md.
+  fips1402SunsetDate: {
+    value: "21 September 2026",
+    label:
+      "Date NIST moves every FIPS 140-2 cryptographic module validation to its Historical list",
+    basis:
+      "NIST CMVP FIPS 140-3 transition: FIPS 140-2 validations are valid for five years from validation or until this date, whichever is earlier, after which they move to the Historical list.",
+    note: "Primary source. This is the underlying date every downstream DSC-industry deadline is derived from.",
+    source: "https://csrc.nist.gov/projects/fips-140-3-transition-effort",
+  },
+  fips1403DscIssuance: {
+    value: "21 September 2026",
+    label:
+      "Date from which new Digital Signature Certificates in India are expected to require a FIPS 140-3 token",
+    basis:
+      "Follows NIST's FIPS 140-2 sunset above. Certifying Authorities are reported to stop downloading fresh certificates and renewals onto FIPS 140-2 tokens from this date; certificates already held on a 140-2 token continue to work until they expire.",
+    note:
+      "⚠️ NOT CONFIRMED AGAINST A CCA CIRCULAR. Corroborated by multiple independent DSC-industry sources and by the NIST date it derives from, but the CCA's own advisory was not located. Every page that states it is worded as an expectation, not a certainty. Get the circular number before hardening the wording.",
+    source: "https://www.esolutions.net.in/post/dsc-usb-tokens-moving-to-fips-140-3-from-september-2026-what-businesses-and-dsc-users-must-know",
+  },
 };
 
 /**

@@ -38,6 +38,7 @@ import { dscHubContent } from "../content/dsc/hub-content.js";
 import { esignOrDscContent } from "../content/dsc/esign-or-dsc.js";
 import { driversPage } from "../content/dsc/drivers.js";
 import { dscValidityRenewalContent } from "../content/dsc/validity-renewal-faqs.js";
+import { hyp2003Page } from "../content/dsc/hyp2003.js";
 import { tokenProduct } from "../content/dsc/token.js";
 import { aboutContent } from "../content/about.js";
 import { partnerContent } from "../content/partner-with-us.js";
@@ -108,6 +109,12 @@ export function resolveSeo(path) {
 
     case "T13":
       m = dscValidityRenewalContent.meta;
+      break;
+
+    // T14 — /dsc/about-hyp2003 (05-09-2026). Own case, not a fall-through:
+    // T5's meta is the order page's.
+    case "T14":
+      m = hyp2003Page.meta;
       break;
 
 

@@ -7716,3 +7716,203 @@ sweep left 12 wrappers reporting opacity 0 and looked exactly like broken
 reveals; at 400px/180ms over two passes it reports 0. IntersectionObserver
 delivers asynchronously, and this is the third time that trap has been
 recorded.
+
+## About HYP2003 — new page, and a notice bar under the hero — 05-09-2026
+NOT a phase. Clinton supplied `thinkorange-token-page.html` and asked for a new
+page, "About HYP2003", in the Token & Driver menu section, with the same layout
+as the HTML, and the FIPS 140-3 paragraph as a **notice bar just below the hero
+section**. New route `/dsc/about-hyp2003` (58 routes, was 57).
+
+### ⛔ THE DEADLINE DATE IS THE WHOLE RISK OF THIS PAGE
+The source document carries "21 September 2026" as a bare literal and attaches
+its own warning to it — *"verify the date before publishing. The commercial
+argument on this page depends on it."* It is now `statutory.js`, interpolated
+with `s()` in every one of its four appearances, never typed.
+- **`fips1402SunsetDate` is PRIMARY-SOURCED**: 21 September 2026 is when NIST's
+  CMVP moves every FIPS 140-2 validation to its Historical list
+  (csrc.nist.gov). Researched, not recalled.
+- **`fips1403DscIssuance` IS NOT.** That Indian CAs stop issuing onto 140-2
+  tokens from that date is corroborated by several DSC-industry sources and
+  follows from the NIST sunset, but **the CCA's own circular was not located.**
+  Its `note` says so.
+- ⚠️ **SO EVERY SENTENCE IS WORDED AS AN EXPECTATION** ("are expected to"), not
+  a certainty. Do not harden the wording without the circular number. The
+  deadline is 16 days out as written, which makes it more exposed, not less.
+
+### Three claims from the source that are NOT on the page
+Recorded so nobody restores them from the HTML without a decision, and listed
+in full at the top of `content/dsc/hyp2003.js`:
+1. **"[Exclusive / Authorised] distributor — [territory]"** — an unfilled
+   placeholder AND an authorisation claim about a commercial relationship.
+   Dropped outright; there is no honest half-version of it.
+2. **"Confirm rates and stock the same working day"** — a turnaround guarantee,
+   §1.1 hold list.
+3. **"Distributor pricing"** as a price claim — `fees` is null across the DSC
+   tree. The copy says partner rates are quoted on application, which
+   `/partner-with-us` already asserts, and names no figure.
+The document's two dev notes name a certifying authority. **No CA is named on
+this site (02-09-2026) — do not reintroduce one from this reference.**
+
+### `components/ui/NoticeBar.jsx` (new) — a third notice surface
+One static, page-specific sentence, full-bleed, directly under the hero.
+Deliberately NOT `NoticeBoard` (a section of rows off `notices.js`) and NOT
+`NoticeTicker` (the homepage marquee): it takes its text as a **prop**, because
+the claim belongs to this page. A notice true of every DSC surface belongs in
+`notices.js` instead.
+- ⚠️ **`light-alt`, and that is a cadence constraint.** It sits under a `deep`
+  hero, so anything dark is two adjacent dark-family surfaces reading as one
+  slab — which a check comparing adjacent TOKENS passes, because `deep` and
+  `dark` differ.
+- **Not `bg-ember-*` and not the source's dark-red alert bar.** Red is off
+  palette; a full-bleed ember band is CtaBand's job. Weight comes from the ember
+  top rule and label instead.
+- Not a `<section>`: no heading, no landmark, so it stays out of the cadence
+  count while still supplying the fold.
+
+### ⛔ ITS OWN TEMPLATE, T14
+Not T5 and not T12. `routeComponents.js` resolves **T5 unconditionally** to
+`DscBuyToken` and T12 to `DscDrivers`, so reusing either would have served the
+wrong page under this URL — in the client bundle AND the prerendered HTML, with
+nothing failing and nothing logging. `lib/seo.js` needs the matching case for
+the same reason. Fourth page to hit this (T11, T12, T13, now T14).
+
+### Smaller decisions
+- **`productJsonLd` gained an optional `brand`**, defaulting to `site.shortName`
+  so the one existing call site is byte-identical. This page passes
+  "HyperSecu": it describes a manufacturer's product we resell, and asserting
+  ThinkOrange as its brand in structured data is a plain untruth to a crawler.
+- **`content/dsc/hyp2003.js` uses a RELATIVE import with an extension**, not the
+  `@/` alias, because `lib/seo.js` imports it and plain Node loads that during
+  the prerender pass. `notices.js` gets away with the alias only because nothing
+  Node-side imports it.
+- **The comparison table's first note argues AGAINST the product** ("on storage
+  capacity the HYP2003 is not the largest available"). Keep it — a comparison
+  table on a page selling the highlighted column is only worth reading if it
+  concedes where the thing does not win.
+- The highlighted column is an ember **tint**, not a filled ember header: a
+  second loud orange band on a page that already ends with CtaBand.
+- The product photograph is the real `public/images/drivers/dsc-card.png` via
+  `ProductShot`, where the source had a `[HYP2003 product photograph]` box.
+  `ratio` is the file's real pixel dimensions — `<Img>`'s inner img is
+  object-cover, which only leaves a transparent product uncropped when the box
+  matches the file's own aspect.
+- No `Reveal` on the comparison table or the spec lists: tables and body copy
+  never animate, and these are the sections a reader checks a figure against.
+
+### Verified
+`npm run lint` 0 problems, `content:check` clean apart from the three standing
+unconfirmed-content warnings, `build` + prerender **58 routes + 12 redirects**
+with the dangling-fragment gate passing. Then a real Chrome over CDP against
+`npx serve dist` (never `vite preview`, never the in-app pane), asserting
+`innerWidth`/`visibilityState`/`pathname` first and priming reveals with awaited
+400px steps from Node:
+- **Cadence `deep → light → light-alt → dark → light → light-alt → light →
+  ember`** — zero consecutive repeats, zero adjacent dark-family pairs.
+- **Pixel-sampled contrast: 0 real failures** — 243 samples at 1440px, 222 at
+  375px, tightest pass **4.64:1** at both. The 13 and 19 reported are all the
+  documented `rounded-full` corner-bleed artifact (the primary CTA, CtaBand's
+  pill), whose real pairs are 6.18:1 and ~17:1 computed statically.
+  ⚠️ It found ONE real failure, which was mine: the "why this token" mono
+  ordinals at `ink-300` on canvas measured **3.35:1**. They are ordinals a
+  reader counts by, not decoration, so they carry the 4.5:1 floor — now
+  `ink-400` (7.2:1). Same failure the T2 documents checklist already hit.
+- One `<h1>`, 5 sub-nav tabs all resolving, 10 comparison rows, 10 FAQs, the
+  notice bar present and measured BELOW the h1, 5 JSON-LD blocks
+  (`Organization + LocalBusiness + Product + FAQPage + BreadcrumbList`), no
+  `undefined`/`[object Object]`/`NaN`, and none of SignX / eMudhra /
+  "distributor" / "[territory]" / "same working day" in the rendered text.
+- `scrollWidth === innerWidth` at 1440 and 375 (the table scrolls, the page does
+  not). 0 stuck reveals. Reduced motion via `Emulation.setEmulatedMedia`:
+  0 running animations, 0 elements stuck mid-opacity.
+- Mega panel opens and carries "About HYP2003" under Token & Driver; the footer
+  DSC column carries it; 0 console errors across 7 routes including untouched
+  `/about` and `/`.
+
+### ⚠️ HARNESS BUG that produced 70+ phantom contrast failures — read this
+The sampler injected `* { color: transparent }` **in the same `Runtime.evaluate`
+that read the element boxes**, then screenshotted on the next CDP call. That
+frame is pre-repaint, so the text was **still painted** — p95/p05 sampled the
+GLYPHS rather than the surface, and every light-on-dark element reported
+1.0–1.9:1. It flagged the entire footer, every dark band and both nav panels; the
+tell was that untouched footer links "failed" on a page whose footer this change
+never went near.
+**Fix: inject the probe stylesheet as its OWN step and settle ~400ms before
+capturing.** Same run then reported 16 failures, 3 of them real (fixed above)
+and 13 the known pill artifact. This is a second, distinct trap from the
+already-recorded "read the foreground colour BEFORE injecting" one — a sampler
+needs BOTH.
+
+### ⛔ Bug caught by Clinton, not by my probe: the FAQ rows rendered EMPTY
+Same day. `FaqSection` -> `Accordion` reads **`{ question, answer }`**, but this
+repo's FAQ CONTENT convention is **`{ q, a }`** — which is what `faqPageJsonLd`
+reads, so both shapes are legitimately in use. Passing `certificateFaqs`-style
+data straight through renders **the right NUMBER of rows with no text in them**:
+ten bars carrying only their mono index, no error, no warning, and the JSON-LD
+still perfectly correct. `DscFaqs` already maps between the two at its call
+site; this page did not.
+- **Fix: map at the call site**, as `DscFaqs` does. Do not "simplify" either map
+  away, and do not change `Accordion` — the two key shapes serve different
+  consumers.
+- ⚠️ **THE VERIFICATION LESSON IS THE POINT.** My probe counted
+  `h3 > button[aria-expanded]` and reported `faqs: 10`, which looked like a
+  pass. **Counting a component's rows proves it mounted, never that it has
+  content.** Any probe over a list-rendering component must assert the rendered
+  TEXT of at least the first and last item, and that no item is empty.
+- Re-verified after the fix: 10 rows, **0 empty questions, 0 empty answers**,
+  first and last read their real copy, a closed row opens on click to a 109px
+  panel with real text, and all ten questions and answers are present in the
+  prerendered `dist/dsc/about-hyp2003/index.html` (so they are crawlable before
+  hydration).
+
+### Notice bar became a one-line infinite marquee — 05-09-2026
+Clinton, same day: "in notification bar, show as one line in infinite
+carrousel." It was wrapping to two lines on the full-bleed strip, which reads as
+a paragraph pinned under the hero rather than as a notice.
+
+`NoticeBar` now shares `NoticeTicker`'s mechanism EXACTLY — same ember-50
+surface, same measured duration, same margin-not-gap rule, same fade placement,
+same reduced-motion fallback, same non-interactive track. **The only difference
+that remains is the data boundary**: the ticker reads `noticesFor("site")`,
+this takes ONE notice as a prop, because the claim belongs to the page it sits
+on. ⚠️ **If you fix a marquee bug in one of these two files, fix it in the
+other** — the note is at the top of both.
+
+- ⚠️ **THE LOOP-WIDTH INVARIANT IS MUCH TIGHTER HERE than on the homepage.**
+  `translateX(-50%)` travels exactly one group, so one group must be at least as
+  wide as the widest window this ever renders in — and this bar carries ONE
+  sentence where the ticker carries four. Measured at a 2560px viewport: one
+  group (`GROUP_PASSES = 2`) is **3664px**, clearing the window with ~1100px to
+  spare. A SHORTER notice eats that headroom directly. **Re-measure
+  `groupWidth >= innerWidth` at 2560px whenever this text changes.**
+- **Duration is measured, not hand-computed** (the element reads its own
+  `scrollWidth / 2` in an effect and writes `--marquee-duration`), so editing the
+  copy can never leave the speed wrong — the failure TrustStrip's hand-tuned
+  120s already had once. Verified **55.0px/s at 2560, 1440 and 375**, from three
+  different measured durations.
+- **It is now a `<section data-surface="light-alt">`**, where it was a plain div,
+  so it ENTERS the surface-cadence count — matching `NoticeTicker`, which is a
+  section on the homepage. Re-measured:
+  `deep → light-alt → light → light-alt → dark → light → light-alt → light →
+  ember`, zero consecutive repeats and zero adjacent dark-family pairs.
+- **`whitespace-nowrap` on the moving copy ONLY.** The reduced-motion branch is
+  a static row and must be allowed to wrap, or a long notice runs off the side
+  with no way to read it.
+- Verified: one line at 2560/1440/375 (`copyHeight === lineHeight` at each),
+  genuinely moving (transform stepping between samples, not a frozen end state),
+  **0 focusables in the duplicated track** and exactly **1 `sr-only` copy**, so a
+  screen reader hears it once and the tab order is untouched.
+  `scrollWidth === innerWidth` at all three widths. The full sentence is in the
+  prerendered HTML (4 marquee copies + the sr-only one), so it is crawlable
+  before hydration. Reduced motion via `Emulation.setEmulatedMedia`: **0
+  elements carrying the marquee animation, 0 running animations, 1 visible
+  static copy.** 0 window errors.
+- ⚠️ **The bar cannot be pixel-sampled meaningfully** — its spans are wider than
+  the viewport and `.marquee-fade` lowers the GLYPH's alpha rather than its
+  computed colour, so a sampler reports a pass it did not measure. The
+  background is a flat token with nothing translucent over it, so a STATIC pair
+  is valid here and is what was checked: body ink-500 on ember-50 **9.41:1**,
+  label ember-600 **4.79:1**. Same conclusion already recorded for the ticker.
+- ⚠️ Probe trap: `bar.querySelector('[aria-hidden="true"]')` matches the
+  **Megaphone icon**, not the marquee track, so a reduced-motion check written
+  that way reports the track as still present. Select on
+  `getComputedStyle(el).animationName === "marquee"` instead.

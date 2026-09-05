@@ -27,6 +27,7 @@ const components = {
   DscEsign: lazy(() => import("@/modules/dsc/DscEsign")),
   DscDrivers: lazy(() => import("@/modules/dsc/DscDrivers")),
   DscFaqs: lazy(() => import("@/modules/dsc/DscFaqs")),
+  DscHyp2003: lazy(() => import("@/modules/dsc/DscHyp2003")),
   About: lazy(() => import("@/modules/about")),
   PartnerWithUs: lazy(() => import("@/modules/partner-with-us")),
   Contact: lazy(() => import("@/modules/contact")),

@@ -57,7 +57,7 @@ export default function Home() {
       {/* Small infinite notice bar (Clinton, 04-09-2026). `light-alt`, so the
           cadence runs deep -> light-alt -> light rather than putting two
           dark-family surfaces under the hero. */}
-      <NoticeTicker />
+      {/* <NoticeTicker /> */}
       <ComplianceCalendarHome />
       <WhatWeDo />
       <WhoWeWorkWith />
