@@ -66,7 +66,7 @@ export default function Home() {
       <WhenToCallUs />
       <DscBand />
       <PartnerProgramme />
-      <Testimonial />
+      {/* <Testimonial /> */}
       <Faqs />
       <Insights />
       {/* <TrustStrip /> */}
