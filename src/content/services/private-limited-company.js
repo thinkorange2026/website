@@ -12,12 +12,12 @@ export default {
   slug: "private-limited-company",
   category: "business-setup",
   title: "Private Limited Company",
-  h1: "Private Limited Company Registration in Salem, Tamil Nadu",
+  h1: "Private Limited Company Registration",
 
   meta: {
-    title: "Private Limited Company Registration in Salem | ThinkOrange",
+    title: "Private Limited Company Registration | ThinkOrange",
     description:
-      "Company incorporation through SPICe+ with DIN, PAN and TAN, plus the first-year compliance set up properly. Salem, Tamil Nadu, for clients across India.",
+      "Company incorporation through SPICe+ with DIN, PAN and TAN, plus the first-year compliance set up properly. For clients across India.",
     keywords: [
       "private limited company registration salem",
       "company incorporation consultant tamil nadu",

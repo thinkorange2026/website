@@ -28,10 +28,10 @@ export default {
   slug: "tds-compliance",
   category: "income-tax",
   title: "TDS Compliance",
-  h1: "TDS Compliance and Return Filing in Salem, Tamil Nadu",
+  h1: "TDS Compliance and Return Filing",
 
   meta: {
-    title: "TDS Compliance & Quarterly Return Filing in Salem | ThinkOrange",
+    title: "TDS Compliance & Quarterly Return Filing | ThinkOrange",
     description:
       "TDS deduction, deposit and quarterly statements under the Income Tax Act 2025 — Forms 138, 140 and 144, certificates, corrections and default notices.",
     keywords: [

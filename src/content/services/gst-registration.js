@@ -26,12 +26,12 @@ export default {
   slug: "gst-registration",
   category: "gst",
   title: "GST Registration",
-  h1: "GST Registration in Salem, Tamil Nadu",
+  h1: "GST Registration",
 
   meta: {
-    title: "GST Registration in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "GST Registration | ThinkOrange Consulting",
     description:
-      "New GST registration, amendments and multi-state registration, handled end to end from Salem. Documents, thresholds and timelines explained plainly.",
+      "New GST registration, amendments and multi-state registration, handled end to end. Documents, thresholds and timelines explained plainly.",
     keywords: [
       "gst registration salem",
       "gst registration consultant tamil nadu",

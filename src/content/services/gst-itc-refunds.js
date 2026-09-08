@@ -13,12 +13,12 @@ export default {
   slug: "gst-itc-refunds",
   category: "gst",
   title: "ITC Refunds",
-  h1: "GST Input Tax Credit Refunds in Salem, Tamil Nadu",
+  h1: "GST Input Tax Credit Refunds",
 
   meta: {
-    title: "GST ITC Refund Filing in Salem | Inverted Duty & Export Refunds",
+    title: "GST ITC Refund Filing | Inverted Duty & Export Refunds",
     description:
-      "Input tax credit refund claims for exports, inverted duty structure and excess balance — reconciled and filed within the two-year window. Salem, Tamil Nadu.",
+      "Input tax credit refund claims for exports, inverted duty structure and excess balance — reconciled and filed within the two-year window.",
     keywords: [
       "gst itc refund salem",
       "inverted duty structure refund consultant",

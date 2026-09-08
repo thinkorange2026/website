@@ -3,7 +3,7 @@ import { Download } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { Stagger } from "@/components/motion/Stagger";
 import { cn } from "@/lib/cn";
-import { dscDriversPage, dscResourcesPage } from "@/content/nav";
+import { dscDriversPage, dscBuyTokenPage } from "@/content/nav";
 import { drivers } from "@/content/dsc/drivers";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -52,7 +52,7 @@ export function DriverDownloads() {
           {drivers.map((driver) => (
             <Link
               key={driver.slug}
-              // ⛔ 03-09-2026: retargeted from `dscResourcesPage.path` when Buy
+              // ⛔ 03-09-2026: retargeted from the Buy Token page when Buy
               // Token split into three pages. The driver rows live on
               // /dsc/drivers now, so this pointed at a fragment on a page that
               // no longer has it. ⚠️ THE BUILD'S FRAGMENT GATE DID NOT CATCH IT
@@ -85,7 +85,7 @@ export function DriverDownloads() {
         <p className="mt-6 text-body-sm text-ink-400">
           Need the hardware itself?{" "}
           <Link
-            to={`${dscResourcesPage.path}#order`}
+            to={`${dscBuyTokenPage.path}#order`}
             className="rounded-sm font-medium text-ember-600 underline underline-offset-2 hover:text-ember-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2"
           >
             Buy a DSC token

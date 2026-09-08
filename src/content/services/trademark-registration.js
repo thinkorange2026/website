@@ -19,9 +19,9 @@ export default {
   h1: "Trademark Registration in India",
 
   meta: {
-    title: "Trademark Registration in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "Trademark Registration | ThinkOrange Consulting",
     description:
-      "Register your business name or logo as a trademark — classes, fees, the opposition window and realistic timelines explained. Filed from Salem, pan-India.",
+      "Register your business name or logo as a trademark — classes, fees, the opposition window and realistic timelines explained. Filed pan-India.",
     keywords: [
       "trademark registration salem",
       "trademark registration india cost",

@@ -12,12 +12,12 @@ export default {
   slug: "internal-audit",
   category: "accounting-audit",
   title: "Internal Audit",
-  h1: "Internal Audit Services in Salem, Tamil Nadu",
+  h1: "Internal Audit Services",
 
   meta: {
-    title: "Internal Audit Services in Salem | ThinkOrange Consulting",
+    title: "Internal Audit Services | ThinkOrange Consulting",
     description:
-      "Process reviews, control testing and risk assessment for companies and BFSI clients — mandatory or voluntary. Salem, Tamil Nadu.",
+      "Process reviews, control testing and risk assessment for companies and BFSI clients — mandatory or voluntary.",
     keywords: [
       "internal audit services salem",
       "internal audit consultant tamil nadu",

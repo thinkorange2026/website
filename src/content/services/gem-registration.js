@@ -11,12 +11,12 @@ export default {
   slug: "gem-registration",
   category: "tenders-finance",
   title: "GeM Registration",
-  h1: "GeM Registration in Salem, Tamil Nadu",
+  h1: "GeM Registration",
 
   meta: {
-    title: "GeM Registration in Salem | Government e-Marketplace Seller Setup",
+    title: "GeM Registration | Government e-Marketplace Seller Setup",
     description:
-      "Seller registration on the Government e-Marketplace, with Udyam-linked MSE benefits set up correctly from the start. Salem, Tamil Nadu.",
+      "Seller registration on the Government e-Marketplace, with Udyam-linked MSE benefits set up correctly from the start.",
     keywords: [
       "gem registration salem",
       "government e marketplace seller registration",

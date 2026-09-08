@@ -23,12 +23,12 @@ export default {
   slug: "gst-lut-export-refunds",
   category: "gst",
   title: "LUT & Export Refunds",
-  h1: "LUT for GST-Free Exports in Salem, Tamil Nadu",
+  h1: "LUT for GST-Free Exports",
 
   meta: {
-    title: "LUT (Form RFD-11) Filing for Exporters in Salem | ThinkOrange",
+    title: "LUT (Form RFD-11) Filing for Exporters | ThinkOrange",
     description:
-      "File your Letter of Undertaking under Form GST RFD-11 so you can export goods and services without paying IGST upfront. Filed online from Salem, Tamil Nadu.",
+      "File your Letter of Undertaking under Form GST RFD-11 so you can export goods and services without paying IGST upfront. Filed online.",
     keywords: [
       "lut gst filing salem",
       "form rfd-11 filing",

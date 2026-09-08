@@ -19,12 +19,12 @@ export default {
   slug: "payroll-processing-returns",
   category: "accounting-audit",
   title: "Payroll Processing & Returns",
-  h1: "Payroll Processing & Returns in Salem, Tamil Nadu",
+  h1: "Payroll Processing & Returns",
 
   meta: {
-    title: "Payroll Processing & Returns in Salem | ThinkOrange",
+    title: "Payroll Processing & Returns | ThinkOrange",
     description:
-      "Monthly payroll, EPF and ESI filing, Professional Tax deduction and salary TDS deposit — run end to end. Salem, Tamil Nadu, for clients across India.",
+      "Monthly payroll, EPF and ESI filing, Professional Tax deduction and salary TDS deposit — run end to end. For clients across India.",
     keywords: [
       "payroll processing services salem",
       "payroll outsourcing tamil nadu",
@@ -42,14 +42,14 @@ export default {
 
     `We prepare and file the EPF Electronic Challan-cum-Return, due by ${s("epfEcrDue")}, and the ESI monthly contribution, due by ${s("esiMonthlyContributionDue")}. On top of both, ESI's half-yearly consolidated return is due by ${s("esiHalfYearlyReturnDue")}. None of these deadlines move together, and missing one restarts interest and damages from that specific date, not from whichever filing you remembered first.`,
 
-    `In Salem, Professional Tax on salaries is ${s("tnProfessionalTaxMechanism")}. The specific slab table is set by each corporation separately, so we confirm the current one for wherever your staff are actually based rather than assuming another city's rates apply here. Salary TDS is deducted from every payslip and deposited each month — the calendar mechanic is stable, due by ${s("tdsPaymentDue")} — though which section and form it sits under is being re-confirmed following this year's transition to the new Income Tax Act, so we advise on that separately rather than naming it on this page.`,
+    `Professional Tax on salaries in Tamil Nadu is ${s("tnProfessionalTaxMechanism")}. The specific slab table is set by each corporation separately, so we confirm the current one for wherever your staff are actually based rather than assuming another city's rates apply here. Salary TDS is deducted from every payslip and deposited each month — the calendar mechanic is stable, due by ${s("tdsPaymentDue")} — though which section and form it sits under is being re-confirmed following this year's transition to the new Income Tax Act, so we advise on that separately rather than naming it on this page.`,
   ],
 
   whoNeedsThis: [
     "You already have employees on EPF and/or ESI and need the monthly filing actually done, not just the registration.",
     "You want one system handling payslips, statutory deductions and government filings together, instead of three separate people or vendors.",
     "You are growing headcount and the payroll spreadsheet that worked for five people is starting to miss things at fifteen.",
-    "You need Professional Tax deducted and deposited correctly for staff based in Salem or elsewhere in Tamil Nadu.",
+    "You need Professional Tax deducted and deposited correctly for staff based in Tamil Nadu.",
     "You want salary TDS deducted and deposited every month without it becoming a year-end scramble.",
     "You are switching payroll vendors, or bringing payroll in-house, and want the handover done cleanly.",
   ],

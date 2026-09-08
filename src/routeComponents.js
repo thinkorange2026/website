@@ -21,6 +21,8 @@ export function resolveComponent(entry, components) {
     DscEsign,
     DscDrivers,
     DscFaqs,
+    DscHyp2003,
+    DscResources,
     About,
     PartnerWithUs,
     Contact,
@@ -45,7 +47,7 @@ export function resolveComponent(entry, components) {
     // one route: /dsc/resources, the technical tab that keeps /dsc minimal.
     case "T5":
       return DscBuyToken;
-    // T11 — /dsc/esign-or-dsc, unpaused 03-09-2026. Its own template rather
+    // T11 — /dsc/esign-solution, unpaused 03-09-2026, renamed 07-09-2026. Its own template rather
     // than a T5 branch, because T5 resolves unconditionally to DscBuyToken now
     // that the DSC tree is two pages: marking this T5 would have served the
     // Buy Token page under the eSign URL, in both the client bundle AND the
@@ -60,6 +62,18 @@ export function resolveComponent(entry, components) {
       return DscDrivers;
     case "T13":
       return DscFaqs;
+    // T14 — /dsc/about-hyp2003 (05-09-2026). Its own branch for the same reason
+    // T11–T13 each have one: T5 and T12 resolve unconditionally, so reusing
+    // either would serve the wrong page under this URL in the bundle AND the
+    // prerendered HTML, silently.
+    case "T14":
+      return DscHyp2003;
+    // T15 — /dsc/resources, the DSC file library (07-09-2026). Own branch for
+    // the same reason T11–T14 each have one: T5, T12 and T13 all resolve
+    // unconditionally, so reusing any of them would serve the wrong page under
+    // this URL in the bundle AND the prerendered HTML, silently.
+    case "T15":
+      return DscResources;
     case "T6":
       return entry.path === "/about" ? About : PartnerWithUs;
     case "T7":

@@ -286,6 +286,35 @@ export const dscFaqsPage = {
   template: "T13",
 };
 
+// ⛔ 07-09-2026 (Clinton): "i want to create a new page call Resources in dsc
+// category. keep in between digital signature and dsc faqs. in this i will
+// upload fields relatied to dsc. for now it will shown as empty state."
+//
+// A file library — forms, checklists and reference documents a visitor can
+// download. It ships EMPTY on purpose: `dscResources` in
+// content/dsc/resources.js is `[]`, and the template renders an honest empty
+// state rather than a placeholder card, the same discipline
+// `testimonials.js`/`insights.js` already carry. Adding a file is a content
+// edit; no template change.
+//
+// ⚠️ ITS OWN TEMPLATE, T15. Not T5/T12/T13 — `routeComponents.js` resolves each
+// of those UNCONDITIONALLY to one component, so reusing one would have served
+// the wrong page under this URL in both the client bundle and the prerendered
+// HTML, with nothing failing and nothing logging. `lib/seo.js` needs the
+// matching case for the same reason, or the page inherits another's title.
+// Fifth page to hit this (T11, T12, T13, T14, now T15).
+//
+// ⚠️ `/dsc/resources` is FREE, not a resurrected URL. The path was created and
+// renamed to /dsc/buy-token on the same day (03-09-2026) and never shipped, so
+// there is no old destination to conflict with and no redirect stub to remove —
+// which is why nothing in `dscRetiredRoutes` had to change here.
+export const dscResourcesPage = {
+  slug: "dsc-resources",
+  path: "/dsc/resources",
+  label: "Resources",
+  template: "T15",
+};
+
 // The FAQ page's anchors. It is the only one of the three with more than one
 // section, so it is the only one with a sub-nav.
 // ⚠️ `renewal` lives here now, not on Buy Token. The finder's "Renewing or
@@ -311,6 +340,35 @@ export const dscDriverSectionIds = {
   drivers: "drivers",
 };
 
+// ⛔ 05-09-2026 (Clinton): "i want to create new page call - About HYP2003 keep
+// in the token & driver section." The token's own page — what the HYP2003 is,
+// its full specification, and what the FIPS 140-3 change means for a
+// certificate held on one.
+//
+// ⚠️ ITS OWN TEMPLATE, T14. Not T5 and not T12: `routeComponents.js` resolves
+// T5 unconditionally to `DscBuyToken` and T12 to `DscDrivers`, so reusing
+// either would have served the wrong page under this URL in BOTH the client
+// bundle and the prerendered HTML, with nothing failing. `lib/seo.js` needs the
+// matching case for the same reason — falling through would give this page
+// another page's title and description.
+export const dscHyp2003Page = {
+  slug: "about-hyp2003",
+  path: "/dsc/about-hyp2003",
+  label: "About HYP2003",
+  template: "T14",
+};
+
+// Its section anchors. Same discipline as every other id map here: the sub-nav,
+// the sections and any deep link all read this object, so a tab and a section
+// cannot disagree by one character and scroll nowhere.
+export const dscHyp2003SectionIds = {
+  why: "why-this-token",
+  specs: "specifications",
+  change: "fips-change",
+  compare: "compare",
+  faqs: "faqs",
+};
+
 // ⛔ 02-09-2026, later the same day (Clinton): "i want to keep the page
 // minimal. now it['s] filled up with the content… remove the pan-drive and
 // content. for [token] keep it in another tab like digital signature."
@@ -333,7 +391,13 @@ export const dscDriverSectionIds = {
 // validity and renewal material kept because it is all token lifecycle.
 // `/dsc/resources` never shipped (it was created earlier the same day), so
 // there is no old URL to redirect from.
-export const dscResourcesPage = {
+// ⚠️ RENAMED FROM `dscResourcesPage` on 07-09-2026, when a REAL Resources page
+// was added below. That export still pointed at Buy Token — a leftover from the
+// /dsc/resources → /dsc/buy-token rename — so the two would have sat one line
+// apart with near-identical names and different destinations. This repo has
+// already shipped that class of wrong-page bug twice (T5 resolving
+// unconditionally to Buy Token); the name now says what the page is.
+export const dscBuyTokenPage = {
   slug: "buy-token",
   path: "/dsc/buy-token",
   label: "Buy Token",
@@ -342,7 +406,7 @@ export const dscResourcesPage = {
 
 // ⛔ UNPAUSED 03-09-2026 (Clinton: "unpause the esign routes and add that
 // column"). Off the route table since 21-08-2026; back now, because its
-// content file (content/dsc/esign-or-dsc.js) was written in full before the
+// content file (content/dsc/esign-solution.js) was written in full before the
 // pause and was never deleted, so nothing here is invented to restore it.
 //
 // ⚠️ **T11, not T5.** T5 resolves unconditionally to `DscBuyToken` now that
@@ -356,9 +420,24 @@ export const dscResourcesPage = {
 // content-writing job plus a template decision, not an uncomment. See
 // MISSING-PAGES.md.
 export const dscEsignPage = {
-  slug: "esign-or-dsc",
-  path: "/dsc/esign-or-dsc",
-  label: "eSign or DSC — Which Do You Need?",
+  // ⛔ 07-09-2026 (Clinton): "in esign-or-dsc page change it into
+  // esign-solution". The slug and path were renamed to match the label, which
+  // had already been changed to "eSign Solution" on 05-09-2026 — a URL that
+  // still said "esign-or-dsc" was describing a comparison the page no longer
+  // makes. The OLD path is NOT dropped: it is live, prerendered, and was
+  // linked from notices.js and the footer, so it is now a redirect stub in
+  // `dscRetiredRoutes` below. Renaming a live URL without one is how a real
+  // link 404s for a copy change.
+  slug: "esign-solution",
+  path: "/dsc/esign-solution",
+  // ⛔ 05-09-2026 (Clinton): "change this name to eSign Solution."
+  // ⚠️ THIS LABEL IS ALSO THE PAGE'S <h1> — `DscEsign.jsx` renders
+  // `h1={dscEsignPage.label}` — as well as the mega-panel item, the breadcrumb
+  // and the footer row. One string, four surfaces, deliberately: a nav entry
+  // that says one thing and a heading that says another is the drift this file
+  // exists to prevent. Give the page its own `h1` field if the two ever need
+  // to differ; do not fork the string.
+  label: "eSign Solution",
   template: "T11",
 };
 
@@ -394,9 +473,12 @@ export const dscPanelColumns = [
         path: "/dsc",
         label: "Digital Signature Certificate",
       },
-      // The FAQ set lives on the Buy Token page, not on /dsc — it mostly
-      // answers token, validity and renewal questions. Same destination the
-      // footer's DSC column has always used.
+      // 07-09-2026 (Clinton): "keep in between digital signature and dsc
+      // faqs." Position is the instruction, so do not reorder this column.
+      { path: dscResourcesPage.path, label: dscResourcesPage.label },
+      // The FAQ set lives on its own page, not on /dsc — it mostly answers
+      // token, validity and renewal questions. Same destination the footer's
+      // DSC column has always used.
       {
         path: dscFaqsPage.path,
         label: "DSC FAQs",
@@ -406,11 +488,13 @@ export const dscPanelColumns = [
   {
     label: "Token & Driver",
     items: [
-      { path: dscResourcesPage.path, label: "Buy Token" },
+      { path: dscBuyTokenPage.path, label: "Buy Token" },
       {
         path: dscDriversPage.path,
         label: "Driver Downloads",
       },
+      // 05-09-2026 (Clinton): "keep in the token & driver section."
+      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
     ],
   },
   // ⛔ UNPAUSED 03-09-2026. ONE item, not the two the paused version carried:
@@ -470,6 +554,10 @@ export const dscRetiredRoutes = [
   // from. The label still names what the old URL was about.
   { slug: "documents-required", path: "/dsc/documents-required", label: "Documents Required for DSC", hash: dscSectionIds.finder },
   { slug: "validity-renewal-faqs", path: "/dsc/validity-renewal-faqs", label: "Validity, Renewal & FAQs", to: `${dscFaqsPage.path}#${dscFaqSectionIds.renewal}` },
+  // ⛔ 07-09-2026: the eSign page's own former URL, retired by the rename
+  // above. `to` is DERIVED from the page object, not typed, so a future rename
+  // moves the stub with it.
+  { slug: "esign-or-dsc", path: "/dsc/esign-or-dsc", label: "eSign or DSC", to: dscEsignPage.path },
   // ⛔ 03-09-2026: `/dsc/drivers` IS NO LONGER RETIRED. It is a real page now,
   // so its stub had to be deleted here in the same edit — `writeRedirects()`
   // runs after the route pass and would have overwritten the real page's
@@ -633,9 +721,11 @@ export const allRoutes = [
     })),
   ]),
   { path: "/dsc", label: "Digital Signature Certificates", template: "T3" },
+  { ...dscBuyTokenPage, parent: "/dsc" },
   { ...dscResourcesPage, parent: "/dsc" },
   { ...dscDriversPage, parent: "/dsc" },
   { ...dscFaqsPage, parent: "/dsc" },
+  { ...dscHyp2003Page, parent: "/dsc" },
   { ...dscEsignPage, parent: "/dsc" },
   insightsIndexPage,
   ...insightArticlePages,
@@ -664,11 +754,16 @@ export const footerColumns = [
     links: [
       { path: "/dsc", label: "Digital Signature Certificates" },
       { path: `/dsc#${dscSectionIds.finder}`, label: "Which DSC do I need?" },
-      { path: dscResourcesPage.path, label: "Buy a DSC Token" },
+      { path: dscBuyTokenPage.path, label: "Buy a DSC Token" },
       { path: dscDriversPage.path, label: "Token Driver Downloads" },
+      { path: dscResourcesPage.path, label: dscResourcesPage.label },
       { path: dscFaqsPage.path, label: "DSC FAQs" },
+      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
       // ⛔ UNPAUSED 03-09-2026 — a live route again, so the footer lists it.
-      { path: dscEsignPage.path, label: "eSign or DSC?" },
+      // ⚠️ DERIVED, not retyped. This carried its own hardcoded "eSign or DSC?"
+      // until 05-09-2026, so renaming the page left the footer asserting the
+      // old name — exactly the drift the sibling rows avoid by deriving.
+      { path: dscEsignPage.path, label: dscEsignPage.label },
     ],
   },
   {
@@ -789,9 +884,11 @@ const slugIndex = new Map([
   // section rather than at the top of a long page.
   ...dscRetiredRoutes.map((r) => [r.slug, { ...r, path: r.redirectTo }]),
   ["dsc", { slug: "dsc", path: "/dsc", label: "Digital Signature Certificates" }],
+  [dscBuyTokenPage.slug, dscBuyTokenPage],
   [dscResourcesPage.slug, dscResourcesPage],
   [dscDriversPage.slug, dscDriversPage],
   [dscFaqsPage.slug, dscFaqsPage],
+  [dscHyp2003Page.slug, dscHyp2003Page],
   [dscEsignPage.slug, dscEsignPage],
   [insightsIndexPage.slug, insightsIndexPage],
   ...insightArticlePages.map((a) => [a.slug, a]),

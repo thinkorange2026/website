@@ -24,10 +24,10 @@ export default {
   slug: "notices-assessments",
   category: "income-tax",
   title: "Notices & Assessments",
-  h1: "Income Tax Notices and Assessments in Salem, Tamil Nadu",
+  h1: "Income Tax Notices and Assessments",
 
   meta: {
-    title: "Income Tax Notice & Assessment Support in Salem | ThinkOrange",
+    title: "Income Tax Notice & Assessment Support | ThinkOrange",
     description:
       "Replies to income tax notices, scrutiny and faceless assessments, reassessment and first appeals under the Income Tax Act 2025 — handled to the deadline.",
     keywords: [

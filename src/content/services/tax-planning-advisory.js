@@ -28,10 +28,10 @@ export default {
   slug: "tax-planning-advisory",
   category: "income-tax",
   title: "Tax Planning & Advisory",
-  h1: "Tax Planning and Advisory in Salem, Tamil Nadu",
+  h1: "Tax Planning and Advisory",
 
   meta: {
-    title: "Tax Planning & Advisory in Salem, Tamil Nadu | ThinkOrange",
+    title: "Tax Planning & Advisory | ThinkOrange",
     description:
       "Regime comparison, advance tax, capital gains timing and business structure reviewed on your actual numbers under the Income Tax Act 2025 — before the year ends.",
     keywords: [

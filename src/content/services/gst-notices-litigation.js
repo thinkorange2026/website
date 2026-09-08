@@ -17,12 +17,12 @@ export default {
   slug: "gst-notices-litigation",
   category: "gst",
   title: "GST Notices & Litigation",
-  h1: "GST Notices and Litigation Support in Salem, Tamil Nadu",
+  h1: "GST Notices and Litigation Support",
 
   meta: {
-    title: "GST Notice Reply & Litigation Support in Salem | ThinkOrange",
+    title: "GST Notice Reply & Litigation Support | ThinkOrange",
     description:
-      "Scrutiny notices, show cause notices, demands and appeals — reconciled, drafted and represented. Salem, Tamil Nadu, for clients across India.",
+      "Scrutiny notices, show cause notices, demands and appeals — reconciled, drafted and represented. For clients across India.",
     keywords: [
       "gst notice reply salem",
       "asmt-10 reply consultant",

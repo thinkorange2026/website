@@ -21,12 +21,12 @@
 export const categoryContent = {
   gst: {
     meta: {
-      title: "GST Services in Salem, Tamil Nadu | ThinkOrange Consulting",
+      title: "GST Services | ThinkOrange Consulting",
       description:
-        "GST registration, return filing, ITC refunds and notices & litigation — one team handling the whole relationship, from Salem for clients across India.",
+        "GST registration, return filing, ITC refunds and notices & litigation — one team handling the whole relationship, for clients across India.",
     },
     heroLede:
-      "Registration, monthly and annual returns, ITC reconciliation and representation if a notice arrives — GST handled end to end from Salem for businesses across India.",
+      "Registration, monthly and annual returns, ITC reconciliation and representation if a notice arrives — GST handled end to end for businesses across India.",
     intro: [
       "GST touches almost every business that sells goods or services above the registration threshold, and it rewards the ones who stay on top of it: clean input tax credit, no late fees, and no notice arriving out of nowhere because a return went unfiled.",
       "We work with proprietorships, partnerships, LLPs and companies across trading, manufacturing and services. Whether you're registering for the first time, filing every month, chasing a stuck refund, or replying to a departmental notice, one team handles the whole relationship rather than passing you between specialists who don't know your file.",
@@ -59,9 +59,9 @@ export const categoryContent = {
 
   "income-tax": {
     meta: {
-      title: "Income Tax Services in Salem, Tamil Nadu | ThinkOrange Consulting",
+      title: "Income Tax Services | ThinkOrange Consulting",
       description:
-        "ITR filing, TDS compliance and tax planning & advisory for individuals, firms, LLPs and companies, advised against the current law. Salem, Tamil Nadu.",
+        "ITR filing, TDS compliance and tax planning & advisory for individuals, firms, LLPs and companies, advised against the current law.",
     },
     heroLede:
       "Return filing, TDS compliance and tax planning for individuals, firms, LLPs and companies — advised against the law as it currently stands.",
@@ -97,9 +97,9 @@ export const categoryContent = {
 
   "business-setup": {
     meta: {
-      title: "Business Registration & Incorporation in Salem | ThinkOrange Consulting",
+      title: "Business Registration & Incorporation | ThinkOrange Consulting",
       description:
-        "Private limited, LLP, OPC, partnership, proprietorship and trust/society/Section 8 incorporation — Salem, Tamil Nadu, pan-India clients.",
+        "Private limited, LLP, OPC, partnership, proprietorship and trust/society/Section 8 incorporation — for clients pan-India.",
     },
     heroLede:
       "Private limited, LLP, OPC, partnership or proprietorship — incorporated correctly the first time, with PAN, TAN and the statutory registrations that follow.",
@@ -142,9 +142,9 @@ export const categoryContent = {
     // "payroll" to the summary; intro/whyUs/faqs untouched pending real
     // content for the three new payroll/ROC leaves (see MISSING-PAGES.md).
     meta: {
-      title: "Accounting, Payroll & Audit Services in Salem | ThinkOrange Consulting",
+      title: "Accounting, Payroll & Audit Services | ThinkOrange Consulting",
       description:
-        "Monthly bookkeeping on Tally Prime and Zoho Books, payroll processing, and internal and specialised audit work — from Salem, Tamil Nadu.",
+        "Monthly bookkeeping on Tally Prime and Zoho Books, payroll processing, and internal and specialised audit work.",
     },
     heroLede:
       "Bookkeeping on Tally Prime or Zoho Books, payroll, internal audit and specialised audits — the numbers kept clean all year, not reconstructed at year-end.",
@@ -187,9 +187,9 @@ export const categoryContent = {
   // else in this file.
   "tenders-finance": {
     meta: {
-      title: "Government Tenders & Business Finance in Salem | ThinkOrange Consulting",
+      title: "Government Tenders & Business Finance | ThinkOrange Consulting",
       description:
-        "GeM registration and tender documentation support, plus CMA data, loan documentation and personal finance planning. Salem, Tamil Nadu.",
+        "GeM registration and tender documentation support, plus CMA data, loan documentation and personal finance planning.",
     },
     heroLede:
       "GeM registration and tender documentation so a missed step never costs you a bid, plus loan documentation, CMA data and personal finance planning.",
@@ -240,7 +240,7 @@ export const categoryContent = {
   // four children are new leaves written this same session.
   "registrations-licences": {
     meta: {
-      title: "Business Registrations & Licences in Salem | ThinkOrange Consulting",
+      title: "Business Registrations & Licences | ThinkOrange Consulting",
       description:
         "MSME/Udyam, Startup India, IEC, ICEGATE, trademark and NGO Darpan registration — the specific licences a growing business needs beyond incorporation.",
     },

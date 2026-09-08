@@ -12,12 +12,12 @@ export default {
   slug: "msme-udyam",
   category: "registrations-licences",
   title: "MSME / Udyam Registration",
-  h1: "MSME / Udyam Registration in Salem, Tamil Nadu",
+  h1: "MSME / Udyam Registration",
 
   meta: {
-    title: "Udyam (MSME) Registration in Salem | Current 2025 Limits",
+    title: "Udyam (MSME) Registration | Current 2025 Limits",
     description:
-      "Udyam registration with the current classification limits, unlocking priority lending, tender preference and delayed-payment protection. Salem, Tamil Nadu.",
+      "Udyam registration with the current classification limits, unlocking priority lending, tender preference and delayed-payment protection.",
     keywords: [
       "udyam registration salem",
       "msme registration tamil nadu",

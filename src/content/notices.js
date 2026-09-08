@@ -67,10 +67,15 @@ export const notices = [
     scope: "both",
     label: "eSign",
     text: "Aadhaar eSign does not replace a Class 3 certificate on statutory portals — income tax, GST, MCA21 and e-tendering all require Class 3.",
-    href: "/dsc/esign-or-dsc",
+    href: "/dsc/esign-solution",
     confirmed: true,
+    // ⚠️ 07-09-2026: the comparison table this claim was drawn from is retained
+    // but NO LONGER RENDERED (content/dsc/esign-solution.js), and the eSign
+    // page it links to is a Coming Soon. The claim itself is unchanged and
+    // still sourced — but nothing on the site currently states it in visible
+    // copy, so it needs a home when the eSign page is written.
     basis:
-      "Asserted three times already: aadhaar-esign's verificationNote, the esign-or-dsc comparison table, and the /dsc hub FAQ (18-08-2026).",
+      "Asserted three times when written: aadhaar-esign's verificationNote, the eSign comparison table, and the /dsc hub FAQ (18-08-2026).",
   },
   {
     id: "fips-token",

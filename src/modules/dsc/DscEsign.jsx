@@ -13,11 +13,20 @@ import { CtaBand } from "@/modules/home/sections/CtaBand";
 import { ComingSoon } from "@/components/ui/ComingSoon";
 import { dscEsignPage } from "@/content/nav";
 import { dscSectionIds } from "@/content/nav";
-import { esignOrDscContent } from "@/content/dsc/esign-or-dsc";
+import { esignSolutionContent } from "@/content/dsc/esign-solution";
 import { faqPageJsonLd } from "@/lib/jsonld";
 import { dscEnquiryHref } from "@/lib/whatsapp";
 
-// /dsc/esign-or-dsc — eSign or DSC, which do you need.
+// /dsc/esign-solution — the eSign offering.
+//
+// ⛔ 07-09-2026 (Clinton): "change it into esign-solution and here we are not
+// going to show about comparision. so in coming soon do not show in
+// comparision." The route was renamed (nav.js, old URL kept as a redirect
+// stub) and every trace of the comparison framing came out of the RENDERED
+// copy — the ComingSoon block below and the CtaBand at the foot both used to
+// describe the page as an eSign-vs-Class-3 comparison. The commented-out body
+// still IS that comparison, so if it is ever restored it needs rewriting to
+// whatever this page is meant to be, not just uncommenting.
 //
 // ⛔ BODY COMMENTED OUT, COMING SOON INSTEAD — 04-09-2026 (Clinton: "in esign,
 // comment out section and keep as coming soon"). The real PageHero still
@@ -65,18 +74,18 @@ export function DscEsign({ path = dscEsignPage.path }) {
         path={path}
         eyebrow="Digital Signatures"
         h1={dscEsignPage.label}
-        lede={esignOrDscContent.heroLede}
+        lede={esignSolutionContent.heroLede}
         texture="signature"
         textureId="dsc-esign-hero"
       />
 
-      {/* <ComingSoon
-        heading="This comparison is being finalised"
-        message="We're rewriting the eSign and Class 3 comparison so it reflects exactly what each portal accepts today. In the meantime, tell us the portal and what you need to sign and we'll tell you which of the two it takes."
-      /> */}
+      <ComingSoon
+        heading="This page is being finalised"
+        message="We're still writing up our eSign offering. In the meantime, tell us what you need signed and who has to accept it, and we'll tell you what will work."
+      />
 
     
-      <SubNav
+      {/* <SubNav
         sections={[
           { id: "comparison", label: "Side by side" },
           { id: "which-one", label: "Which one do you need" },
@@ -107,7 +116,7 @@ export function DscEsign({ path = dscEsignPage.path }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-ink-100">
-                {esignOrDscContent.comparisonRows.map((row) => (
+                {esignSolutionContent.comparisonRows.map((row) => (
                   <tr key={row.criterion}>
                     <th
                       scope="row"
@@ -130,7 +139,7 @@ export function DscEsign({ path = dscEsignPage.path }) {
           <SectionHeading eyebrow="Which one do you need" heading="A quick way to decide" />
           <Reveal>
             <ul className="mt-6 max-w-[68ch] space-y-3">
-              {esignOrDscContent.decisionGuide.map((point) => (
+              {esignSolutionContent.decisionGuide.map((point) => (
                 <li key={point} className="flex gap-3 text-body text-ink-500">
                   <span
                     className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ember-500"
@@ -166,19 +175,19 @@ export function DscEsign({ path = dscEsignPage.path }) {
           eyebrow="FAQs"
           heading="Common questions"
           intro="Which one a portal will actually accept, and when eSign is not a substitute for a Class 3 certificate."
-          items={esignOrDscContent.faqs.map((faq, index) => ({
+          items={esignSolutionContent.faqs.map((faq, index) => ({
             id: index,
             question: faq.q,
             answer: faq.a,
           }))}
         />
        
-        <JsonLd data={faqPageJsonLd(esignOrDscContent.faqs)} />
-      </Section>
+        <JsonLd data={faqPageJsonLd(esignSolutionContent.faqs)} />
+      </Section> */}
 
       <CtaBand
-        heading="Still not sure which one the portal wants?"
-        lede="Tell us the portal or the counterparty and what you need to sign, and we will tell you which of the two it actually accepts — including when the answer is the cheaper one."
+        heading="Need something signed electronically?"
+        lede="Tell us the portal or the counterparty and what you need to sign, and we will tell you what they actually accept — including when the answer is the cheaper one."
       />
 
     

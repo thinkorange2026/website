@@ -12,12 +12,12 @@ export default {
   slug: "partnership-firm",
   category: "business-setup",
   title: "Partnership Firm",
-  h1: "Partnership Firm Registration in Salem, Tamil Nadu",
+  h1: "Partnership Firm Registration",
 
   meta: {
-    title: "Partnership Firm Registration in Salem | ThinkOrange Consulting",
+    title: "Partnership Firm Registration | ThinkOrange Consulting",
     description:
-      "Partnership deed drafting and firm registration under the Indian Partnership Act 1932, with PAN and TAN. Salem, Tamil Nadu.",
+      "Partnership deed drafting and firm registration under the Indian Partnership Act 1932, with PAN and TAN.",
     keywords: [
       "partnership firm registration salem",
       "partnership deed drafting tamil nadu",

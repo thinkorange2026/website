@@ -12,12 +12,12 @@ export default {
   slug: "tender-documentation",
   category: "tenders-finance",
   title: "Tender Documentation Support",
-  h1: "Tender Documentation Support in Salem, Tamil Nadu",
+  h1: "Tender Documentation Support",
 
   meta: {
-    title: "Tender Documentation Support in Salem | ThinkOrange Consulting",
+    title: "Tender Documentation Support | ThinkOrange Consulting",
     description:
-      "Document preparation, eligibility checks and e-tendering portal support for a specific bid. Salem, Tamil Nadu, for clients across India.",
+      "Document preparation, eligibility checks and e-tendering portal support for a specific bid. For clients across India.",
     keywords: [
       "tender documentation support salem",
       "e tendering consultant tamil nadu",
@@ -153,7 +153,7 @@ export default {
     },
     {
       q: "Do you help with tenders outside Tamil Nadu?",
-      a: "Yes. E-tendering portals and GeM operate nationally, so the tender itself can be issued by any state or central department, PSU or municipal body, and our support is not limited to Salem or Tamil Nadu-based opportunities. Distance from our office has no bearing on how a bid is prepared or submitted.",
+      a: "Yes. E-tendering portals and GeM operate nationally, so the tender itself can be issued by any state or central department, PSU or municipal body, and our support is not limited to Tamil Nadu-based opportunities. Distance from our office has no bearing on how a bid is prepared or submitted.",
     },
   ],
 

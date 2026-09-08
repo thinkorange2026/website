@@ -12,12 +12,12 @@ export default {
   slug: "opc-registration",
   category: "business-setup",
   title: "One Person Company",
-  h1: "One Person Company (OPC) Registration in Salem, Tamil Nadu",
+  h1: "One Person Company (OPC) Registration",
 
   meta: {
-    title: "One Person Company (OPC) Registration in Salem | ThinkOrange",
+    title: "One Person Company (OPC) Registration | ThinkOrange",
     description:
-      "OPC incorporation for solo founders — limited liability with a single member, current rules on residency and conversion. Salem, Tamil Nadu.",
+      "OPC incorporation for solo founders — limited liability with a single member, current rules on residency and conversion.",
     keywords: [
       "opc registration salem",
       "one person company registration tamil nadu",

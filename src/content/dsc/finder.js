@@ -39,7 +39,17 @@
 // reference's own result cards carry "₹[X]" and "[X hrs]"; those are
 // placeholders in the source, not facts, and none were carried over.
 
-/** Question one. `pill` is the certificate this route leads to, shown up front. */
+/**
+ * Question one. `pill` is the certificate this route leads to, shown up front.
+ *
+ * ⚠️ `label` IS ALSO THE CROSS-LINK LABEL on the result (07-09-2026). A first
+ * cut gave each entry its own `crossLabel` phrased as a question ("Bidding on a
+ * tender instead?"); Clinton: "write as direct name as write in card otherwise
+ * it looks confuse." One name per route, used on the card and on the switch, so
+ * a reader recognises the destination as the card they already saw — and there
+ * is no second string to drift. The row's own "Not what you were after?" label
+ * carries the framing instead.
+ */
 export const finderUses = [
   {
     key: "filings",
@@ -60,7 +70,7 @@ export const finderUses = [
   },
   {
     key: "exim",
-    label: "Import and export",
+    label: "DGFT DSC",
     desc: "DGFT Licences, ICEGATE, RCMC, EPCG",
     pill: "Class 3 organisation — Mapped to your IEC",
     icon: "ship",
@@ -118,12 +128,26 @@ export const finderAnswers = {
       "Identity is verified against the passport, so this route takes longer than a domestic certificate. Send us the documents before you order — attestation requirements differ depending on whether the applicant is in India at the time of application.",
     // The one answer that carries its own checklist: a passport route is not
     // one of the five certificates, so there is nothing to resolve against.
+    //
+    // ⛔ 07-09-2026 (Clinton): the ORDER of these six is his, given position by
+    // position — PAN third, address proof fourth, mobile fifth, email sixth.
+    // Do not re-sort them alphabetically or "logically"; the sequence is the
+    // order he wants a reader to gather them in.
+    //
+    // ⚠️ "PAN copy (if available)" is the only CONDITIONAL line in any checklist
+    // on this site, and the qualifier is load-bearing: a foreign applicant may
+    // hold no Indian PAN at all, so stating it flat would tell someone they
+    // cannot proceed without one. Keep the "(if available)".
+    // Consequence worth knowing: `DocumentPanel`'s count reads "6 documents",
+    // which includes this optional one. Left as is — the line says so itself,
+    // and a count that silently disagreed with the list would be worse.
     documents: [
       "Applicant's photograph",
       "Scanned copy of the original passport",
+      "PAN copy (if available)",
       "Address proof — driving licence, latest utility bill (electricity, telephone) not older than 3 months, or latest bank statement not older than 3 months",
+      "Mobile number of the applicant",
       "Email ID of the applicant",
-      "Mobile or phone number of the applicant",
     ],
     documentNotes: [
       "All documents must be clear, colour-scanned copies.",

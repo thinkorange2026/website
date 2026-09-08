@@ -21,7 +21,7 @@ export default {
   h1: "NGO Darpan Registration (NITI Aayog)",
 
   meta: {
-    title: "NGO Darpan Registration in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "NGO Darpan Registration | ThinkOrange Consulting",
     description:
       "Register your Trust, Society or Section 8 Company on the NITI Aayog NGO Darpan portal — the ID government grants, CSR-1 and FCRA all require.",
     keywords: [

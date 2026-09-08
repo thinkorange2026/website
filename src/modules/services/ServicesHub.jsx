@@ -90,7 +90,7 @@ export default function ServicesHub({ path }) {
         // last two run together as one phrase.
         lede={`${categoryWord.charAt(0).toUpperCase()}${categoryWord.slice(1)} practice areas, ${totalLeaves} services - ${categoryNames
           .slice(0, -1)
-          .join(", ")}, and ${categoryNames.at(-1)} - all handled from Salem for clients across India.`}
+          .join(", ")}, and ${categoryNames.at(-1)} - all handled for clients across India.`}
         cta={{ label: "Talk to an Expert", to: "/contact" }}
         // No texture here: /services is every practice area at once, so no
         // single motif is true of it. It keeps the arc rings instead.

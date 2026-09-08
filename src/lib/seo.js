@@ -35,9 +35,11 @@ import { site, findRoute } from "../content/nav.js";
 import { getServiceContent } from "../content/services/index.js";
 import { getCategoryContent } from "../content/services/category-content.js";
 import { dscHubContent } from "../content/dsc/hub-content.js";
-import { esignOrDscContent } from "../content/dsc/esign-or-dsc.js";
+import { esignSolutionContent } from "../content/dsc/esign-solution.js";
+import { dscResourcesContent } from "../content/dsc/resources.js";
 import { driversPage } from "../content/dsc/drivers.js";
 import { dscValidityRenewalContent } from "../content/dsc/validity-renewal-faqs.js";
+import { hyp2003Page } from "../content/dsc/hyp2003.js";
 import { tokenProduct } from "../content/dsc/token.js";
 import { aboutContent } from "../content/about.js";
 import { partnerContent } from "../content/partner-with-us.js";
@@ -92,11 +94,11 @@ export function resolveSeo(path) {
       m = tokenProduct.meta;
       break;
 
-    // T11 — /dsc/esign-or-dsc (unpaused 03-09-2026). Its own case, matching
+    // T11 — /dsc/esign-solution (unpaused 03-09-2026, renamed 07-09-2026). Its own case, matching
     // its own template branch in routeComponents.js; falling through to T5
     // would give the eSign page the Buy Token page's title and description.
     case "T11":
-      m = esignOrDscContent.meta;
+      m = esignSolutionContent.meta;
       break;
 
     // T12 / T13 — the two pages split off Buy Token on 03-09-2026. Their own
@@ -108,6 +110,18 @@ export function resolveSeo(path) {
 
     case "T13":
       m = dscValidityRenewalContent.meta;
+      break;
+
+    // T14 — /dsc/about-hyp2003 (05-09-2026). Own case, not a fall-through:
+    // T5's meta is the order page's.
+    case "T14":
+      m = hyp2003Page.meta;
+      break;
+
+    // T15 — /dsc/resources (07-09-2026). Own case, not a fall-through: T5's
+    // meta is the order page's.
+    case "T15":
+      m = dscResourcesContent.meta;
       break;
 
 

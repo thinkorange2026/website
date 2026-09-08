@@ -13,12 +13,12 @@ export default {
   slug: "gst-return-filing",
   category: "gst",
   title: "GST Return Filing",
-  h1: "GST Return Filing in Salem, Tamil Nadu",
+  h1: "GST Return Filing",
 
   meta: {
-    title: "GST Return Filing in Salem | GSTR-1, 3B, 9 & 9C | ThinkOrange",
+    title: "GST Return Filing | GSTR-1, 3B, 9 & 9C | ThinkOrange",
     description:
-      "Monthly, quarterly and annual GST returns filed on schedule, with GSTR-2B reconciliation so your input credit matches your books. Salem, Tamil Nadu.",
+      "Monthly, quarterly and annual GST returns filed on schedule, with GSTR-2B reconciliation so your input credit matches your books.",
     keywords: [
       "gst return filing salem",
       "gstr 3b filing consultant tamil nadu",

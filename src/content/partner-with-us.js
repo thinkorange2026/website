@@ -72,7 +72,6 @@ export const partnerContent = {
     "Your clients stay yours",
     "Free onboarding & training",
     "Tokens at partner rates",
-    "Support in English & Tamil",
   ],
 
   // --- 04-09-2026 ---------------------------------------------------------

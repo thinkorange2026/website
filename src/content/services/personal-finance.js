@@ -20,12 +20,12 @@ export default {
   slug: "personal-finance",
   category: "tenders-finance",
   title: "Personal Finance & Debt Management",
-  h1: "Personal Finance & Debt Management Support in Salem, Tamil Nadu",
+  h1: "Personal Finance & Debt Management Support",
 
   meta: {
-    title: "Personal Finance & Debt Management in Salem | ThinkOrange Consulting",
+    title: "Personal Finance & Debt Management | ThinkOrange Consulting",
     description:
-      "Personal loan and mortgage documentation, credit report review and structured debt and budgeting guidance for individuals. Salem, Tamil Nadu.",
+      "Personal loan and mortgage documentation, credit report review and structured debt and budgeting guidance for individuals.",
     keywords: [
       "personal loan documentation salem",
       "mortgage documentation support tamil nadu",

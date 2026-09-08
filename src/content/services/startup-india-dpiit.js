@@ -16,12 +16,12 @@ export default {
   slug: "startup-india-dpiit",
   category: "registrations-licences",
   title: "Startup India (DPIIT)",
-  h1: "Startup India (DPIIT) Registration in Salem, Tamil Nadu",
+  h1: "Startup India (DPIIT) Registration",
 
   meta: {
-    title: "Startup India DPIIT Recognition in Salem | ThinkOrange Consulting",
+    title: "Startup India DPIIT Recognition | ThinkOrange Consulting",
     description:
-      "DPIIT startup recognition against the current 2026 eligibility criteria, with the application and supporting documentation handled. Salem, Tamil Nadu.",
+      "DPIIT startup recognition against the current 2026 eligibility criteria, with the application and supporting documentation handled.",
     keywords: [
       "startup india registration salem",
       "dpiit recognition consultant tamil nadu",

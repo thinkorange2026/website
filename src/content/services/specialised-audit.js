@@ -12,12 +12,12 @@ export default {
   slug: "specialised-audit",
   category: "accounting-audit",
   title: "Specialised Audit",
-  h1: "Specialised Audit Services in Salem, Tamil Nadu",
+  h1: "Specialised Audit Services",
 
   meta: {
-    title: "Specialised Audit Services in Salem | Stock & Concurrent Audit",
+    title: "Specialised Audit Services | Stock & Concurrent Audit",
     description:
-      "Stock audits, channel-finance audits and concurrent audits for banks and NBFCs, plus due diligence support for CAs. Salem, Tamil Nadu.",
+      "Stock audits, channel-finance audits and concurrent audits for banks and NBFCs, plus due diligence support for CAs.",
     keywords: [
       "stock audit services salem",
       "concurrent audit consultant tamil nadu",

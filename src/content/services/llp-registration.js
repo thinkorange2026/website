@@ -11,12 +11,12 @@ export default {
   slug: "llp-registration",
   category: "business-setup",
   title: "LLP Registration",
-  h1: "LLP Registration in Salem, Tamil Nadu",
+  h1: "LLP Registration",
 
   meta: {
-    title: "LLP Registration in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "LLP Registration | ThinkOrange Consulting",
     description:
-      "Limited Liability Partnership formation, LLP agreement drafting and annual Form 8 and Form 11 compliance. Salem, Tamil Nadu, for clients across India.",
+      "Limited Liability Partnership formation, LLP agreement drafting and annual Form 8 and Form 11 compliance. For clients across India.",
     keywords: [
       "llp registration salem",
       "llp registration consultant tamil nadu",

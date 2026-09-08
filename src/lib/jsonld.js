@@ -172,14 +172,18 @@ export function collectionPageJsonLd({ name, description, path }) {
  * "on request" everywhere (same discipline as `fees: null`), and a Product
  * schema with no `offers` is valid — Rich Results simply won't show a price
  * snippet, which is correct here rather than a gap. */
-export function productJsonLd({ name, description, path }) {
+// ⚠️ `brand` defaults to site.shortName so every existing call site is
+// byte-identical, but it is overridable — the HYP2003 page describes a
+// MANUFACTURER'S product we resell, and asserting ThinkOrange as its brand in
+// structured data would be a plain untruth to a crawler.
+export function productJsonLd({ name, description, path, brand = site.shortName }) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
     description,
     url: absoluteUrl(path),
-    brand: { "@type": "Organization", name: site.shortName },
+    brand: { "@type": "Organization", name: brand },
   };
 }
 

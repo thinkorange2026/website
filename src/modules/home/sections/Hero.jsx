@@ -195,8 +195,20 @@ export function Hero() {
                 </Reveal>
               </div>
 
-              {/* ---- Right column (5) — image + overlapping card -------- */}
-              <div className="lg:col-span-5">
+              {/* ---- Right column (5) — image + overlapping card --------
+
+                  ⛔ HIDDEN BELOW md — 07-09-2026 (Clinton: "in home page hero
+                  section hide the right side in phone view"). At 375px the
+                  hero is a dense vertical stack, and the showcase pushed the
+                  CTAs and the stat row well below a phone fold. Same md
+                  breakpoint `HeroFloaters` already uses for the same reason.
+
+                  ⚠️ `hidden`, not a conditional render: the answer must be
+                  identical on the server, on the client's first pass and on
+                  every viewport, or it is a hydration mismatch. Phase 9
+                  prerenders one HTML file for all widths, so this can only be
+                  a CSS decision. */}
+              <div className="hidden md:block lg:col-span-5">
                 <HeroShowcase />
               </div>
             </div>

@@ -13,12 +13,12 @@ export default {
   slug: "proprietorship",
   category: "business-setup",
   title: "Proprietorship",
-  h1: "Proprietorship Registration in Salem, Tamil Nadu",
+  h1: "Proprietorship Registration",
 
   meta: {
-    title: "Proprietorship Registration in Salem | ThinkOrange Consulting",
+    title: "Proprietorship Registration | ThinkOrange Consulting",
     description:
-      "The registrations that make a sole proprietorship operational — GST, Udyam and current account documentation. Salem, Tamil Nadu.",
+      "The registrations that make a sole proprietorship operational — GST, Udyam and current account documentation.",
     keywords: [
       "proprietorship registration salem",
       "sole proprietorship registration tamil nadu",

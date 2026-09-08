@@ -13,7 +13,7 @@ import { CtaBand } from "@/modules/home/sections/CtaBand";
 import { DscFinder } from "@/modules/dsc/DscFinder";
 import {
   dscPartnerPromo,
-  dscResourcesPage,
+  dscBuyTokenPage,
   dscSectionIds,
 } from "@/content/nav";
 // ⚠️ `certificateVariants` is still imported — the hero spec row counts them.
@@ -94,7 +94,6 @@ export default function DscHub({ path }) {
         cta={{ label: "Talk to an Expert", to: "/contact" }}
         texture="seal"
         textureId="dsc-hero"
-        spec={heroSpec()}
       />
 
       {/* ⚠️ EVERY TAB IS BUILT FROM A SECTION THAT ACTUALLY RENDERS. A tab
@@ -106,7 +105,7 @@ export default function DscHub({ path }) {
       <SubNav
         sections={[
           { id: dscSectionIds.finder, label: "Which DSC?" },
-          { id: dscSectionIds.partner, label: "Partner" },
+          { id: dscSectionIds.partner, label: "Partner Program" },
         ]}
       />
 
@@ -280,10 +279,10 @@ export default function DscHub({ path }) {
               Token drivers, validity and renewal, and the full FAQ set are all in one place.
             </p>
             <Link
-              to={dscResourcesPage.path}
+              to={dscBuyTokenPage.path}
               className="group inline-flex items-center gap-2 rounded-sm text-body font-medium text-ember-600 transition-colors hover:text-ember-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2"
             >
-              {dscResourcesPage.label}
+              {dscBuyTokenPage.label}
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-[var(--dur-fast)] group-hover:translate-x-0.5"
                 aria-hidden="true"

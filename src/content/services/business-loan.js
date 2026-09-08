@@ -12,12 +12,12 @@ export default {
   slug: "business-loan",
   category: "tenders-finance",
   title: "Business Loan & Financing",
-  h1: "Business Loan & Financing Support in Salem, Tamil Nadu",
+  h1: "Business Loan & Financing Support",
 
   meta: {
-    title: "Business Loan Facilitation in Salem | ThinkOrange Consulting",
+    title: "Business Loan Facilitation | ThinkOrange Consulting",
     description:
-      "Financial statement preparation, CMA data and lender coordination for working capital and term loan applications. Salem, Tamil Nadu.",
+      "Financial statement preparation, CMA data and lender coordination for working capital and term loan applications.",
     keywords: [
       "business loan consultant salem",
       "cma data preparation tamil nadu",

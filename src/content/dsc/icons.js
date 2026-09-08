@@ -49,7 +49,7 @@ const DSC_ICONS = {
   // ⛔ eSign PAUSED — 21-08-2026. `dscIcon(slug)` has a fallback, so an absent
   // entry is safe; never index this object directly.
   // "aadhaar-esign": FileSignature,
-  // "esign-or-dsc": Scale,
+  // "esign-solution": Scale,
 };
 
 /** Never returns undefined — see the warning above. */

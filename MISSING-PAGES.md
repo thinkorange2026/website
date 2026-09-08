@@ -323,19 +323,34 @@ for this utility. The panel currently shows "When it is used" (situations)
 precisely because a procedure was not available to state.
 
 
-## HYP2003 initialisation tool — hosted 04-09-2026
+## HYP2003 initialisation tool — hosted 04-09-2026, moved 05-09-2026
 
 Clinton supplied `public/software/HYP2003_Initialization_Tool.exe` (234,128
 bytes, PE32 GUI / Intel 80386 / MS Windows) and asked for it wired as a
-download. ⛔ **Corrected the same day** on Clinton's note "software link is for this": the
-file is listed under the **HYP2003** entry's Windows row, not the Initialisation
-& Reset Tool entry. That entry has no file again.
+download.
 
-⚠️ **Worth confirming, because the two are not the same thing:** the supplied
-binary is named "HYP2003 Initialization Tool", and initialising a token erases
-the certificate on it — but it is now the download behind HYP2003's driver
-button. If there is a separate plain DRIVER installer, send it and the two will
-be split; the page currently states what the file is at the point of download.
+⛔ **It has moved twice; the CURRENT and correct home is the Initialisation &
+Reset Tool entry.** It was wired there first (the filename says so), moved to
+**HYP2003** on 04-09-2026 ("software link is for this"), and moved back on
+05-09-2026 — Clinton: *"that software i have put in public is for reset tool. so
+remove from hyp2003 and keep at reset tool."* HYP2003 has **no hosted file** and
+renders its `sourceNote` again.
+
+⚠️ **It is published ONCE and must stay that way.** The same executable listed
+under two names is how someone downloads the wrong thing, and this one erases
+certificates.
+
+✅ **A consequence worth knowing, and it is an improvement:** the reset entry
+carries `warning`, and `DriverPicker` never turns a `warning` entry's hero pill
+into a direct download — it links to the panel, where the warning renders above
+the button. While the file sat under HYP2003 it was one click from the hero with
+no warning between. Verified 05-09-2026: 0 direct downloads in the hero row,
+exactly one `a[download]` on the page, and `warningBeforeDownload: true`.
+
+⚠️ **Still worth confirming: is there a separate plain DRIVER installer for
+HYP2003?** The page currently says the driver ships with the token and is
+published by the manufacturer. If a redistributable installer exists, send it
+and HYP2003's Windows row fills in with no code change.
 
 ⛔ **Needs a human answer, not a guess:**
 
@@ -352,10 +367,80 @@ Still outstanding on that entry, and rendering honestly meanwhile:
 3. **A version number and release date.** Both are still `null` — the filename
    carries neither. Fill `downloads[0].version` / `.releaseDate` and the panel
    renders them with no code change.
-4. **macOS / Linux builds**, if they exist. `supportedOs` currently states
-   Windows only, which is read off the binary rather than assumed.
+4. **macOS / Linux builds**, if they exist. `supportedOs` on the reset entry
+   states Windows only, which is read off the binary rather than assumed, and
+   the entry deliberately lists **no null rows** for the other two — a null row
+   makes the page say that build "is not hosted here", which would assert we
+   expect one to exist.
 
 ⚠️ **If the file is ever replaced, the SHA-256 in `drivers.js` must be
 recomputed** (`shasum -a 256 public/software/HYP2003_Initialization_Tool.exe`).
 A checksum that does not match the file it labels is worse than none — it tells
 a careful reader the download has been tampered with.
+
+---
+
+## About HYP2003 page — three things to confirm (05-09-2026)
+
+New page `/dsc/about-hyp2003` (T14), built from Clinton's supplied
+`thinkorange-token-page.html`. Nothing below blocks the page — it renders and
+reads correctly today — but each is a claim I could not settle from the
+document alone.
+
+### 1. ⛔ The FIPS 140-3 deadline has no CCA circular behind it
+
+The source document carries "21 September 2026" as a bare literal AND attaches
+its own warning to it: *"verify the 21 September 2026 date before publishing.
+The commercial argument on this page depends on it."* It is now
+`statutory.js` → `fips1403DscIssuance`, interpolated with `s()` everywhere,
+never typed.
+
+What was actually established by research:
+
+- **The underlying NIST date is solid and primary-sourced.** 21 September 2026
+  is when NIST's CMVP moves every FIPS 140-2 module validation to its
+  Historical list. Source: <https://csrc.nist.gov/projects/fips-140-3-transition-effort>
+  (`statutory.js` → `fips1402SunsetDate`).
+- **The India-specific consequence is NOT.** That Certifying Authorities stop
+  issuing new DSCs onto 140-2 tokens from that date is corroborated by several
+  independent DSC-industry sources and follows logically from the NIST sunset —
+  but **the CCA's own advisory was not located.**
+
+So every sentence on the page is worded as an **expectation** ("are expected
+to", "is expected to"), not a certainty. **Get the CCA circular number and the
+page can harden its wording; until then, do not.** A compliance firm asserting
+a regulatory deadline it cannot cite is the exact failure the statutory-file
+discipline exists to prevent — and this deadline is 16 days away as written.
+
+### 2. The datasheet revision was not independently verified
+
+The page renders "Specifications sourced from the HyperPKI HYP2003 datasheet,
+HSTE-NB0026 RV 3.1-IND." That reference, and every specification under it
+(dimensions, 64 KB, 500,000 rewrite cycles, the standards list, CCA India among
+its certifications), comes from Clinton's document. It is kept **because a
+checkable document reference is worth more than a vague "per the
+manufacturer"** — but a copy of that datasheet should go on file.
+
+⚠️ Related and already open: *"Confirm the token's FIPS 140-3 certification
+(03-09-2026)"* above. That item and this page now depend on each other — the
+whole page argues the token is 140-3.
+
+### 3. Three claims from the source document were NOT published
+
+Listed so nobody "restores" them from the HTML without a decision:
+
+- **"[Exclusive / Authorised] distributor — [territory]"** (the hero badge). An
+  unfilled placeholder *and* an authorisation claim about a commercial
+  relationship. Dropped — there is no honest half-version of it. **If
+  ThinkOrange is an authorised distributor and can evidence it, say so and it
+  goes back in.**
+- **"We will confirm current rates and stock the same working day."** A
+  turnaround guarantee, on CONTENT-PLAN.md §1.1's hold list. The CTA is worded
+  without one.
+- **"Distributor pricing"** as a price claim. `fees` is null across the DSC
+  tree; the copy says partner rates exist and are quoted on application, which
+  `/partner-with-us` already asserts, and names no figure or range.
+
+The document's own two dev notes named a certifying authority. Those are not on
+the page and must not be — see *"Certifying authority name (02-09-2026)"*
+above.

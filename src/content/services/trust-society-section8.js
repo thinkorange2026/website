@@ -30,12 +30,12 @@ export default {
   slug: "trust-society-section8",
   category: "business-setup",
   title: "Trust, Society & Section 8",
-  h1: "Trust, Society & Section 8 Company Registration in Salem, Tamil Nadu",
+  h1: "Trust, Society & Section 8 Company Registration",
 
   meta: {
-    title: "Trust, Society & Section 8 Company Registration in Salem | ThinkOrange",
+    title: "Trust, Society & Section 8 Company Registration | ThinkOrange",
     description:
-      "Trust, society or Section 8 company from Salem, Tamil Nadu — which structure fits, the law that actually governs it, and the documents each one needs.",
+      "Trust, society or Section 8 company — which structure fits, the law that actually governs it, and the documents each one needs.",
     keywords: [
       "trust registration salem",
       "society registration tamil nadu",
@@ -192,8 +192,8 @@ export default {
       a: `A trust needs ${s("trustMinTrustees")}, one of whom may also be the settlor. A society needs ${s("societyMinMembersTN")} in Tamil Nadu. A Section 8 company follows the same minimum as any private company — ${s("pvtLtdMinMembers")} — though it is usually formed with more, since a genuine membership base supports the funding case a Section 8 company is often built to make.`,
     },
     {
-      q: "What law governs registering a society in Salem?",
-      a: `The ${s("tnSocietiesAct")}, not the central Societies Registration Act, 1860 that most national guides describe by default. That 1975 Act repealed the 1860 Act as it applied to Tamil Nadu, so a Salem-based society registers, and is regulated, under the state Act.`,
+      q: "What law governs registering a society in Tamil Nadu?",
+      a: `The ${s("tnSocietiesAct")}, not the central Societies Registration Act, 1860 that most national guides describe by default. That 1975 Act repealed the 1860 Act as it applied to Tamil Nadu, so a Tamil Nadu society registers, and is regulated, under the state Act.`,
     },
     {
       q: "Does Tamil Nadu have its own law for public charitable trusts?",

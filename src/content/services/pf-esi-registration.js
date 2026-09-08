@@ -14,12 +14,12 @@ export default {
   slug: "pf-esi-registration",
   category: "accounting-audit",
   title: "PF & ESI Registration",
-  h1: "PF & ESI Registration in Salem, Tamil Nadu",
+  h1: "PF & ESI Registration",
 
   meta: {
-    title: "PF & ESI Registration in Salem | ThinkOrange Consulting",
+    title: "PF & ESI Registration | ThinkOrange Consulting",
     description:
-      "EPFO and ESIC registration for employers — the applicability check, the Shram Suvidha filing, and the contribution calendar. Salem, Tamil Nadu.",
+      "EPFO and ESIC registration for employers — the applicability check, the Shram Suvidha filing, and the contribution calendar.",
     keywords: [
       "pf esi registration salem",
       "epf registration consultant tamil nadu",

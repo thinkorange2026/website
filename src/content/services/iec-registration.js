@@ -21,9 +21,9 @@ export default {
   h1: "Import Export Code (IEC) Registration",
 
   meta: {
-    title: "Import Export Code (IEC) Registration in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "Import Export Code (IEC) Registration | ThinkOrange Consulting",
     description:
-      "Apply for your Import Export Code with DGFT — documents, fee and the mandatory annual update explained plainly. Handled end to end from Salem.",
+      "Apply for your Import Export Code with DGFT — documents, fee and the mandatory annual update explained plainly. Handled end to end.",
     keywords: [
       "iec registration salem",
       "import export code registration india",

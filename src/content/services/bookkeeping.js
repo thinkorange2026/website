@@ -12,12 +12,12 @@ export default {
   slug: "bookkeeping",
   category: "accounting-audit",
   title: "Bookkeeping & Accounting",
-  h1: "Bookkeeping & Accounting Services in Salem, Tamil Nadu",
+  h1: "Bookkeeping & Accounting Services",
 
   meta: {
-    title: "Bookkeeping & Accounting Services in Salem | ThinkOrange",
+    title: "Bookkeeping & Accounting Services | ThinkOrange",
     description:
-      "Monthly bookkeeping, reconciliation and management reporting in Tally Prime or Zoho Books. Salem, Tamil Nadu, for clients across India.",
+      "Monthly bookkeeping, reconciliation and management reporting in Tally Prime or Zoho Books. For clients across India.",
     keywords: [
       "bookkeeping services salem",
       "accounting services tamil nadu",

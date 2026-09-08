@@ -19,7 +19,7 @@ export default {
   h1: "ICEGATE Registration & AD Code",
 
   meta: {
-    title: "ICEGATE Registration & AD Code in Salem, Tamil Nadu | ThinkOrange Consulting",
+    title: "ICEGATE Registration & AD Code | ThinkOrange Consulting",
     description:
       "Register on ICEGATE and link your bank's AD code so customs will clear your shipment — process, documents and DSC requirements explained.",
     keywords: [

@@ -28,10 +28,10 @@ export default {
   slug: "itr-filing",
   category: "income-tax",
   title: "ITR Filing",
-  h1: "Income Tax Return Filing in Salem, Tamil Nadu",
+  h1: "Income Tax Return Filing",
 
   meta: {
-    title: "Income Tax Return (ITR) Filing in Salem | ThinkOrange Consulting",
+    title: "Income Tax Return (ITR) Filing | ThinkOrange Consulting",
     description:
       "ITR filing for salaried individuals, professionals, firms and companies under the Income Tax Act 2025. Due dates, documents and the new Tax Year rules explained.",
     keywords: [

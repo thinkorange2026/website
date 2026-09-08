@@ -7716,3 +7716,846 @@ sweep left 12 wrappers reporting opacity 0 and looked exactly like broken
 reveals; at 400px/180ms over two passes it reports 0. IntersectionObserver
 delivers asynchronously, and this is the third time that trap has been
 recorded.
+
+## About HYP2003 — new page, and a notice bar under the hero — 05-09-2026
+NOT a phase. Clinton supplied `thinkorange-token-page.html` and asked for a new
+page, "About HYP2003", in the Token & Driver menu section, with the same layout
+as the HTML, and the FIPS 140-3 paragraph as a **notice bar just below the hero
+section**. New route `/dsc/about-hyp2003` (58 routes, was 57).
+
+### ⛔ THE DEADLINE DATE IS THE WHOLE RISK OF THIS PAGE
+The source document carries "21 September 2026" as a bare literal and attaches
+its own warning to it — *"verify the date before publishing. The commercial
+argument on this page depends on it."* It is now `statutory.js`, interpolated
+with `s()` in every one of its four appearances, never typed.
+- **`fips1402SunsetDate` is PRIMARY-SOURCED**: 21 September 2026 is when NIST's
+  CMVP moves every FIPS 140-2 validation to its Historical list
+  (csrc.nist.gov). Researched, not recalled.
+- **`fips1403DscIssuance` IS NOT.** That Indian CAs stop issuing onto 140-2
+  tokens from that date is corroborated by several DSC-industry sources and
+  follows from the NIST sunset, but **the CCA's own circular was not located.**
+  Its `note` says so.
+- ⚠️ **SO EVERY SENTENCE IS WORDED AS AN EXPECTATION** ("are expected to"), not
+  a certainty. Do not harden the wording without the circular number. The
+  deadline is 16 days out as written, which makes it more exposed, not less.
+
+### Three claims from the source that are NOT on the page
+Recorded so nobody restores them from the HTML without a decision, and listed
+in full at the top of `content/dsc/hyp2003.js`:
+1. **"[Exclusive / Authorised] distributor — [territory]"** — an unfilled
+   placeholder AND an authorisation claim about a commercial relationship.
+   Dropped outright; there is no honest half-version of it.
+2. **"Confirm rates and stock the same working day"** — a turnaround guarantee,
+   §1.1 hold list.
+3. **"Distributor pricing"** as a price claim — `fees` is null across the DSC
+   tree. The copy says partner rates are quoted on application, which
+   `/partner-with-us` already asserts, and names no figure.
+The document's two dev notes name a certifying authority. **No CA is named on
+this site (02-09-2026) — do not reintroduce one from this reference.**
+
+### `components/ui/NoticeBar.jsx` (new) — a third notice surface
+One static, page-specific sentence, full-bleed, directly under the hero.
+Deliberately NOT `NoticeBoard` (a section of rows off `notices.js`) and NOT
+`NoticeTicker` (the homepage marquee): it takes its text as a **prop**, because
+the claim belongs to this page. A notice true of every DSC surface belongs in
+`notices.js` instead.
+- ⚠️ **`light-alt`, and that is a cadence constraint.** It sits under a `deep`
+  hero, so anything dark is two adjacent dark-family surfaces reading as one
+  slab — which a check comparing adjacent TOKENS passes, because `deep` and
+  `dark` differ.
+- **Not `bg-ember-*` and not the source's dark-red alert bar.** Red is off
+  palette; a full-bleed ember band is CtaBand's job. Weight comes from the ember
+  top rule and label instead.
+- Not a `<section>`: no heading, no landmark, so it stays out of the cadence
+  count while still supplying the fold.
+
+### ⛔ ITS OWN TEMPLATE, T14
+Not T5 and not T12. `routeComponents.js` resolves **T5 unconditionally** to
+`DscBuyToken` and T12 to `DscDrivers`, so reusing either would have served the
+wrong page under this URL — in the client bundle AND the prerendered HTML, with
+nothing failing and nothing logging. `lib/seo.js` needs the matching case for
+the same reason. Fourth page to hit this (T11, T12, T13, now T14).
+
+### Smaller decisions
+- **`productJsonLd` gained an optional `brand`**, defaulting to `site.shortName`
+  so the one existing call site is byte-identical. This page passes
+  "HyperSecu": it describes a manufacturer's product we resell, and asserting
+  ThinkOrange as its brand in structured data is a plain untruth to a crawler.
+- **`content/dsc/hyp2003.js` uses a RELATIVE import with an extension**, not the
+  `@/` alias, because `lib/seo.js` imports it and plain Node loads that during
+  the prerender pass. `notices.js` gets away with the alias only because nothing
+  Node-side imports it.
+- **The comparison table's first note argues AGAINST the product** ("on storage
+  capacity the HYP2003 is not the largest available"). Keep it — a comparison
+  table on a page selling the highlighted column is only worth reading if it
+  concedes where the thing does not win.
+- The highlighted column is an ember **tint**, not a filled ember header: a
+  second loud orange band on a page that already ends with CtaBand.
+- The product photograph is the real `public/images/drivers/dsc-card.png` via
+  `ProductShot`, where the source had a `[HYP2003 product photograph]` box.
+  `ratio` is the file's real pixel dimensions — `<Img>`'s inner img is
+  object-cover, which only leaves a transparent product uncropped when the box
+  matches the file's own aspect.
+- No `Reveal` on the comparison table or the spec lists: tables and body copy
+  never animate, and these are the sections a reader checks a figure against.
+
+### Verified
+`npm run lint` 0 problems, `content:check` clean apart from the three standing
+unconfirmed-content warnings, `build` + prerender **58 routes + 12 redirects**
+with the dangling-fragment gate passing. Then a real Chrome over CDP against
+`npx serve dist` (never `vite preview`, never the in-app pane), asserting
+`innerWidth`/`visibilityState`/`pathname` first and priming reveals with awaited
+400px steps from Node:
+- **Cadence `deep → light → light-alt → dark → light → light-alt → light →
+  ember`** — zero consecutive repeats, zero adjacent dark-family pairs.
+- **Pixel-sampled contrast: 0 real failures** — 243 samples at 1440px, 222 at
+  375px, tightest pass **4.64:1** at both. The 13 and 19 reported are all the
+  documented `rounded-full` corner-bleed artifact (the primary CTA, CtaBand's
+  pill), whose real pairs are 6.18:1 and ~17:1 computed statically.
+  ⚠️ It found ONE real failure, which was mine: the "why this token" mono
+  ordinals at `ink-300` on canvas measured **3.35:1**. They are ordinals a
+  reader counts by, not decoration, so they carry the 4.5:1 floor — now
+  `ink-400` (7.2:1). Same failure the T2 documents checklist already hit.
+- One `<h1>`, 5 sub-nav tabs all resolving, 10 comparison rows, 10 FAQs, the
+  notice bar present and measured BELOW the h1, 5 JSON-LD blocks
+  (`Organization + LocalBusiness + Product + FAQPage + BreadcrumbList`), no
+  `undefined`/`[object Object]`/`NaN`, and none of SignX / eMudhra /
+  "distributor" / "[territory]" / "same working day" in the rendered text.
+- `scrollWidth === innerWidth` at 1440 and 375 (the table scrolls, the page does
+  not). 0 stuck reveals. Reduced motion via `Emulation.setEmulatedMedia`:
+  0 running animations, 0 elements stuck mid-opacity.
+- Mega panel opens and carries "About HYP2003" under Token & Driver; the footer
+  DSC column carries it; 0 console errors across 7 routes including untouched
+  `/about` and `/`.
+
+### ⚠️ HARNESS BUG that produced 70+ phantom contrast failures — read this
+The sampler injected `* { color: transparent }` **in the same `Runtime.evaluate`
+that read the element boxes**, then screenshotted on the next CDP call. That
+frame is pre-repaint, so the text was **still painted** — p95/p05 sampled the
+GLYPHS rather than the surface, and every light-on-dark element reported
+1.0–1.9:1. It flagged the entire footer, every dark band and both nav panels; the
+tell was that untouched footer links "failed" on a page whose footer this change
+never went near.
+**Fix: inject the probe stylesheet as its OWN step and settle ~400ms before
+capturing.** Same run then reported 16 failures, 3 of them real (fixed above)
+and 13 the known pill artifact. This is a second, distinct trap from the
+already-recorded "read the foreground colour BEFORE injecting" one — a sampler
+needs BOTH.
+
+### ⛔ Bug caught by Clinton, not by my probe: the FAQ rows rendered EMPTY
+Same day. `FaqSection` -> `Accordion` reads **`{ question, answer }`**, but this
+repo's FAQ CONTENT convention is **`{ q, a }`** — which is what `faqPageJsonLd`
+reads, so both shapes are legitimately in use. Passing `certificateFaqs`-style
+data straight through renders **the right NUMBER of rows with no text in them**:
+ten bars carrying only their mono index, no error, no warning, and the JSON-LD
+still perfectly correct. `DscFaqs` already maps between the two at its call
+site; this page did not.
+- **Fix: map at the call site**, as `DscFaqs` does. Do not "simplify" either map
+  away, and do not change `Accordion` — the two key shapes serve different
+  consumers.
+- ⚠️ **THE VERIFICATION LESSON IS THE POINT.** My probe counted
+  `h3 > button[aria-expanded]` and reported `faqs: 10`, which looked like a
+  pass. **Counting a component's rows proves it mounted, never that it has
+  content.** Any probe over a list-rendering component must assert the rendered
+  TEXT of at least the first and last item, and that no item is empty.
+- Re-verified after the fix: 10 rows, **0 empty questions, 0 empty answers**,
+  first and last read their real copy, a closed row opens on click to a 109px
+  panel with real text, and all ten questions and answers are present in the
+  prerendered `dist/dsc/about-hyp2003/index.html` (so they are crawlable before
+  hydration).
+
+### Notice bar became a one-line infinite marquee — 05-09-2026
+Clinton, same day: "in notification bar, show as one line in infinite
+carrousel." It was wrapping to two lines on the full-bleed strip, which reads as
+a paragraph pinned under the hero rather than as a notice.
+
+`NoticeBar` now shares `NoticeTicker`'s mechanism EXACTLY — same ember-50
+surface, same measured duration, same margin-not-gap rule, same fade placement,
+same reduced-motion fallback, same non-interactive track. **The only difference
+that remains is the data boundary**: the ticker reads `noticesFor("site")`,
+this takes ONE notice as a prop, because the claim belongs to the page it sits
+on. ⚠️ **If you fix a marquee bug in one of these two files, fix it in the
+other** — the note is at the top of both.
+
+- ⚠️ **THE LOOP-WIDTH INVARIANT IS MUCH TIGHTER HERE than on the homepage.**
+  `translateX(-50%)` travels exactly one group, so one group must be at least as
+  wide as the widest window this ever renders in — and this bar carries ONE
+  sentence where the ticker carries four. Measured at a 2560px viewport: one
+  group (`GROUP_PASSES = 2`) is **3664px**, clearing the window with ~1100px to
+  spare. A SHORTER notice eats that headroom directly. **Re-measure
+  `groupWidth >= innerWidth` at 2560px whenever this text changes.**
+- **Duration is measured, not hand-computed** (the element reads its own
+  `scrollWidth / 2` in an effect and writes `--marquee-duration`), so editing the
+  copy can never leave the speed wrong — the failure TrustStrip's hand-tuned
+  120s already had once. Verified **55.0px/s at 2560, 1440 and 375**, from three
+  different measured durations.
+- **It is now a `<section data-surface="light-alt">`**, where it was a plain div,
+  so it ENTERS the surface-cadence count — matching `NoticeTicker`, which is a
+  section on the homepage. Re-measured:
+  `deep → light-alt → light → light-alt → dark → light → light-alt → light →
+  ember`, zero consecutive repeats and zero adjacent dark-family pairs.
+- **`whitespace-nowrap` on the moving copy ONLY.** The reduced-motion branch is
+  a static row and must be allowed to wrap, or a long notice runs off the side
+  with no way to read it.
+- Verified: one line at 2560/1440/375 (`copyHeight === lineHeight` at each),
+  genuinely moving (transform stepping between samples, not a frozen end state),
+  **0 focusables in the duplicated track** and exactly **1 `sr-only` copy**, so a
+  screen reader hears it once and the tab order is untouched.
+  `scrollWidth === innerWidth` at all three widths. The full sentence is in the
+  prerendered HTML (4 marquee copies + the sr-only one), so it is crawlable
+  before hydration. Reduced motion via `Emulation.setEmulatedMedia`: **0
+  elements carrying the marquee animation, 0 running animations, 1 visible
+  static copy.** 0 window errors.
+- ⚠️ **The bar cannot be pixel-sampled meaningfully** — its spans are wider than
+  the viewport and `.marquee-fade` lowers the GLYPH's alpha rather than its
+  computed colour, so a sampler reports a pass it did not measure. The
+  background is a flat token with nothing translucent over it, so a STATIC pair
+  is valid here and is what was checked: body ink-500 on ember-50 **9.41:1**,
+  label ember-600 **4.79:1**. Same conclusion already recorded for the ticker.
+- ⚠️ Probe trap: `bar.querySelector('[aria-hidden="true"]')` matches the
+  **Megaphone icon**, not the marquee track, so a reduced-motion check written
+  that way reports the track as still present. Select on
+  `getComputedStyle(el).animationName === "marquee"` instead.
+
+## "Salem, Tamil Nadu" removed from every services page — 06-09-2026
+Clinton: "in all services pages, it say in Salem, Tamil Nadu so i want to remove
+all this." Scope was the services tree only — `/`, `/about`, `/contact`, the DSC
+tree and the footer's registered-office block are untouched.
+
+- **31 leaf files + `category-content.js` + `ServicesHub.jsx` + `meta.js`'s
+  `/services` entry.** Every `h1`, `meta.title` and `meta.description` lost the
+  location suffix; where a description ended on it, the sentence was reworded
+  rather than truncated ("handled end to end from Salem." → "handled end to
+  end.", "Salem, Tamil Nadu, for clients across India." → "For clients across
+  India."). Verified in `dist/`: no punctuation artifacts, and the only "Salem"
+  left in any services page's body is the statutory one below.
+- ⚠️ **STATUTORY PROSE WAS KEPT AND GENERALISED TO THE STATE, NOT DELETED.**
+  Several leaves state facts that are only true because of where the client is —
+  the Tamil Nadu Societies Act 1975 repealing the central 1860 Act, Professional
+  Tax being a municipal levy, ESI reaching non-factory establishments here, the
+  normal-category GST thresholds. Deleting those makes the pages wrong, not
+  cleaner. City references in them moved to the state ("In Salem, Professional
+  Tax…" → "Professional Tax on salaries in Tamil Nadu is…"; "a Salem-based
+  society" → "a Tamil Nadu society"; "not limited to Salem or Tamil Nadu-based
+  opportunities" → "not limited to Tamil Nadu-based opportunities").
+- ⚠️ **ONE "Salem" STILL RENDERS ON `/services/accounting-audit/payroll-
+  processing-returns`**, twice, and it is NOT in that leaf file: it is inside
+  `statutory.js`'s `tnProfessionalTaxMechanism` value ("…levied and collected by
+  the local municipal body — in Salem, the Salem City Municipal Corporation…"),
+  a sourced statutory fact interpolated via `s()`. Left as-is deliberately —
+  editing it would loosen a value that carries its own `basis`/`source`/`note`.
+  Naming the corporation is what makes the sentence checkable. Say the word if
+  it should be generalised to "the local municipal corporation".
+- The footer's registered address and `localBusinessJsonLd`'s `addressLocality`
+  still carry Salem on all 58 routes, as they must — that is the company's
+  registered office, and schema asserting less than the visible page is a defect.
+- Verified: `npm run lint` (0 errors; the 3 warnings are pre-existing unused
+  imports in `DscEsign.jsx` from another session), `content:check` (31/31 leaves,
+  clean apart from the three standing unconfirmed-content warnings), `build` +
+  prerender (58 routes + 12 redirects) with the dangling-fragment gate passing,
+  and a scan of every emitted `services/**/index.html` outside the footer and the
+  JSON-LD blocks.
+
+## eSign page renamed, comparison framing removed — 07-09-2026
+Clinton: "in esign-or-dsc page change it into esign-solution and here we are
+not going to show about comparision. so in coming soon do not show in
+comparision." The page has rendered `<ComingSoon />` since 04-09-2026; what
+changed is the route and every word of the copy that still called it a
+comparison.
+
+- **Route renamed `/dsc/esign-or-dsc` → `/dsc/esign-solution`** (slug too), so
+  the URL matches the label, which had already become "eSign Solution" on
+  05-09-2026. ⛔ **The old path is a redirect stub in `dscRetiredRoutes`, not a
+  deletion** — it was live, prerendered, in the sitemap and linked from
+  `notices.js` and the footer. Its `to` is derived from `dscEsignPage.path`,
+  never typed, so a future rename moves the stub with it. 13 stubs now, was 12;
+  58 routes, unchanged.
+- **Content file renamed `esign-or-dsc.js` → `esign-solution.js`, export
+  `esignOrDscContent` → `esignSolutionContent`.** `meta` and `heroLede` were
+  rewritten — the title was literally "eSign or DSC — Which Do You Need?" and
+  the lede opened "Both let you sign a document…", so the page was still
+  announcing itself as a comparison in the tab, in search results and in the
+  first sentence a reader saw.
+- ⚠️ **`comparisonRows`, `decisionGuide` and `faqs` are RETAINED and simply
+  unrendered**, the same discipline `portalGuide`, `afterIssue`, `switching`
+  and `earnings` already carry. Every row is a sourced factual distinction, not
+  a ThinkOrange claim. **Do not prune them on a later tidy-up** — the
+  commented-out body in `DscEsign.jsx` still reads them, and a future eSign page
+  has reviewed copy waiting. ⚠️ If that body is ever restored it needs
+  REWRITING, not just uncommenting: it IS the comparison this instruction
+  removed.
+- **ComingSoon and CtaBand copy both rewrote.** ComingSoon said "This
+  comparison is being finalised… we're rewriting the eSign and Class 3
+  comparison"; CtaBand said "…which of the two it actually accepts". Verified
+  in the emitted HTML: **0 occurrences of comparison / compare / "which do you
+  need" / "side by side"** anywhere in the rendered page.
+- ⚠️ **A pre-existing claim now has no visible home, flagged in `notices.js`
+  rather than quietly dropped.** The `esign-not-dsc` notice ("Aadhaar eSign does
+  not replace a Class 3 certificate on statutory portals") cited the comparison
+  table as its basis — that table is unrendered, and the page the notice links
+  to is a Coming Soon. The claim is unchanged and still sourced; it needs a home
+  when the eSign page is actually written.
+- Verified: `npm run lint` (0 errors; the 3 warnings are the pre-existing unused
+  imports in `DscEsign.jsx` left by the comment-out), `content:check` clean
+  apart from the three standing unconfirmed-content warnings, `build` +
+  prerender **58 routes + 13 redirects** with the dangling-fragment gate
+  passing, correct `<title>` / `<h1>` / canonical on the new path, the old path
+  emitting a stub to it, `sitemap.xml` carrying the new path and not the old,
+  and **no `.html` in `dist/` still referencing the old URL** outside its own
+  stub.
+
+## New page: /dsc/resources (T15), shipped empty — 07-09-2026
+Clinton: "i want to create a new page call Resources in dsc category. keep in
+between digital signature and dsc faqs. in this i will upload fields relatied
+to dsc. for now it will shown as empty state." 59 routes (was 58).
+
+- **Panel position is the instruction, not a default.** The DSC column now
+  reads `Digital Signature Certificate → Resources → DSC FAQs`. **Do not
+  reorder that column.** The footer's Digital Signatures column carries it too,
+  before its DSC FAQs row.
+- ⛔ **ITS OWN TEMPLATE, T15.** T5, T12 and T13 each resolve UNCONDITIONALLY to
+  one component in `routeComponents.js`, so reusing any of them would have
+  served the wrong page under this URL — in the client bundle AND the
+  prerendered HTML, with nothing failing and nothing logging. `lib/seo.js`
+  needs the matching case or the page inherits another's title. Fifth page to
+  hit this (T11, T12, T13, T14, now T15). Wired in all four places: the shared
+  resolver, `router.jsx` (lazy), `router-static.jsx` (eager) and `seo.js`.
+- ⚠️ **`/dsc/resources` is a FREE path, not a resurrected one.** It was created
+  and renamed to `/dsc/buy-token` on the same day (03-09-2026) and never
+  shipped, so there was no redirect stub to remove and nothing in
+  `dscRetiredRoutes` had to change. Had it shipped, a stub would have
+  overwritten the real page's own `index.html` — `writeRedirects()` runs after
+  the route pass and last write wins.
+- ⛔ **RENAMED `dscResourcesPage` → `dscBuyTokenPage` (6 files) IN THE SAME
+  EDIT.** That export still pointed at Buy Token, a leftover from the
+  /dsc/resources → /dsc/buy-token rename, so the new page's object would have
+  sat beside a near-identical name resolving to a different destination. This
+  repo has already shipped that class of wrong-page bug twice. The module was
+  already `DscBuyToken.jsx`; the export now agrees with it.
+- ⛔ **IT SHIPS EMPTY AND THE EMPTY STATE IS THE POINT.** `dscResources` is
+  `[]` (`content/dsc/resources.js`), so `EmptyState` renders and the list does
+  not — the same discipline `testimonials.js` and `insights.js` carry, with one
+  extra reason: a placeholder resource card would offer a download that 404s,
+  which is worse than an honest blank. **Adding a file is a content edit, not a
+  template change** — push the file into `public/`, add an entry, and the page
+  becomes the list with no code touched.
+- **The rules for a future entry are at the top of the content file**, because
+  this is a card shape an invented fact slips straight into: `url` is a SERVED
+  path (`/files/x.pdf`, never `public/files/...` — `public/` is Vite's build
+  root, not a URL segment, and that bug shipped here once already); `size` is
+  read off the real file and `updated` is the day it was published, neither
+  estimated; no fee, turnaround or statutory value in a title or description; a
+  vendor binary needs its redistribution terms checked (CONTENT-PLAN.md §9) and
+  anything destructive needs `drivers.js`'s caution treatment; and nothing
+  carrying a real PAN/GSTIN/DIN/name/amount is published without flattened
+  redaction.
+- **The list is hairline rows, not a card grid** — a file library is one list,
+  and a three-across grid of near-identical cards is the archetype §16's tell 7
+  is about. Rule on TOP of each row, so any length terminates cleanly. ONE
+  `Reveal` around the whole list, never one per row. `size`/`updated` render
+  only when present.
+- `data-surface="dark"` on the empty-state panel is load-bearing (seventh
+  recorded instance) — without it every `var(--surface-*)` descendant takes the
+  LIGHT values and `[data-surface="dark"] h3` never supplies the canvas heading
+  colour. No `SubNav`: one section, and `SubNav`'s own `< 2` guard would render
+  nothing anyway. Cadence `deep → light → ember`, no adjacent dark-family pair.
+- Verified: `npm run lint` (0 errors; the 3 warnings are the pre-existing unused
+  imports in `DscEsign.jsx`), `content:check` clean apart from the three
+  standing unconfirmed-content warnings, `build` + prerender **59 routes + 13
+  redirects** with the dangling-fragment gate passing, correct
+  `<title>`/`<h1>`/canonical, JSON-LD `Organization + LocalBusiness +
+  CollectionPage + BreadcrumbList`, the empty state present in the prerendered
+  HTML with **0 download links**, the path in `sitemap.xml`, panel and footer
+  order asserted off `nav.js` itself, Buy Token and every other DSC page still
+  resolving to their own titles after the rename, and a link-integrity scan of
+  `dist/` — **2,479 internal refs, 0 broken**.
+
+## Hero showcase hidden on phone — 07-09-2026
+Clinton: "in home page hero section hide the right side in phone view." The
+hero's right column (`HeroShowcase` — the photograph plus the overlapping
+"What we handle for you" card) is now `hidden md:block`.
+
+- **Breakpoint is `md` (768px), matching `HeroFloaters`**, which is already
+  md-only for the same stated reason: at 375px the hero is a dense vertical
+  stack with no room to spare. Measured at 375px: column `display: none`, 0×0,
+  and the stat row now starts at **y=692 inside an 812px viewport** — i.e. the
+  eyebrow, headline, lede, both CTAs, the trust line and the first stat tiles
+  all land in one phone fold. Tablet (768px) and desktop are byte-identical to
+  before; the showcase still renders stacked at 768 and in the 7/5 grid at
+  1440.
+- ⚠️ **`hidden`, NOT a conditional render, and that is not a shortcut.** Phase
+  9 prerenders ONE HTML file for every width, so anything that renders
+  differently per viewport has to be a CSS decision — a JS media query would
+  make the server, the client's first pass and the visible result disagree,
+  which is a hydration mismatch on the site's most-visited route.
+- ⚠️ **THE HERO IMAGE STILL DOWNLOADS ON A PHONE, and CSS cannot stop it.**
+  `<Img priority>` renders `loading="eager"` + `fetchpriority="high"`, and a
+  browser fetches an eager image inside a `display:none` container. Measured
+  from the network log at 375px: it fetches the smallest srcset candidate,
+  **7.5 KB avif**, so the waste is real but negligible and was deliberately not
+  engineered around — the only fixes are a hydration-risky conditional render
+  or dropping `priority`, which would cost desktop LCP for a 7.5 KB saving.
+- ⚠️ **Mobile LCP is now a different element and was NOT re-measured.** Phase
+  10 identified that photograph as the homepage's LCP element; with it hidden,
+  the phone's largest paint is text — and the H1's characters ship at
+  `opacity: 0` until the typewriter runs (a tradeoff already recorded on
+  17-08-2026). This could move mobile LCP either way. Rebuild Phase 10's
+  `_serve-h2.mjs` median-of-3 harness before trusting the homepage's mobile
+  Performance score.
+- Verified in a real Chrome over CDP against `npx serve dist` (never the in-app
+  pane), asserting `innerWidth`/`visibilityState`/`pathname` first, at 375 /
+  768 / 1440: the column measured `none` / `block` / `block`,
+  `scrollWidth <= innerWidth` at all three, one exception per load (the
+  long-standing sitewide React #418 that reproduces on untouched routes), and
+  screenshots at 375 and 768 confirming the phone fold and the unchanged tablet
+  layout. `npm run lint` 0 errors, `build` + prerender 59 routes.
+
+## "Partner login" removed from the mobile promo card — 07-09-2026
+Clinton: "in phone view in sidebar remove partner login from partner program
+card." One link, in `MobileNav.jsx`'s `PromoCard`.
+
+- ⚠️ **THE TWO NAVBARS DISAGREED, and that is what this actually fixed.**
+  `MegaPanel.jsx`'s `PanelPromo` had already commented this link out; mobile was
+  left rendering it, so the same card carried a different set of actions
+  depending on which navbar you met it in. `primaryNav`/`dscPanelColumns` feed
+  desktop and `SECTIONS` feeds mobile, and they are not one array — a change to
+  one is never a change to the other for free (the same trap the 17-08-2026
+  "Partner With Us" removal hit). They now agree.
+- **Commented out in place, not deleted**, matching the desktop file exactly, so
+  the two remain diffable. `nav.js` still exports
+  `dscPartnerPromo.secondaryLabel` and the WhatsApp href builder is kept beside
+  it (with an `eslint-disable-next-line no-unused-vars`), so restoring the link
+  is uncommenting two blocks.
+- ⛔ **The reason it should not come back on EITHER surface:** nothing on this
+  site authenticates a partner, so "Partner login" linked to a pre-filled
+  WhatsApp message — a main-navigation item promising a sign-in that does not
+  exist. Do not restore it without a real portal behind it. `DscHub.jsx` already
+  records the same call for the same field.
+- Verified in a real Chrome over CDP against `npx serve dist` at 375px,
+  asserting `innerWidth`/`visibilityState`/`pathname` first and opening the real
+  sheet (`header button[aria-controls="mobile-nav"]`): the card renders its
+  heading, its body and **one** link ("Become a DSC Partner" → /partner-with-us),
+  with `hasPartnerLogin: false`, **0 `wa.me` links in the card** and **0
+  occurrences of "Partner login" anywhere in the sheet**. Desktop 1440px
+  regression: panel still opens with 3 link columns and the promo, also with no
+  Partner login. `npm run lint` 0 errors, `build` + prerender 59 routes.
+  - ⚠️ Probe trap worth keeping: `header button[aria-expanded]` matches the
+    DESKTOP panel triggers first (`panel-services`, `panel-dsc`) — clicking that
+    left the sheet closed (`data-open="false"`, `inert`) while the card still
+    probed fine, because the sheet stays MOUNTED when closed. The result looked
+    like a pass. Select the hamburger by `aria-controls="mobile-nav"` and assert
+    `data-open === "true"` before believing anything about the sheet.
+
+## Finder rail: lede + step rail hidden on phone — 07-09-2026
+Clinton, on `/dsc`'s "Which DSC do you need?" rail: keep only the eyebrow and
+the h2 in phone view; hide the "Two questions…" lede and the 1/2/3 step rail.
+Both are now `hidden md:block` in `DscFinder.jsx`.
+
+- Measured at 375px: lede and rail both `display: none` at 0×0, and the first
+  choice card now starts at **y=349 with the h2 ending at 309** — a 40px gap
+  where the two hidden blocks previously put ~200px between the heading and the
+  first answer, which is the one thing this section exists to put in front of a
+  reader. Tablet (768) and desktop (1440) are unchanged: both `block`, rail
+  keeping its `mt-8`.
+- ⚠️ **`hidden md:block`, NOT a conditional render.** Phase 9 prerenders one
+  HTML file for every width, so a per-viewport difference has to be a CSS
+  decision or the server, the client's first pass and the visible result
+  disagree. Same reason and same breakpoint as the homepage hero's showcase
+  column, done the same day.
+- ⚠️ **`display: none` takes the rail out of the ACCESSIBILITY TREE too**,
+  including its `sr-only` "(current step)". That is acceptable only because the
+  answer panel is an `aria-live="polite"` region that announces each step as it
+  changes, so a phone reader is not left with no signal. **If that live region
+  is ever removed, switch this to `sr-only md:not-sr-only` rather than dropping
+  the rail outright** — the note is at the call site.
+- The rail's own two-vs-three-step logic is untouched, and it still renders on
+  md+ for a route that skips the signer question.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first and forcing
+  `scrollBehavior: auto` before sampling: the three widths above,
+  `scrollWidth <= innerWidth` at each, one exception per load (the standing
+  sitewide React #418), a screenshot at 375px, and **the wizard driven end to
+  end on the phone viewport with the rail hidden** — two answers reach "Class 3
+  Combo — sign and encrypt" with the live region present, so nothing about the
+  flow depended on the rail being in the DOM. `npm run lint` 0 errors,
+  `build` + prerender 59 routes.
+- ⚠️ **Note for whoever reads the lint output next: there is now a FOURTH
+  warning, `heroSpec` unused in `DscHub.jsx`, and it is not from this work.**
+  Another session's in-flight edit removed `spec={heroSpec()}` from that page's
+  hero and relabelled its "Partner" sub-nav tab "Partner Program"; the helper
+  was left behind. Left as found rather than reverted.
+
+## Finder result: "Issued in" spec cell removed — 07-09-2026
+Clinton: "Issued in / Confirm with us — remove all this in dsc finder." The
+turnaround cell is gone from the answer's spec row in `DscFinder.jsx`, leaving
+four: In whose name · Covers / Validity · Professional fees.
+
+- ⛔ **THE REMAINING FOUR HAD TO BE REBALANCED IN THE SAME EDIT.** That grid is
+  six tracks, and the cells were 3+3+2+2+2; deleting one leaves 3+3+2+2 = 10,
+  not a multiple of 6, so the second row would have stopped two thirds of the
+  way across and taken its hairline with it — which reads as content that
+  failed to load, not as a shorter row. Validity and Professional fees are now
+  `sm:col-span-3`. Measured: **two rows of two, each totalling 832px against an
+  833px `<dl>`** at 1440, and four full-width rows at 327px on a 375px viewport.
+  The six-track comment was updated so it stays true; **the "spans must sum to a
+  multiple of 6" rule still applies to anything added here.**
+- ⚠️ **`turnaround.dscIssuanceTurnaround` IS UNCHANGED and still `value: null`.**
+  Nothing was resolved by removing the cell — the real issuance time is still
+  unconfirmed, and if it is ever shown again it goes back through `t()`, never
+  typed as a literal. The now-unused `t` import went out with the cell.
+- ⚠️ **`answer.warn` and the "Validity → Confirm with us" fallback are both
+  untouched.** The instruction quoted one label and its value, i.e. one cell —
+  the fallback is a different mechanism, and on both routes checked the validity
+  cell resolves to real options anyway.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first and driving the wizard end to
+  end on **two routes** (tenders → Company or LLP, and the foreign-national
+  route) at **1440 and 375**: 4 cells on every combination, `hasIssuedIn:
+  false`, **0 occurrences of "Confirm with us" anywhere on the page**, row widths
+  as above, and a screenshot confirming the 2×2. `npm run lint` 0 errors (the 4
+  warnings are the 3 pre-existing in `DscEsign.jsx` plus the `heroSpec` one
+  another session left in `DscHub.jsx`), `build` + prerender 59 routes.
+
+## Finder result: "What to have ready" → "Documents Required" — 07-09-2026
+Clinton: "instead of What to have ready write Documents Required."
+`DocumentPanel` in `DscFinder.jsx`.
+
+- ⚠️ **THE STRING WAS IN TWO PLACES — the `<h4>` and the section's own
+  `aria-label`.** Changing only the visible one would have left the landmark
+  announcing the old name, which is the label-content-name-mismatch class of
+  defect Phase 10 fixed on the logo. Rather than update the duplicate, the
+  landmark now takes **`aria-labelledby` pointing at the heading**, so the
+  accessible name IS the heading and a future copy change cannot drift again.
+- Verified in a real Chrome over CDP against `npx serve dist` at 1440 and 375,
+  on two finder routes: heading reads "Documents Required", the `aria-labelledby`
+  target resolves, exactly **one** element carries that id, no stray
+  `aria-label` remains, and **the old string is absent from the whole page**.
+  Read back off the real accessibility tree (`Accessibility.getFullAXTree`), not
+  just the attribute: a **`region` named "Documents Required"**. The panel still
+  works — 6 documents on the company route, 3 on statutory/Aadhaar, count and
+  list intact. `npm run lint` 0 errors, `build` + prerender 59 routes.
+
+## Finder relaid out: label / heading / 4 cards — 07-09-2026
+Clinton: "remove this part complete and keep the layout like this: label /
+headling / 4 card." Supersedes the same-day `hidden md:block` on those two
+blocks — they are now DELETED, not hidden, and the 4/8 sticky-rail split went
+with them.
+
+- **`DscFinder`'s layout is a single stacked flow**: eyebrow → h2 → the four
+  choice cards → alt links. `StepRail` and the "Two questions…" lede are gone
+  from the file; the section's `<ol>` count is 0.
+- ⛔ **THE 4/8 SPLIT HAD TO GO WITH THEM, and that is the non-obvious part.**
+  `FaqSection`, `StepFlow` and this finder all used that split because a left
+  column carrying a heading PLUS supporting copy sat beside a narrow-measure
+  panel. With the lede and the rail deleted there was nothing left to make
+  sticky, and a lone eyebrow+h2 pinned in a 4-column track beside the cards is
+  the empty-half problem that split exists to avoid, in reverse. **The other
+  two sections still use it and are untouched** — this is not a sitewide change.
+- **The cards are FOUR ACROSS at `xl`, 2×2 at `sm`, stacked below.** In the old
+  8-column track one column gave each card a ~830px measure; full width that is
+  ~1700px, which leaves a small icon and two lines of copy adrift in a very wide
+  box. Measured: 4 in one row at 1920 and 1440, 2×2 at 768, 4 stacked at 375,
+  equal heights within every row.
+- **`headingClassName="max-w-[18ch]"` came off too.** It forced "Which DSC do
+  you need?" onto two lines to fit the 4-column track; at full width
+  `SectionHeading`'s standard 32ch measure sets it on one (measured 1 line at
+  768 and up, 2 at 375).
+- **The result step is now full width, and that reads better rather than worse**
+  — its spec row is a 2-column `<dl>` and its checklist a 2-column list, so the
+  width is used, and every prose block already carries its own `max-w-[62ch]` /
+  `[68ch]`. Nothing inside `FinderResult` was changed.
+- ⚠️ **THERE IS NO VISIBLE PROGRESS INDICATOR ANY MORE. That is the accepted
+  cost of this instruction, not an oversight.** The answer panel is still an
+  `aria-live="polite"` region, so a screen reader is told when the step changes;
+  a sighted reader has the `activeUse` eyebrow on step two and the Back button
+  as their only sense of place. Restoring one means rebuilding `StepRail` from
+  git history, and in this layout it belongs ABOVE the cards, not beside them.
+  Its two-vs-three-step logic (a route that settles the signer question shows
+  two) is the part worth recovering if it ever returns.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first and forcing
+  `scrollBehavior: auto` before sampling: the four widths above,
+  `scrollWidth <= innerWidth` at each, lede and rail absent, and **the wizard
+  driven end to end** — step two renders its 3 signer chips and Back, the result
+  renders 4 spec cells and 6 documents. **Pixel-sampled contrast on the finder
+  fold: 0 failures, 13 samples, tightest 6.64:1.** Reduced motion via
+  `Emulation.setEmulatedMedia`: **0 running animations, 0 elements stuck
+  mid-opacity, all card opacities 1**. `npm run lint` 0 errors, `build` +
+  prerender 59 routes.
+  - ⚠️ Two probe traps, both cost a run: an `async` in-page IIFE needs
+    `awaitPromise: true` on `Runtime.evaluate` or it returns `undefined`; and
+    interpolating an already-JSON-parsed object back into a template literal
+    yields `[object Object]` and a `SyntaxError` from inside the page. Re-
+    stringify it.
+
+## Finder result: cross-links to the other routes — 07-09-2026
+Clinton: "i want add ghoast to redirect to other dsc from main details section
+like do need organization dsc? … so that user no need to go back and select
+again." The result now ends with a quiet row — "Not what you were after?" plus
+a ghost button for every OTHER purpose — that switches the answer in place.
+
+- **`jumpTo(useKey)` swaps only the PURPOSE and leaves the rest to the state
+  machine.** That one omission is the whole trick, and there are three cases:
+  - Target skips question two (Statutory filings, Foreign national) →
+    `signerKey` resolves to `"any"` and the reader lands straight on the new
+    result.
+  - Target asks it and a signer is already held → the answer resolves and they
+    land straight on the new result too. **This is the case the instruction is
+    about**: `tender|company` → `exim|company` in one click. Verified.
+  - Target asks it and no signer has ever been given (they came from a skipping
+    route) → `step` becomes `"signer"` and they are asked question two with the
+    purpose already chosen. One click instead of three, and it does not invent
+    an answer they never gave. Verified from a fresh load.
+  ⛔ **Clearing `signer` in `jumpTo` would break the middle case, which is the
+  point of the feature.** Carrying it also means jumping away and back keeps
+  their answer.
+- **The verification route DOES reset** — it belongs to the checklist of the
+  certificate being left, and a reader silently still on the PAN route for a
+  different certificate is shown a document count that is not theirs. Verified:
+  PAN → jump → back to Aadhaar.
+- ⛔ **THE SCROLL EFFECT HAD TO BE RE-KEYED, and this is the non-obvious half.**
+  It gated on `step`, so a result → result jump returned early and left the
+  reader wherever they were — typically deep in the OLD answer's document list,
+  watching it change under them with the new heading and spec row off-screen
+  above. It now keys on a **`screen`** value (`step`, plus which answer for a
+  result). Measured: scrolled 700px into an answer, jumped, and the panel
+  re-lands at exactly its 128px clearance on both 1440 and 390. ⚠️ `screen`
+  deliberately EXCLUDES `kyc` — the reader is looking straight at that toggle
+  when they press it, and scrolling then yanks the page out from under their
+  own click. `stepRef` → `screenRef`, and the dep array with it.
+- ⛔ **LABELS ARE THE CARD'S OWN `label`, never a second string.** A first cut
+  added a `crossLabel` per route phrased as a question ("Bidding on a tender
+  instead?"); Clinton: "write as direct name as write in card otherwise it looks
+  confuse." One name per route, on the card and on the switch, so the
+  destination is recognisable as the card already seen — and there is nothing to
+  drift. The row's own "Not what you were after?" carries the framing.
+- **The set is DERIVED from `finderUses`**, never a per-answer list: ten answers
+  would be ten places to update when a fifth purpose is added, and nine would be
+  missed.
+- ⚠️ **Ghost `<button>`s, not `<Link>`s.** They change component state; they do
+  not navigate. A styled `<Link>` would announce the wrong role, offer a
+  meaningless open-in-new-tab, and need a route to point at. Visual treatment
+  matches step one's `AltLink` so the two quiet rows read as one idiom;
+  they stay separate components because one navigates and one does not.
+- **The row sits BELOW the actions, on its own hairline.** Above them it would
+  offer a different answer before the reader has finished this one — the
+  WhatsApp CTA has to stay the last emphatic thing on the page.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first, at 1440 / 390 / 375: all
+  three jump cases above driven end to end, 3 ghosts on every result (never the
+  current one), every one a real `<button type="button">` and tabbable, **real
+  Enter activation** (`keyDown` with `text:"\r"` and both virtual key codes —
+  never `rawKeyDown`, which does not activate a button), the panel re-landing at
+  its clearance, and reduced motion via `Emulation.setEmulatedMedia` landing the
+  jump instantly with **0 running animations**.
+  - **Pixel-sampled contrast on the ghost row: 0 failures** — 4 samples at each
+    width, tightest **5.94:1**. ⚠️ This row genuinely needed sampling rather
+    than a token lookup: the finder's bottom-left `ArcRings` composition passes
+    directly behind it, so the background is not the flat `canvas` a static pair
+    check would assume.
+- ⚠️ Probe trap: `AnimatePresence mode="wait"` plus the result's own beat
+  cascade means a settle of ~1.3s after a click is NOT enough — the next
+  step's buttons are not in the DOM yet and a `querySelector` returns null,
+  which reads exactly like the click having done nothing. Settle ~2.6–2.8s.
+
+## Foreign-national checklist: PAN copy added, order set — 07-09-2026
+Clinton gave the foreign Individual DSC checklist position by position: 3rd PAN
+copy (if available), 4th address proof, 5th mobile number, 6th email ID. The
+`"foreign|any"` answer in `content/dsc/finder.js` now reads: photograph /
+passport / **PAN copy (if available)** / address proof / mobile / email — six,
+up from five.
+
+- ⛔ **THE ORDER IS HIS, GIVEN BY POSITION.** Email and mobile swapped places to
+  match. Do not re-sort this list alphabetically or "logically" — the sequence
+  is the order a reader is meant to gather them in. The note is at the array.
+- ⚠️ **"(if available)" IS LOAD-BEARING.** This is the only CONDITIONAL line in
+  any checklist on the site: a foreign applicant may hold no Indian PAN at all,
+  so stating it flat would tell someone they cannot proceed without one.
+- ⚠️ Consequence, flagged rather than worked around: `DocumentPanel`'s count now
+  reads **"6 documents"** and that includes the optional line. Left as is — the
+  line says so itself, and a count that silently disagreed with the list it sits
+  above would be the worse defect.
+- **This is the ONE answer that carries its own `documents` array** (a passport
+  route is not one of the five certificates, so there is nothing to resolve
+  against in `certificates.js`), which is why the change is local and why the
+  `kycRoutes` machinery is untouched — the foreign route has `noKyc` and shows
+  no verification toggle.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first and settling ~2.8s after each
+  click (the result's beat cascade is not in the DOM before then): at **1440 and
+  375**, the six items render in exactly that order with **0 empty rows**, the
+  count reads "6 documents", the KYC toggle is correctly absent, and
+  `scrollWidth === innerWidth`. Regression on the statutory/Aadhaar route:
+  unchanged at 4 items with its toggle intact. `npm run lint` 0 errors (the 4
+  warnings are the 3 pre-existing in `DscEsign.jsx` plus `heroSpec` in
+  `DscHub.jsx`, both from other sessions), `build` + prerender 59 routes.
+  - ⚠️ The string is NOT in the prerendered `dist/dsc/index.html`, and that is
+    the already-recorded state rather than a regression: finder results render
+    on demand in JS since /dsc was trimmed to the finder, so no checklist is
+    crawlable on that page. Unchanged by this edit.
+  - ⚠️ Probe trap: a choice card's button text concatenates its label, its
+    description and its pill, so `^Foreign national$` matches nothing. Match on
+    a substring.
+
+## Video verification: a structured "Before you apply" block — 07-09-2026
+Clinton supplied the copy verbatim (first scoped to Statutory Filings, then
+extended mid-turn to "Tender and Procurement, DGFT DSC and Foreign National"
+with a new step 3). It replaces `class-3-individual`'s one-line note in the
+finder's result panel.
+
+- ⛔ **THE BLOCK LIVES ONCE — `videoVerification` in `certificates.js` — and
+  variants OPT IN with `videoVerification: true`.** The first cut put the whole
+  object inline on one variant; the moment three needed it that would have been
+  three copies of a PROCEDURE to keep in step, which is how a reader ends up
+  told to hold documents up on one page and not on another. The derived
+  `certificateVariants` map resolves the flag to a `verification` field, so a
+  consumer reads one field and never the flag — same pattern `documents` uses.
+- **Three variants carry it, covering the four routes Clinton named**:
+  `class-3-individual` (Statutory filings AND Foreign national — `foreign|any`
+  resolves to the same certificate), `combo-dsc` (Tenders), `dgft-iec` (DGFT).
+  `class-3-organisation` and `dsc-renewal-reissue` do not, since no named route
+  reaches them.
+- ⚠️ **`steps[2]` SELF-QUALIFIES** ("Organisation and foreign DSC: hold up each
+  document…") rather than being filtered per route, which is how Clinton wrote
+  it — that is why ONE list serves every opted-in certificate. Do not split it
+  into per-variant lists.
+- ⛔ **TWO BLOCKS WOULD HAVE SHARED THE LABEL "Before you apply".** `combo-dsc`
+  and `dgft-iec` keep their OWN `verificationNote` — and theirs are not about
+  video at all (encryption cannot be added after issue; the certificate must be
+  registered against your IEC), so neither could be dropped. The note keeps
+  "Before you apply" and the video summary takes **"Video verification"**
+  beside it; on the certificate with no note of its own it borrows "Before you
+  apply", which is Clinton's own wording for the case he first specified.
+  `hasNote` keys on whether the note exists — **never on a slug.**
+- **It renders as four `NoteBlock`s, not one.** Each answers a different
+  question, so each keeps its label in the 3-column rail and a reader can skip
+  the ones that are not theirs — the readability fix that split the old run-on
+  grey paragraphs. Every sub-block is guarded: a heading over an empty list is
+  the defect `DriverPanel` had to be fixed for.
+- **The example script is set off by a LEFT RULE, never a tinted box.** The
+  answer panel is deliberately hairlines and type with the KYC toggle's track as
+  its only filled area (03-09-2026). Verified: `border-left 2px ember`,
+  `background-color: rgba(0,0,0,0)`. It is a `<blockquote>`, not `<q>` — `<q>`
+  adds the browser's own quote marks on top of the ones the sentence needs.
+- ⚠️ **IT DESCRIBES THE CERTIFYING AUTHORITY'S OWN PORTAL** ("Log in and open
+  Record Video"), which this repo otherwise avoids — the partner page records
+  why: we do not control that UI, so a walkthrough goes stale on their next
+  redesign. Published because Clinton supplied it directly and runs the process
+  daily. **Re-check the steps whenever that portal changes**; nothing else in
+  the block depends on their screens.
+- ⚠️ **No fee, no statutory value, no ThinkOrange turnaround.** "two to three
+  minutes" and "two quiet minutes" are how long the READER's own recording
+  takes, not a commitment about issuance — do not let a future edit turn either
+  into one. The example name and code are explicitly labelled not to recite.
+- Verified in a real Chrome over CDP against `npx serve dist`, asserting
+  `innerWidth`/`visibilityState`/`pathname` first and settling ~2.9s after each
+  click: **all four named routes at 1440 and 375** render the block with **0
+  duplicate labels, 0 empty blocks, 4 steps** (step 3 the new one), the quote
+  present, and `scrollWidth <= innerWidth`. Statutory and Foreign show 4 blocks
+  starting at "Before you apply"; Tenders and DGFT show 5, their own note first
+  then "Video verification". A fifth combination (tender/proprietor) confirms
+  the certificate, not the route, is what carries it. **Pixel-sampled contrast
+  on the block: 0 failures, 23 samples, tightest 6.48:1.** `npm run lint` 0
+  errors (the 4 warnings are pre-existing, from other sessions), `build` +
+  prerender 59 routes.
+  - ⚠️ Probe trap: a choice card's button text concatenates label, description
+    and pill, so `^Statutory filings$` matches nothing — match a substring. The
+    signer chips are exact, so `^Company or LLP$` is right for those.
+
+### Document count excludes contact details — 07-09-2026
+Clinton: "in document count, do not count email and phone number as document."
+A mobile number and an email address are things you type, not paper you gather,
+and counting them inflated every checklist by one or two — telling a reader they
+had more to find than they did.
+
+- **`isContactDetail(line)` + `documentCount(list)` (certificates.js)** are the
+  one definition; `DocumentPanel` is the only consumer (`documents.length` was
+  the only count anywhere in `src/`).
+- ⚠️ **THEY STILL RENDER. Only the COUNT changed.** An applicant does have to
+  supply both, and dropping the lines would lose that. Verified on every case:
+  count === rendered − contactRendered, exactly.
+- ⛔ **THE FALSE POSITIVE THIS HAD TO BE WRITTEN AROUND IS LIVE IN THE DATA.**
+  The PAN-route address proof reads "…latest utility bill (electricity,
+  **telephone**)…", so a naive `/phone/` test discounts a real document. The
+  predicate is `\b(e-?mail|mobile number|phone number)\b` — "telephone)" matches
+  none of the three, and no list says "phone number". **Asserted against all 11
+  resolved lists (5 certificates × 2 KYC routes + the foreign route's own): 0
+  false positives.**
+- ⚠️ **IT READS PROSE, which this repo normally avoids**, and the comment says
+  so: a future line phrased "Email a scanned copy of your PAN" WOULD be
+  discounted wrongly. Acceptable only because the corpus is small, fixed and in
+  one file. **If these lists grow past a handful, move contact details into
+  their own field on the variant instead of matching text** — that was the
+  alternative considered and rejected here only because it would have changed
+  what renders on the PAN route (which currently has no email line at all, an
+  asymmetry inherited from whoever put "Email address" in the Aadhaar route's
+  `extra` rather than on the certificate).
+- **Two rendered typos fixed in passing**, in the exact lines this touches:
+  `"Active mobile number and email of the signatory, "` and `"Active mobile
+  number and email "` both carried trailing punctuation/whitespace that showed
+  on the page ("…of the signatory," with a dangling comma). Verified 0 lines
+  ending in a comma on every route.
+- **Measured counts** (rendered → counted): individual 4→2 Aadhaar / 4→3 PAN;
+  organisation and combo 7→5 / 7→6; DGFT 7→5 / 7→6; renewal 6→4 / 6→5; foreign
+  6→4. The live Aadhaar↔PAN toggle updates it (2 → 3 on the statutory route),
+  which is why the count is `tabular-nums`.
+- Verified in a real Chrome over CDP against `npx serve dist` across six
+  route/KYC combinations at 1440px, plus the runtime assertion above. `npm run
+  lint` 0 errors (the 4 warnings are pre-existing, from other sessions), `build`
+  + prerender 59 routes.
+
+### Homepage Insights heading is a blog heading — 07-09-2026
+Clinton: "this is blog section heading page so keep according to that." The h2
+was **"Compliance, explained without the jargon"** — a positioning statement,
+which is what a section header should not be when the section is a blog roll
+with an "All insights" link beside it. Now **"Articles and guides"**.
+
+- ⚠️ **NOT "Latest articles", which was the obvious choice.** `insights` is in
+  SOURCE order, not date order, and the section takes the first four — "latest"
+  would assert an ordering the data does not guarantee. Sort that array by
+  `published` and the word becomes available. (All four currently share a
+  publish date anyway.)
+- `headingClassName="max-w-[28ch]"` went with the old copy: that override
+  existed only to break the long headline onto two lines, and the standard 32ch
+  measure now applies like every other section header.
+- Verified in a real Chrome over CDP against `npx serve dist`: heading renders
+  on **one line** at 1440 (41px) and 375 (30px), eyebrow still "Insights", the
+  "All insights" link still shares the header row at desktop and wraps below it
+  at 375 as it always did, all 4 article cards present, the old copy **absent
+  from the rendered page and from `dist/index.html`**, and no horizontal
+  overflow at either width. `npm run lint` 0 errors, `build` + prerender 59
+  routes.
+
+### Email listed once, and only on the Aadhaar route — 07-09-2026
+Clinton: "here it write email id two times in different words so fixed this and
+in pan base do not include email id at all."
+
+- **The duplicate was two sources saying the same thing in different words.**
+  `kycRoutes.aadhaar.extra` contributes "Email address", and every certificate's
+  own contact line ALSO said "…and email" — so the Aadhaar route showed email
+  twice ("Email address" / "Active mobile number and email of the signatory")
+  and the PAN route showed it once, in the second wording.
+- **Fix: the variant contact lines are mobile-only.** Four rewritten —
+  `"Active mobile number and email of the signatory"` → `"…mobile number of the
+  signatory"` (organisation, combo) and `"Active mobile number and email"` →
+  `"Active mobile number"` (DGFT, renewal). `class-3-individual` already read
+  "Active mobile number linked with Aadhaar" and needed no change.
+- ⚠️ **"Email address" LIVING IN THE AADHAAR ROUTE'S EXTRAS IS NOW THE
+  MECHANISM, not an accident** — it is the only reason email appears on Aadhaar
+  and nowhere else. **Moving it onto the variants puts email back on the PAN
+  route; adding "and email" back to a contact line restores the duplicate.**
+  Noted at that array.
+- ⚠️ This means a PAN-route applicant is shown no email line at all. That is
+  the instruction, given explicitly. Say the word if an application does in fact
+  need one on both routes — the fix would then be a separate `contactDetails`
+  field on the variant rather than an entry in one KYC route's extras.
+- **Counts are unchanged** (the email line was already excluded from them by the
+  earlier `documentCount` change): individual 2/3, organisation and combo 5/6,
+  DGFT 5/6, renewal 4/5, Aadhaar/PAN respectively.
+- **The foreign route is untouched** — its own list has no KYC toggle and
+  carried exactly one email line already.
+- Verified by runtime assertion over all 10 certificate × route combinations
+  (**exactly 1 email line on every Aadhaar route, 0 on every PAN route, 0
+  wrong**) and in a real Chrome over CDP against `npx serve dist` on three
+  routes, toggling Aadhaar → PAN live on each. `npm run lint` 0 errors, `build`
+  + prerender 59 routes.

@@ -18,12 +18,12 @@ export default {
   slug: "roc-annual-compliance",
   category: "accounting-audit",
   title: "ROC & Annual Compliance",
-  h1: "ROC & Annual Compliance for Companies and LLPs in Salem, Tamil Nadu",
+  h1: "ROC & Annual Compliance for Companies and LLPs",
 
   meta: {
-    title: "ROC & Annual Compliance in Salem | ThinkOrange Consulting",
+    title: "ROC & Annual Compliance | ThinkOrange Consulting",
     description:
-      "AOC-4, MGT-7 or MGT-7A, DIR-3 KYC and LLP Forms 8 and 11 — tracked and filed on time, every year. Salem, Tamil Nadu, for companies and LLPs anywhere.",
+      "AOC-4, MGT-7 or MGT-7A, DIR-3 KYC and LLP Forms 8 and 11 — tracked and filed on time, every year. For companies and LLPs anywhere.",
     keywords: [
       "roc annual compliance salem",
       "aoc-4 mgt-7 filing consultant",

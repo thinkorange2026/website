@@ -1,26 +1,30 @@
-// T5 — "eSign or DSC — Which Do You Need?" (`/dsc/esign-or-dsc`). Added
-// 18-08-2026 as part of the DSC & eSign menu restructure's writing backlog
-// (see MISSING-PAGES.md). A decision-helper/reference page in the "eSign
-// Solutions" nav column, alongside the `aadhaar-esign` T4 product — this
-// page helps a visitor work out WHICH of the two they actually need before
-// sending them to either product page; it doesn't sell either one directly.
+// "eSign Solution" (`/dsc/esign-solution`, T11). Written 18-08-2026 as
+// "eSign or DSC — Which Do You Need?", a decision-helper comparing Aadhaar
+// eSign against a Class 3 DSC.
 //
-// Every comparison row below is a factual, sourced distinction (Aadhaar
-// eSign's OTP/biometric per-transaction model vs a Class 3 DSC's token-based
-// multi-year certificate; statutory portals mandating Class 3 specifically),
-// not a ThinkOrange operational claim — nothing here needs to route through
-// turnaround.js, unlike the ThinkOrange-specific issuance-turnaround line on
-// DscEnquiryStrip. Kept plain-language rather than legal citation-heavy,
-// since this page's job is a quick decision, not a statutory reference (that
-// register belongs on the service-leaf side of the site, not the DSC tree).
-export const esignOrDscContent = {
+// ⛔ 07-09-2026 (Clinton): "in esign-or-dsc page change it into esign-solution
+// and here we are not going to show about comparision." The page is no longer
+// a comparison, so `meta` and `heroLede` were rewritten to stop framing it as
+// one, and the route was renamed to match (nav.js, with a redirect stub for
+// the old URL).
+//
+// ⚠️ `comparisonRows`, `decisionGuide` and `faqs` are RETAINED and simply not
+// rendered — the same discipline `portalGuide`, `afterIssue`, `switching` and
+// `earnings` already carry elsewhere in this codebase. Every row is a factual,
+// sourced distinction (Aadhaar eSign's OTP/biometric per-transaction model vs
+// a Class 3 DSC's token-based multi-year certificate; statutory portals
+// mandating Class 3 specifically), not a ThinkOrange operational claim, so
+// nothing here needs to route through turnaround.js. Do NOT prune them on a
+// later tidy-up pass; a future eSign page that needs any of this has reviewed
+// copy waiting for it. `DscEsign.jsx`'s commented-out body still reads them.
+export const esignSolutionContent = {
   meta: {
-    title: "eSign or DSC — Which Do You Need? | ThinkOrange Consulting",
+    title: "eSign Solution | ThinkOrange Consulting",
     description:
-      "Aadhaar eSign and a Class 3 Digital Signature Certificate solve different problems. A plain comparison to help you pick the right one before you buy either.",
+      "Aadhaar-based electronic signing for the documents that accept it — no USB token to carry and no certificate to issue in advance. Tell us what you need signed.",
   },
   heroLede:
-    "Both let you sign a document with legal validity — but they solve different problems, and government portals only accept one of them.",
+    "Aadhaar-based electronic signing for the documents that accept it — nothing to carry, and no certificate held in advance.",
 
   comparisonRows: [
     {

@@ -40,11 +40,21 @@ export function Insights() {
     <section data-surface="light" className="section-pad relative bg-canvas">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeading
-            eyebrow="Insights"
-            heading="Compliance, explained without the jargon"
-            headingClassName="max-w-[28ch]"
-          />
+          {/* ⛔ 07-09-2026 (Clinton): "this is blog section heading page so keep
+              according to that." Was "Compliance, explained without the
+              jargon" — a positioning statement, which is what a section header
+              should not be when the section is a blog roll with an "All
+              insights" link beside it.
+
+              ⚠️ NOT "Latest articles", which was the obvious choice: `insights`
+              is in SOURCE order, not date order, and the section takes the
+              first four. "Latest" would assert an ordering the data does not
+              guarantee. Sort that array by `published` and the word becomes
+              available.
+
+              `headingClassName` is gone with the old copy — the 28ch override
+              existed only to break that long headline onto two lines. */}
+          <SectionHeading eyebrow="Insights" heading="Articles and guides" />
           <Link
             to="/insights"
             className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-body-sm font-medium text-ember-600 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2"

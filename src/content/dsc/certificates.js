@@ -63,7 +63,19 @@ export const kycRoutes = [
   {
     key: "aadhaar",
     label: "Aadhaar eKYC",
-    extra: ["Aadhaar card, with the mobile number currently linked to it"],
+    // ⛔ 07-09-2026 (Clinton): "here it write email id two times in different
+    // words so fixed this and in pan base do not include email id at all."
+    //
+    // "Email address" living HERE — in the Aadhaar route's extras rather than
+    // on each certificate — is now the MECHANISM, not an accident: it is what
+    // makes email appear on the Aadhaar route and nowhere else. Every
+    // certificate's own contact line used to read "Active mobile number and
+    // email…", so Aadhaar showed email twice in two different wordings and PAN
+    // showed it once. Those lines are now mobile-only.
+    //
+    // ⚠️ Moving this onto the variants would put email back on the PAN route.
+    // Adding "and email" back to a contact line would restore the duplicate.
+    extra: ["Aadhaar card", "Email address"],
     note:
       "The Aadhaar record supplies both the photograph and the address, so neither needs to be sent separately.",
   },
@@ -72,7 +84,7 @@ export const kycRoutes = [
     label: "PAN based",
     extra: [
       "Passport-sized photograph",
-      "Address proof — driving licence, utility bill, or another government-issued proof",
+      "Address proof — driving licence, utility bill, or any other government-issued proof",
     ],
     note:
       "There is no Aadhaar record on this route, so the photograph and address proof both have to be supplied. The address proof should be recent and carry the same name as the PAN.",
@@ -95,6 +107,40 @@ export function documentsFor(core, kycKey = "aadhaar") {
   if (!core?.length) return [];
   const route = kycRoute(kycKey);
   return [...core.slice(0, -1), ...route.extra, core[core.length - 1]];
+}
+
+/**
+ * Is this checklist line a CONTACT DETAIL rather than a document?
+ *
+ * ⛔ 07-09-2026 (Clinton): "in document count, do not count email and phone
+ * number as document." A mobile number and an email address are things you
+ * type, not paper you gather — counting them inflated every checklist by one or
+ * two and told a reader they had more to find than they did.
+ *
+ * ⚠️ THEY STILL RENDER. Only the COUNT changes: an applicant does have to
+ * supply both, and dropping them from the list would lose that. `documentCount`
+ * is the only consumer.
+ *
+ * ⚠️ THE ONE FALSE POSITIVE THIS HAD TO BE WRITTEN AROUND, and it is live in
+ * the data: the PAN-route address proof reads "…latest utility bill
+ * (electricity, telephone)…". A naive /phone/ test discounts a real document.
+ * Hence `\bmobile number\b` and `\bphone number\b` rather than a bare
+ * "phone" — "telephone)" matches neither, and nothing in any list says "phone
+ * number". Verified against every resolved list in the repo (13 of them).
+ *
+ * ⚠️ It reads PROSE, which this repo normally avoids. It is acceptable here
+ * only because the corpus is small, fixed and lives in this file — but a future
+ * document line phrased "Email a scanned copy of your PAN" WOULD be discounted
+ * wrongly. If these lists ever grow past a handful, move contact details into
+ * their own field on the variant instead of matching text.
+ */
+export function isContactDetail(line) {
+  return /\b(e-?mail|mobile number|phone number)\b/i.test(String(line));
+}
+
+/** How many of these lines are documents a reader actually has to gather. */
+export function documentCount(list = []) {
+  return list.filter((line) => !isContactDetail(line)).length;
 }
 
 /**
@@ -123,10 +169,24 @@ const CERTIFICATE_VARIANTS = [
       "Issued on a FIPS 140-3 compliant USB crypto token — the certificate cannot be used without it, and the token ships as part of the certificate, not separately.",
     documentCore: [
       "PAN card",
-      "Active mobile number and email for video verification",
+      "Active mobile number linked with Aadhaar",
     ],
-    verificationNote:
-      "Issuance includes a video verification step — a short recorded call confirming your identity against your documents. This surprises people who expect a purely paper-based process; block ten minutes for it rather than assuming it can be skipped.",
+    // ⛔ 07-09-2026 (Clinton): "Under Tender and Procurement, DGFT DSC and
+    // Foreign National" — so the video block is NOT statutory-only. This
+    // variant serves both Statutory filings AND the foreign-national route
+    // (`foreign|any` resolves here too), so opting it in covers two of the
+    // four named routes; `combo-dsc` and `dgft-iec` carry the other two.
+    //
+    // ⚠️ THE BLOCK ITSELF LIVES ONCE, in `videoVerification` below. A first cut
+    // put the whole object inline on this variant; the moment three variants
+    // needed it that would have been three copies to keep in step. This flag is
+    // the whole opt-in.
+    //
+    // ⚠️ This variant deliberately has NO `verificationNote`. Its old one WAS
+    // the video one-liner ("…block ten minutes for it…"), now superseded by the
+    // full block. The other two opted-in variants keep theirs, because theirs
+    // are about something else entirely.
+    videoVerification: true,
   },
 
   {
@@ -152,7 +212,7 @@ const CERTIFICATE_VARIANTS = [
       "PAN of the organisation",
       "Board resolution or authorisation letter naming the signatory",
       "PAN of the authorised signatory",
-      "Active mobile number and email of the signatory, for video verification",
+      "Active mobile number of the signatory",
     ],
     verificationNote:
       "The authorisation letter or board resolution naming the signatory is the document most often missing or incorrectly worded on a first attempt — get the wording confirmed with us before your board or partners sign it. The entity name on the certificate must also match your portal registration exactly; \"Pvt Ltd\" and \"Private Limited\" are treated as different.",
@@ -180,10 +240,11 @@ const CERTIFICATE_VARIANTS = [
       "PAN of the organisation",
       "Board resolution or authorisation letter naming the signatory",
       "PAN of the authorised signatory",
-      "Active mobile number and email of the signatory, for video verification",
+      "Active mobile number of the signatory",
     ],
     verificationNote:
       "Most bidders don't discover a tender wants an encryption certificate until a submission is rejected for missing one — check the specific tender's technical requirements before assuming a signing-only certificate is enough. An encryption certificate cannot be added onto an already-issued signing-only certificate afterward; it has to be issued as a combo from the start.",
+    videoVerification: true,
   },
 
   {
@@ -206,10 +267,11 @@ const CERTIFICATE_VARIANTS = [
       "PAN of the IEC holder — individual or organisation",
       "Organisation registration documents, where the IEC is held by a company or LLP",
       "Authorisation letter, where the certificate is for a signatory acting on behalf of the IEC holder",
-      "Active mobile number and email for video verification",
+      "Active mobile number",
     ],
     verificationNote:
       "The certificate must be registered against your IEC on the DGFT portal after it is issued — this is a separate step from issuance itself, and skipping it means the certificate will not actually work on DGFT services even though it is valid.",
+    videoVerification: true,
   },
 
   {
@@ -233,12 +295,72 @@ const CERTIFICATE_VARIANTS = [
       "PAN of the applicant, plus the organisation's registration documents and PAN where the certificate is an organisation one",
       "Your existing certificate's details, if renewing before expiry on the same token",
       "A signed revocation request, if the token was lost, stolen or damaged",
-      "Active mobile number and email for video verification",
+      "Active mobile number",
     ],
     verificationNote:
       "Indian certifying authorities don't technically \"renew\" a certificate in the sense of extending its expiry — a fresh certificate is issued either way. What changes with timing is how much of the process repeats: apply before expiry and it moves faster with a working token you can reuse; wait until after expiry and it's treated as a brand-new application, full verification included, with no grace period once the old one has lapsed.",
   },
 ];
+
+/**
+ * THE VIDEO-VERIFICATION BLOCK — Clinton's copy, supplied verbatim 07-09-2026
+ * and extended the same day to Tenders, DGFT and Foreign National.
+ *
+ * ⛔ ONE DEFINITION, opted into per certificate with `videoVerification: true`.
+ * Three variants render it today and they must never hold their own copy: this
+ * is a procedure, and two versions of a procedure is how a reader is told to
+ * hold documents up on one page and not on another.
+ *
+ * ⚠️ `steps[2]` SELF-QUALIFIES ("Organisation and foreign DSC: …") rather than
+ * being filtered per route, which is how Clinton wrote it. That is why one list
+ * serves every opted-in certificate — do not split it into per-variant lists.
+ *
+ * ⚠️ IT DESCRIBES THE CERTIFYING AUTHORITY'S OWN PORTAL ("Log in and open
+ * Record Video"), which this repo otherwise avoids — the partner page records
+ * why: we do not control that UI, so a walkthrough goes stale on their next
+ * redesign. Published because Clinton supplied it directly and runs the process
+ * daily. **Re-check the steps whenever that portal changes**; nothing else here
+ * depends on their screens.
+ *
+ * ⚠️ No fee, no statutory value, no ThinkOrange turnaround. "two to three
+ * minutes" is how long the READER's own recording takes, not a commitment about
+ * issuance — do not let a future edit turn it into one.
+ */
+export const videoVerification = {
+  summary:
+    "Every digital signature certificate needs a short video verification before it can be issued. You record it yourself, from your own phone or laptop — it takes two to three minutes.",
+  how: {
+    label: "How to record it",
+    steps: [
+      "Log in and open Record Video.",
+      "Read the text on your screen out loud, including your verification code.",
+      "Organisation and foreign DSC: hold up each document you uploaded, one at a time, so it is clearly readable on camera.",
+      "Submit.",
+    ],
+    scriptIntro: "The text on screen reads something close to this:",
+    // An EXAMPLE, and the caution under it is what makes it safe to print: a
+    // reader who recites this instead of their own line fails the check.
+    script:
+      "My name is Narendra. My video verification code is 123. I have applied for Digital Signature.",
+    scriptNote:
+      "Read the version shown on your own screen — your name, your code. Don't recite the example above.",
+  },
+  before: {
+    label: "Before you press record",
+    body: "Sit somewhere quiet with steady light on your face. The audio is checked as carefully as the video, so a fan, a TV or traffic behind you is enough to fail a recording.",
+  },
+  rejections: {
+    label: "Why videos get rejected",
+    items: [
+      "Face not fully in frame, or too dark to make out",
+      "Speech unclear, too quiet, or drowned out by background noise",
+      "People or movement behind you",
+      "Documents held too close, too far, or out of focus to read",
+    ],
+    closing:
+      "A rejected video means recording again and waiting for the second one to be reviewed, so it is worth two quiet minutes the first time.",
+  },
+};
 
 /**
  * `documents` is DERIVED — the Aadhaar route applied to `documentCore` — so
@@ -249,6 +371,9 @@ const CERTIFICATE_VARIANTS = [
 export const certificateVariants = CERTIFICATE_VARIANTS.map((variant) => ({
   ...variant,
   documents: documentsFor(variant.documentCore),
+  // Resolved here, so a consumer reads one field and never the flag. Same
+  // reason `documents` is derived rather than written out per variant.
+  verification: variant.videoVerification ? videoVerification : null,
 }));
 
 export function certificateVariant(key) {

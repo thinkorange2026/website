@@ -19,7 +19,7 @@ export const meta = {
   "/services": {
     title: "All Services | ThinkOrange Consulting",
     description:
-      "Six practice areas, thirty-one services — GST, income tax, business setup, registrations & licences, accounting & payroll, and tenders & finance. Salem, Tamil Nadu.",
+      "Six practice areas, thirty-one services — GST, income tax, business setup, registrations & licences, accounting & payroll, and tenders & finance. Serving clients pan-India.",
   },
   "/insights": {
     title: "Insights | ThinkOrange Consulting",

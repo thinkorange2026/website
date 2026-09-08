@@ -410,7 +410,20 @@ function Row({ to, label, index = 0 }) {
  * links follows the same collapsed/expanded gating every other link in this
  * accordion already uses, so a closed section can't be tabbed into.
  */
+// ⛔ 07-09-2026 (Clinton): "in phone view in sidebar remove partner login from
+// partner program card." The secondary link is commented out in place, not
+// deleted, exactly as `MegaPanel.jsx`'s `PanelPromo` already had it — the
+// DESKTOP panel dropped this link earlier and mobile was left rendering it, so
+// the two navbars disagreed about whether it existed. They now agree.
+//
+// ⚠️ The underlying reason it should not come back on either surface: nothing
+// on this site authenticates a partner, so "Partner login" was a link to a
+// WhatsApp message rather than to a portal — a nav item promising a sign-in
+// that does not exist. `nav.js` still carries `dscPartnerPromo.secondaryLabel`
+// and the WhatsApp builder below is kept with it, so restoring the link is
+// uncommenting two blocks; do not restore it without a real portal behind it.
 function PromoCard({ promo, isExpanded }) {
+  // eslint-disable-next-line no-unused-vars
   const whatsappHref = `${site.whatsappHref}?text=${encodeURIComponent(
     `Hi ThinkOrange, I'm a DSC partner and need help with ${promo.secondaryLabel?.toLowerCase()}.`
   )}`;
@@ -435,7 +448,7 @@ function PromoCard({ promo, isExpanded }) {
         >
           {promo.cta.label}
         </Button>
-        {promo.secondaryLabel && (
+        {/* {promo.secondaryLabel && (
           <a
             href={whatsappHref}
             target="_blank"
@@ -445,7 +458,7 @@ function PromoCard({ promo, isExpanded }) {
           >
             {promo.secondaryLabel}
           </a>
-        )}
+        )} */}
       </div>
     </div>
   );
