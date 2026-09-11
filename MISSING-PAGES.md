@@ -280,6 +280,52 @@ signer like `tender` and `exim` do (the machinery already supports it — remove
 `skipsSigner` and add `filings|individual` / `filings|company` / `filings|firm`
 answers).
 
+### Update 11-09-2026 — the weight of evidence, and what /dsc asserts today
+Two things changed since the above was written, and neither settles the
+question, but both narrow it.
+
+**1. The finder's sentence is the OUTLIER, not one of two equal readings.** A
+third source was found to agree with `portalGuide`: `certificateFaqs` Q "Which
+certificate do I need — Individual or Organisation?" reads *"Organisation, if
+you are signing on behalf of a company or LLP — ROC filings by an authorised
+signatory, corporate tender bidding, **company GST or EPFO submissions**."* So
+two independently reviewed sources agree with each other and the reference's one
+sentence disagrees with both.
+
+**2. NOTHING ON THE SITE ASSERTS IT ANY MORE.** `answer.warn` stopped rendering
+on 03-09-2026 ("remove warning note"), and the new `/dsc/statutory-filings` page
+(11-09-2026) deliberately does not restate it: that page answers "whose name"
+**per portal, from `portalGuide`**, gated by a `nameFromPortals` flag in
+`content/dsc/intents.js` written for exactly this reason. The disputed wording
+now lives only in `finderAnswers["filings|any"].name` and `.warn`, both
+unrendered.
+
+**So the remaining job is a content correction, not a bug.** When you settle it:
+- If `portalGuide` is right (the likely answer, on three-to-one), rewrite that
+  answer's `name` and `warn`, remove `skipsSigner` from the `filings` entry in
+  `finderUses`, and add the three `filings|*` answers. The intent page picks the
+  signer breakdown up automatically — `DscIntent.jsx` renders it for any intent
+  the finder asks question two for — and `nameFromPortals` can then come off.
+- If the reference is right, correct `portalGuide` and the FAQ, and drop
+  `nameFromPortals`.
+
+⚠️ **Correction, later the same day: `nameFromPortals` is now INERT and the
+`name` wording IS indexable.** Clinton cut the intent pages back to the finder's
+own answer card ("keep and same it is showing in when select to card"), so no
+portal table renders on them and the card's spec row shows `answer.name` — "The
+authorised signatory, in their own name" — in the prerendered HTML of
+/dsc/statutory-filings. That sentence was already live on /dsc, client-rendered;
+it is now crawlable too.
+
+The STRONGER claim, `answer.warn`'s "whether you are a proprietor, a company or
+an LLP", is still rendered nowhere — verified, it appears only inside a JS chunk
+as data.
+
+**This raises the priority of settling the question**, because the site now
+publishes the outlier wording where a search engine can read it. Fixing
+`finderAnswers["filings|any"]` in `content/dsc/finder.js` fixes /dsc and
+/dsc/statutory-filings together, with no template change — the card is shared.
+
 ## Confirm the token's FIPS 140-3 certification (03-09-2026)
 The site now says "FIPS 140-3 compliant" in 20 rendered places, on Clinton's
 instruction (03-09-2026), where it previously said the vaguer "FIPS-compliant".
@@ -406,11 +452,20 @@ What was actually established by research:
   independent DSC-industry sources and follows logically from the NIST sunset —
   but **the CCA's own advisory was not located.**
 
-So every sentence on the page is worded as an **expectation** ("are expected
-to", "is expected to"), not a certainty. **Get the CCA circular number and the
-page can harden its wording; until then, do not.** A compliance firm asserting
-a regulatory deadline it cannot cite is the exact failure the statutory-file
-discipline exists to prevent — and this deadline is 16 days away as written.
+**⛔ RESOLVED AS A WORDING QUESTION, 11-09-2026 — Clinton: "it is not expected
+it is offical so write in terms of that."** Every "are expected to" / "is
+expected to" is gone; the page now states the deadline plainly. That is his
+call on his own industry, and it stands.
+
+**⚠️ WHAT IS STILL OPEN IS THE CITATION, NOT THE FACT.** `fips1403DscIssuance`
+still carries a DSC-industry write-up as its `source` rather than the CCA's own
+circular. Get the circular number into that field, so the claim is checkable by
+someone who is not Clinton. Until then this is the one statutory value on the
+site asserted on internal confirmation alone — which is worth knowing if it is
+ever challenged, and worth closing before it is.
+
+**Do not soften the published wording back to an expectation without asking
+him first.**
 
 ### 2. The datasheet revision was not independently verified
 

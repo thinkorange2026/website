@@ -110,9 +110,15 @@ const visible = notices.filter((notice) => notice.confirmed);
 /**
  * Notices for one surface. "both" appears on either.
  *
+ * `"all"` is not a value any notice carries — it is the read-side request for
+ * every confirmed notice regardless of scope, which is what the /notices page
+ * needs (added 11-09-2026 with that page). Kept here rather than as a second
+ * exported helper so there is ONE place that decides what "visible" means.
+ *
  * ⚠️ Returns a NEW array each call but the SAME objects, so it is safe to map
  * over in render and safe to hold in a ref. Callers must not mutate entries.
  */
 export function noticesFor(scope) {
+  if (scope === "all") return [...visible];
   return visible.filter((notice) => notice.scope === scope || notice.scope === "both");
 }

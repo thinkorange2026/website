@@ -13,6 +13,7 @@ import { DriverDownloads } from "@/modules/home/sections/DriverDownloads";
 import { PartnerProgramme } from "@/modules/home/sections/PartnerProgramme";
 import { Testimonial } from "@/modules/home/sections/Testimonial";
 import { Insights } from "@/modules/home/sections/Insights";
+import { NoticeBoard } from "@/components/ui/NoticeBoard";
 import { CtaBand } from "@/modules/home/sections/CtaBand";
 
 // T1 — the homepage. CONTENT-PLAN.md §6 is the authoritative section-by-
@@ -68,6 +69,35 @@ export default function Home() {
       <PartnerProgramme />
       {/* <Testimonial /> */}
       <Faqs />
+      {/* ⛔ 11-09-2026 (Clinton): "just above the insight keep a notice section
+          and top right keep a view all section in that go to notice page."
+          Same `NoticeBoard` /dsc/faqs and /notices render — one definition, not
+          a homepage fork — with `scope="site"` so it shows the notices written
+          for this surface rather than the DSC-specific ones.
+
+          ⚠️ `light-alt` AND THE `Faqs` SECTION ABOVE IT MOVED TO `light` IN THE
+          SAME EDIT. Inserting anything between Faqs (was light-alt) and
+          Insights (light) had to differ from both; swapping Faqs was the
+          quieter of the two options — the alternative was a fifth dark band
+          this late in the page. It also fixes a LATENT repeat: `Testimonial`
+          returns null once the placeholder quotes are removed, which would
+          otherwise have left PartnerProgramme (light-alt) directly above Faqs
+          (light-alt). Cadence verified in BOTH states. */}
+      <NoticeBoard
+        scope="site"
+        surface="light-alt"
+        gradientId="home-notice-board"
+        eyebrow="Notices"
+        heading="What we are flagging right now"
+        // ⚠️ NO LEDE HERE, DELIBERATELY. The header row is `items-end`, so with
+        // a lede the "View all" link aligns to the BOTTOM of the heading block
+        // — level with the lede, well below the h2 — and Clinton asked for it
+        // top right. Measured: with the lede the link's bottom sat 40px+ below
+        // the h2's. Without one the row is eyebrow + h2, exactly like the
+        // `Insights` header directly beneath it, and the link lands level with
+        // the heading.
+        action={{ to: "/notices", label: "View all" }}
+      />
       <Insights />
       {/* <TrustStrip /> */}
       {/* <DriverDownloads /> */}

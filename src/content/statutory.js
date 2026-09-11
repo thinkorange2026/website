@@ -1428,11 +1428,11 @@ export const statutory = {
   fips1403DscIssuance: {
     value: "21 September 2026",
     label:
-      "Date from which new Digital Signature Certificates in India are expected to require a FIPS 140-3 token",
+      "Date from which new Digital Signature Certificates in India require a FIPS 140-3 token",
     basis:
-      "Follows NIST's FIPS 140-2 sunset above. Certifying Authorities are reported to stop downloading fresh certificates and renewals onto FIPS 140-2 tokens from this date; certificates already held on a 140-2 token continue to work until they expire.",
+      "Follows NIST's FIPS 140-2 sunset above. Certifying Authorities stop downloading fresh certificates and renewals onto FIPS 140-2 tokens from this date; certificates already held on a 140-2 token continue to work until they expire.",
     note:
-      "⚠️ NOT CONFIRMED AGAINST A CCA CIRCULAR. Corroborated by multiple independent DSC-industry sources and by the NIST date it derives from, but the CCA's own advisory was not located. Every page that states it is worded as an expectation, not a certainty. Get the circular number before hardening the wording.",
+      "⛔ STATED AS FACT ON CLINTON'S OWN CONFIRMATION, 11-09-2026: \"it is not expected it is offical so write in terms of that.\" Every page that names this date now states it plainly, not as an expectation. ⚠️ THE CCA CIRCULAR ITSELF IS STILL NOT ON FILE — the `source` below is a DSC-industry write-up, not the regulator. That is now the only gap: get the circular number and put it in `source`, so the claim is checkable by someone who is not Clinton. Do NOT soften the published wording again without asking him first.",
     source: "https://www.esolutions.net.in/post/dsc-usb-tokens-moving-to-fips-140-3-from-september-2026-what-businesses-and-dsc-users-must-know",
   },
 };

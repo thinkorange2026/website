@@ -37,9 +37,9 @@ import { getCategoryContent } from "../content/services/category-content.js";
 import { dscHubContent } from "../content/dsc/hub-content.js";
 import { esignSolutionContent } from "../content/dsc/esign-solution.js";
 import { dscResourcesContent } from "../content/dsc/resources.js";
+import { dscIntent } from "../content/dsc/intents.js";
 import { driversPage } from "../content/dsc/drivers.js";
 import { dscValidityRenewalContent } from "../content/dsc/validity-renewal-faqs.js";
-import { hyp2003Page } from "../content/dsc/hyp2003.js";
 import { tokenProduct } from "../content/dsc/token.js";
 import { aboutContent } from "../content/about.js";
 import { partnerContent } from "../content/partner-with-us.js";
@@ -47,9 +47,20 @@ import { getLegalContent } from "../content/legal/index.js";
 import { meta as standaloneMeta, defaultMeta } from "../content/meta.js";
 import { getInsight } from "../content/insights/index.js";
 import { absoluteUrl } from "./jsonld.js";
+import { ogImagePath } from "./ogImage.js";
 
 const ORIGIN = `https://${site.domain}`;
-const DEFAULT_OG_IMAGE = absoluteUrl("/images/home/home-hero.jpg");
+
+// ⛔ 11-09-2026: `og:image` USED TO BE ONE CONSTANT — the homepage hero
+// photograph — on all 62 routes, so pasting any link into WhatsApp previewed
+// the same picture whatever you were sending. (The title and description were
+// already per-page; only the image was generic.) Every route now gets its own
+// generated card. See scripts/og-images.mjs, which builds them from THIS
+// function's own title, and lib/ogImage.js for the shared path contract.
+//
+// ⚠️ The card for a path is only correct if a file was actually written for it.
+// `prerender.mjs` asserts that at build time — a tag pointing at a missing
+// image is a broken preview, and nothing else here would catch it.
 
 function fallbackFor(route) {
   return {
@@ -112,18 +123,32 @@ export function resolveSeo(path) {
       m = dscValidityRenewalContent.meta;
       break;
 
-    // T14 — /dsc/about-hyp2003 (05-09-2026). Own case, not a fall-through:
-    // T5's meta is the order page's.
-    case "T14":
-      m = hyp2003Page.meta;
-      break;
+    // ⛔ T14 IS RETIRED (11-09-2026): /dsc/about-hyp2003 merged into
+    // /dsc/buy-token, whose meta is T5's above. Its content file no longer
+    // carries a `meta` block at all — page identity followed the page.
 
     // T15 — /dsc/resources (07-09-2026). Own case, not a fall-through: T5's
     // meta is the order page's.
+    // T17 — /notices (11-09-2026). Own case, not a fall-through: every other
+    // template's meta belongs to a different page. ⚠️ T17, not T16 — T16 is the
+    // DSC intent pages.
+    case "T17":
+      m = standaloneMeta["/notices"];
+      break;
+
     case "T15":
       m = dscResourcesContent.meta;
       break;
 
+
+    // T16 — the four intent pages. Own case, not a fall-through: T5's meta is
+    // the order page's, and these four are the whole reason the finder's
+    // answers are now indexable at all.
+    case "T16": {
+      const intent = slug ? dscIntent(slug) : undefined;
+      m = intent?.meta ?? fallbackFor(route);
+      break;
+    }
 
     case "T6":
       m = path === "/about" ? aboutContent.meta : partnerContent.meta;
@@ -166,6 +191,6 @@ export function resolveSeo(path) {
     // would tell crawlers every mistyped URL IS the homepage.
     canonical: isNotFound ? null : `${ORIGIN}${path}`,
     robots: isNotFound ? "noindex, follow" : "index, follow",
-    ogImage: DEFAULT_OG_IMAGE,
+    ogImage: absoluteUrl(ogImagePath(path)),
   };
 }

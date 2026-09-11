@@ -158,7 +158,7 @@ export function MobileNav({ className }) {
         onClick={() => (open ? closeMenu({ restoreFocus: true }) : setOpen(true))}
         aria-expanded={open}
         aria-controls="mobile-nav"
-        className="grid h-12 w-12 place-items-center rounded-full text-canvas transition-colors hover:text-ember-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+        className="nav-icon-button grid h-12 w-12 place-items-center rounded-full text-canvas"
       >
         <HamburgerIcon open={open} />
         <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
@@ -224,7 +224,7 @@ export function MobileNav({ className }) {
               <button
                 type="button"
                 onClick={() => closeMenu({ restoreFocus: true })}
-                className="grid h-12 w-12 place-items-center rounded-full text-canvas transition-colors hover:text-ember-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+                className="nav-icon-button grid h-12 w-12 place-items-center rounded-full text-canvas"
               >
                 {/* Same control, already in its open state: tapping it morphs
                     back to the hamburger as the panel slides out, which is the

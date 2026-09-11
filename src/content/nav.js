@@ -16,6 +16,7 @@
 // Index only — article prose lives in content/insights/bodies.js and must stay
 // out of this module's import graph: nav.js is in the always-eager main chunk.
 import { insights } from "./insights/index.js";
+import { dscIntents } from "./dsc/intents.js";
 
 // --- Confirmed facts only (CONTENT-PLAN.md §1) -----------------------------
 // Anything not listed here is on the §1.1 hold list and MUST NOT be rendered:
@@ -340,28 +341,29 @@ export const dscDriverSectionIds = {
   drivers: "drivers",
 };
 
-// ⛔ 05-09-2026 (Clinton): "i want to create new page call - About HYP2003 keep
-// in the token & driver section." The token's own page — what the HYP2003 is,
-// its full specification, and what the FIPS 140-3 change means for a
-// certificate held on one.
+// ⛔ MERGED AWAY 11-09-2026 (Clinton): "i want to merge Buy token and about
+// HYP2003 like in given html. but order form in top below hero section."
+// `dscHyp2003Page` (T14, /dsc/about-hyp2003) IS GONE. The token's
+// specification, the FIPS 140-3 change, the comparison table and its FAQs are
+// all sections of /dsc/buy-token now, below the order panel, and the old URL is
+// a redirect stub in `dscRetiredRoutes` landing on the specifications section.
 //
-// ⚠️ ITS OWN TEMPLATE, T14. Not T5 and not T12: `routeComponents.js` resolves
-// T5 unconditionally to `DscBuyToken` and T12 to `DscDrivers`, so reusing
-// either would have served the wrong page under this URL in BOTH the client
-// bundle and the prerendered HTML, with nothing failing. `lib/seo.js` needs the
-// matching case for the same reason — falling through would give this page
-// another page's title and description.
-export const dscHyp2003Page = {
-  slug: "about-hyp2003",
-  path: "/dsc/about-hyp2003",
-  label: "About HYP2003",
-  template: "T14",
-};
+// ⚠️ T14 was removed from `routeComponents.js`, BOTH routers and `lib/seo.js`
+// in the same edit. A template id left behind in one of those and not the
+// others is how a route silently renders the wrong page.
 
-// Its section anchors. Same discipline as every other id map here: the sub-nav,
-// the sections and any deep link all read this object, so a tab and a section
-// cannot disagree by one character and scroll nowhere.
-export const dscHyp2003SectionIds = {
+// The Buy Token page's anchors — merged, so this object now covers both jobs.
+// Same discipline as every other id map here: the sub-nav, the sections, the
+// hero's own "Order now" jump and every retired-URL stub read this object, so a
+// tab and a section cannot disagree by one character and scroll nowhere.
+//
+// ⚠️ `order` IS FIRST BY INSTRUCTION and the section order in the template
+// follows this object's order. `why`/`specs`/`change`/`compare`/`faqs` are the
+// former `dscHyp2003SectionIds`, with their VALUES UNCHANGED — that is what
+// keeps any existing deep link into the old page landing on the right section
+// once the stub has redirected it.
+export const dscBuyTokenSectionIds = {
+  order: "order",
   why: "why-this-token",
   specs: "specifications",
   change: "fips-change",
@@ -419,6 +421,42 @@ export const dscBuyTokenPage = {
 // when the whole T4 family was deleted on 02-09-2026, so bringing it back is a
 // content-writing job plus a template decision, not an uncomment. See
 // MISSING-PAGES.md.
+/**
+ * THE FOUR INTENT PAGES — /dsc/statutory-filings, /dsc/tenders, /dsc/dgft,
+ * /dsc/foreign-national. New 11-09-2026.
+ *
+ * ⛔ WHY: the finder's answers had no URL. Its results render on demand in
+ * JavaScript, behind two clicks, so the document checklists were in no page's
+ * served HTML — verified before this change, `dist/dsc/index.html` contained
+ * zero checklist lines. Content that had been written and reviewed simply had
+ * nowhere to rank, and a shared link previewed as the generic site card.
+ * These are the same four answers, prerendered, with their own titles,
+ * descriptions and OG cards. See content/dsc/intents.js.
+ *
+ * ⚠️ DERIVED FROM `dscIntents`, not retyped. Same arrangement as
+ * `insightArticlePages` below and safe for the same reason: `intents.js`
+ * imports only `certificates.js`, which imports nothing, so there is no cycle
+ * back into this file. A page renamed in the content file moves its route, its
+ * breadcrumb, its footer row and its sitemap entry together.
+ *
+ * ⚠️ **T16, and it has to be its own template.** T5 resolves UNCONDITIONALLY to
+ * DscBuyToken and T12/T13 to their own single pages, so reusing any of them
+ * would serve the wrong page under these four URLs — in the client bundle AND
+ * the prerendered HTML, with nothing failing and nothing logging. That has been
+ * a live bug in this repo before. Wired in all four places: routeComponents.js,
+ * router.jsx, router-static.jsx and lib/seo.js.
+ */
+export const dscIntentPages = dscIntents.map((intent) => ({
+  slug: intent.slug,
+  path: `/dsc/${intent.slug}`,
+  label: intent.eyebrow,
+  template: "T16",
+}));
+
+export function dscIntentPath(slug) {
+  return dscIntentPages.find((page) => page.slug === slug)?.path;
+}
+
 export const dscEsignPage = {
   // ⛔ 07-09-2026 (Clinton): "in esign-or-dsc page change it into
   // esign-solution". The slug and path were renamed to match the label, which
@@ -490,11 +528,16 @@ export const dscPanelColumns = [
     items: [
       { path: dscBuyTokenPage.path, label: "Buy Token" },
       {
+        // 11-09-2026 (Clinton): navbar label only — the page's own
+        // `dscDriversPage.label` stays "Driver Downloads" so breadcrumbs, the
+        // footer and the sitemap keep the short form.
         path: dscDriversPage.path,
-        label: "Driver Downloads",
+        label: "Driver Downloads - Token Drivers & Tools",
       },
-      // 05-09-2026 (Clinton): "keep in the token & driver section."
-      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
+      // ⛔ "About HYP2003" WAS HERE. Merged into Buy Token above on
+      // 11-09-2026 — one destination, so one menu item; two rows pointing at
+      // the same page is how a reader ends up checking whether they are
+      // different.
     ],
   },
   // ⛔ UNPAUSED 03-09-2026. ONE item, not the two the paused version carried:
@@ -558,6 +601,15 @@ export const dscRetiredRoutes = [
   // above. `to` is DERIVED from the page object, not typed, so a future rename
   // moves the stub with it.
   { slug: "esign-or-dsc", path: "/dsc/esign-or-dsc", label: "eSign or DSC", to: dscEsignPage.path },
+  // ⛔ 11-09-2026: About HYP2003 merged into Buy Token. It lands on the
+  // SPECIFICATIONS section, not the top — someone following that URL wanted the
+  // token's detail, and the order panel now sits above it.
+  {
+    slug: "about-hyp2003",
+    path: "/dsc/about-hyp2003",
+    label: "About HYP2003",
+    to: `${dscBuyTokenPage.path}#${dscBuyTokenSectionIds.specs}`,
+  },
   // ⛔ 03-09-2026: `/dsc/drivers` IS NO LONGER RETIRED. It is a real page now,
   // so its stub had to be deleted here in the same edit — `writeRedirects()`
   // runs after the route pass and would have overwritten the real page's
@@ -626,6 +678,31 @@ export const insightsIndexPage = {
   path: "/insights",
   label: "Insights",
   template: "T10",
+};
+
+// ⛔ 11-09-2026 (Clinton): "just above the insight keep a notice section and top
+// right keep a view all section in that go to notice page for that create a new
+// all notice page." The homepage notice section's "View all" needs a real
+// destination, and this is it — every confirmed notice in `notices.js`, in one
+// list.
+//
+// ⚠️ ITS OWN TEMPLATE, T17. Not a T10/T15 branch: `routeComponents.js` resolves
+// each template id to one component, so reusing one would serve the wrong page
+// under this URL in BOTH the client bundle and the prerendered HTML, with
+// nothing failing and nothing logging. `lib/seo.js` needs the matching case or
+// the page inherits another's title.
+//
+// ⛔ T17, NOT T16 — this was written as T16 first and COLLIDED with the four
+// DSC intent pages, which had claimed T16 in the same working tree. Nothing
+// failed; the second `case` in the switch was simply dead and one of the two
+// routes would have rendered the other's component. **Grep `case "T` in
+// routeComponents.js before claiming a new id**, and remember T14 is RETIRED
+// and must not be reused either.
+export const noticesPage = {
+  slug: "notices",
+  path: "/notices",
+  label: "Notices",
+  template: "T17",
 };
 
 // `lightTop` is read by Header.jsx, and it exists because of CLAUDE.md's layout
@@ -725,9 +802,10 @@ export const allRoutes = [
   { ...dscResourcesPage, parent: "/dsc" },
   { ...dscDriversPage, parent: "/dsc" },
   { ...dscFaqsPage, parent: "/dsc" },
-  { ...dscHyp2003Page, parent: "/dsc" },
   { ...dscEsignPage, parent: "/dsc" },
+  ...dscIntentPages.map((page) => ({ ...page, parent: "/dsc" })),
   insightsIndexPage,
+  noticesPage,
   ...insightArticlePages,
   ...standalonePages,
   ...legalPages,
@@ -742,6 +820,7 @@ export const footerColumns = [
       { path: "/", label: "Home" },
       { path: "/services", label: "All Services" },
       { path: insightsIndexPage.path, label: insightsIndexPage.label },
+      { path: noticesPage.path, label: noticesPage.label },
       ...standalonePages.map(({ path, label }) => ({ path, label })),
     ],
   },
@@ -754,11 +833,15 @@ export const footerColumns = [
     links: [
       { path: "/dsc", label: "Digital Signature Certificates" },
       { path: `/dsc#${dscSectionIds.finder}`, label: "Which DSC do I need?" },
+      // ⚠️ The four intent pages, derived. They sit directly under the finder
+      // link on purpose: that link is the tool, these are its four answers as
+      // pages, and a crawler following the footer reaches all four without
+      // having to run the tool.
+      ...dscIntentPages.map(({ path, label }) => ({ path, label })),
       { path: dscBuyTokenPage.path, label: "Buy a DSC Token" },
       { path: dscDriversPage.path, label: "Token Driver Downloads" },
       { path: dscResourcesPage.path, label: dscResourcesPage.label },
       { path: dscFaqsPage.path, label: "DSC FAQs" },
-      { path: dscHyp2003Page.path, label: dscHyp2003Page.label },
       // ⛔ UNPAUSED 03-09-2026 — a live route again, so the footer lists it.
       // ⚠️ DERIVED, not retyped. This carried its own hardcoded "eSign or DSC?"
       // until 05-09-2026, so renaming the page left the footer asserting the
@@ -884,13 +967,14 @@ const slugIndex = new Map([
   // section rather than at the top of a long page.
   ...dscRetiredRoutes.map((r) => [r.slug, { ...r, path: r.redirectTo }]),
   ["dsc", { slug: "dsc", path: "/dsc", label: "Digital Signature Certificates" }],
+  ...dscIntentPages.map((page) => [page.slug, page]),
   [dscBuyTokenPage.slug, dscBuyTokenPage],
   [dscResourcesPage.slug, dscResourcesPage],
   [dscDriversPage.slug, dscDriversPage],
   [dscFaqsPage.slug, dscFaqsPage],
-  [dscHyp2003Page.slug, dscHyp2003Page],
   [dscEsignPage.slug, dscEsignPage],
   [insightsIndexPage.slug, insightsIndexPage],
+  [noticesPage.slug, noticesPage],
   ...insightArticlePages.map((a) => [a.slug, a]),
 ]);
 

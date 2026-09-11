@@ -104,13 +104,23 @@ export default function DscFaqs({ path = dscFaqsPage.path }) {
       />
 
       {/* Notice board — directly under the hero. ⚠️ SURFACE STAYS `light-alt`
-          (set inside NoticeBoard): the hero above is `deep`, so a dark board
-          would be two adjacent dark-family surfaces reading as one slab with
+          (passed here since 11-09-2026, when `NoticeBoard` gained a second and
+          third call site and its defaults were removed): the hero above is
+          `deep`, so a dark board would be two adjacent dark-family surfaces
+          reading as one slab with
           no fold — which a cadence check comparing adjacent TOKENS passes,
           because `deep` and `dark` are different strings. The process section
           below is `light`, so `light-alt` also avoids a repeat here, exactly
           as it did on /dsc. */}
-      <NoticeBoard id={dscFaqSectionIds.notices} />
+      <NoticeBoard
+        id={dscFaqSectionIds.notices}
+        scope="dsc"
+        surface="light-alt"
+        gradientId="dsc-notice-board"
+        eyebrow="Notice board"
+        heading="What to know before you apply"
+        lede="The four things people most often get wrong about certificates, tokens and eSign — worth two minutes before you start."
+      />
 
       {/* StepFlow renders its own Container and heading, not a <section>, so
           the surface and the id belong to this wrapper. */}

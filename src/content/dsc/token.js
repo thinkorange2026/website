@@ -41,16 +41,55 @@
 // below says what we can stand behind — that the token must be a compliant
 // crypto token and that ours is — and the claim is logged in MISSING-PAGES.md.
 
+// ⛔ MERGED WITH THE HYP2003 PAGE — 11-09-2026 (Clinton): "i want to merge Buy
+// token and about HYP2003 like in given html. but order form in top below hero
+// section." /dsc/about-hyp2003 is retired to a redirect stub; this file now
+// carries the merged page's IDENTITY (h1, lede, meta) and its order data, while
+// `content/dsc/hyp2003.js` carries the token detail the merged page renders
+// below the order panel.
+//
+// ⚠️ THE ORDER PANEL IS THE FIRST SECTION, ABOVE EVERY EXPLANATION. That is the
+// instruction and it is also right: someone arriving on a tab labelled "Buy
+// Token" should not scroll past a specification sheet to reach the thing they
+// came for. The reference document does the same — its order card sits in the
+// hero itself.
+//
+// ⚠️ THE LEDE NAMES NO DATE. The notice bar sits immediately below the hero and
+// interpolates `fips1403DscIssuance` from statutory.js; repeating it here would
+// state the same date twice in one fold, and would pull `s()` into a file that
+// `lib/seo.js` — and therefore plain Node, during the prerender pass — imports.
+//
+// ⛔ FIVE CLAIMS IN `thinkorange-buy-token-merged.html` ARE NOT PUBLISHED, and
+// four of them are the same ones already refused from the earlier HYP2003
+// document (see `content/dsc/hyp2003.js`'s header):
+//   1. "Exclusive Premium Distributor · Tamil Nadu" — an authorisation claim
+//      about a commercial relationship. No honest half-version exists.
+//   2. "In stock · same-day dispatch" / "Stock in Salem, dispatched the same
+//      day" — a turnaround guarantee, CONTENT-PLAN.md §1.1's hold list.
+//   3. "₹[X] per token" and the sticky buy-bar price — an unfilled placeholder,
+//      and `price` stays null for the reasons below.
+//   4. "Replaced if faulty [Confirm your replacement window]" — an unfilled
+//      warranty commitment.
+//   5. "Factory sealed, through the authorised import chain" — (1) restated as
+//      a supply-chain claim.
+
 export const tokenProduct = {
   label: "DSC USB Token",
-  h1: "Buy a DSC USB Token",
+  h1: "Buy the HYP2003 — a FIPS 140-3 DSC token",
   meta: {
-    title: "Buy a DSC USB Token | ThinkOrange Consulting",
+    title: "Buy a HYP2003 FIPS 140-3 DSC Token | ThinkOrange Consulting",
     description:
-      "FIPS 140-3 compliant HYP2003 USB crypto tokens for Digital Signature Certificates — for a new certificate, a renewal, or replacing a lost or locked token. Salem, Tamil Nadu.",
+      "Order the HyperPKI HYP2003 USB crypto token — FIPS 140-3 Level 3, CCA India listed, 64 KB, Windows, macOS and Linux. Full specification, and what the FIPS 140-3 change means for your certificate.",
+    keywords: [
+      "buy dsc token",
+      "hyp2003 token",
+      "fips 140-3 dsc token",
+      "hyp2003 specification",
+      "dsc token india",
+    ],
   },
   lede:
-    "A Digital Signature Certificate cannot be held as a file on a computer — it lives on a secure USB crypto token. We stock FIPS 140-3 compliant HYP2003 tokens, for a new certificate, a renewal, or replacing one that is lost, damaged or locked.",
+    "A Digital Signature Certificate cannot be held as a file on a computer — it lives on a secure USB crypto token. The HyperPKI HYP2003 is validated to FIPS 140-3 Level 3 and lists CCA India among its certifications, so a certificate issued onto it today will still be issuable after the change.",
 
   // Price is quoted, not published. See the header note.
   price: null,

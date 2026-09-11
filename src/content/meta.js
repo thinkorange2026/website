@@ -26,6 +26,11 @@ export const meta = {
     description:
       "Plain explanations of GST registration, entity choice, Digital Signature Certificates and government tendering — written for business owners, not for other accountants.",
   },
+  "/notices": {
+    title: "Notices | ThinkOrange Consulting",
+    description:
+      "Current notices on GST, income tax, Digital Signature Certificates and tokens — the changes and requirements our clients most often need flagged.",
+  },
   "/contact": {
     title: "Contact Us | ThinkOrange Consulting, Salem",
     description:

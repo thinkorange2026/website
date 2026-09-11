@@ -21,8 +21,9 @@ export function resolveComponent(entry, components) {
     DscEsign,
     DscDrivers,
     DscFaqs,
-    DscHyp2003,
     DscResources,
+    Notices,
+    DscIntent,
     About,
     PartnerWithUs,
     Contact,
@@ -62,18 +63,35 @@ export function resolveComponent(entry, components) {
       return DscDrivers;
     case "T13":
       return DscFaqs;
-    // T14 — /dsc/about-hyp2003 (05-09-2026). Its own branch for the same reason
-    // T11–T13 each have one: T5 and T12 resolve unconditionally, so reusing
-    // either would serve the wrong page under this URL in the bundle AND the
-    // prerendered HTML, silently.
-    case "T14":
-      return DscHyp2003;
+    // ⛔ T14 IS RETIRED (11-09-2026). /dsc/about-hyp2003 merged into
+    // /dsc/buy-token, so the id resolves to nothing and the URL is a redirect
+    // stub. Do not reuse "T14" for a new page — an old `template: "T14"` left
+    // anywhere would then silently render it.
     // T15 — /dsc/resources, the DSC file library (07-09-2026). Own branch for
-    // the same reason T11–T14 each have one: T5, T12 and T13 all resolve
+    // the same reason T11–T13 each have one: T5, T12 and T13 all resolve
     // unconditionally, so reusing any of them would serve the wrong page under
     // this URL in the bundle AND the prerendered HTML, silently.
+    // T16 — the four DSC intent pages (/dsc/statutory-filings, /dsc/tenders,
+    // /dsc/dgft, /dsc/foreign-national), 11-09-2026. One component, four
+    // routes, dispatching on `path`. Its own branch for the same reason every
+    // DSC template since T11 has one: T5, T12, T13 and T15 all resolve
+    // UNCONDITIONALLY, so reusing any of them would serve the wrong page under
+    // all four URLs, in the client bundle AND the prerendered HTML, with
+    // nothing failing and nothing logging.
+    case "T16":
+      return DscIntent;
     case "T15":
       return DscResources;
+    // T17 — /notices, every confirmed notice in one list (11-09-2026). Own
+    // branch for the same reason T11–T13 and T15 each have one: every other id
+    // resolves unconditionally, so reusing any of them would serve the wrong
+    // page under this URL in the bundle AND the prerendered HTML, silently.
+    // ⚠️ T17, NOT T16 — T16 was already taken by the DSC intent pages above.
+    // Grep for `case "T` before claiming a new id; this collided on the first
+    // attempt and nothing would have failed, it would just have served the
+    // wrong page.
+    case "T17":
+      return Notices;
     case "T6":
       return entry.path === "/about" ? About : PartnerWithUs;
     case "T7":
