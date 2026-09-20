@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 import { Megaphone } from "lucide-react";
-import { noticesFor } from "@/content/notices";
+import { noticesFor } from "@/content/notices/index.js";
 
 // The homepage's small infinite notice bar (Clinton, 04-09-2026). One thin
 // full-bleed strip, not a section of content — it sits directly under the hero

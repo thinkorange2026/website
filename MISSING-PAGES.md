@@ -280,6 +280,52 @@ signer like `tender` and `exim` do (the machinery already supports it — remove
 `skipsSigner` and add `filings|individual` / `filings|company` / `filings|firm`
 answers).
 
+### Update 11-09-2026 — the weight of evidence, and what /dsc asserts today
+Two things changed since the above was written, and neither settles the
+question, but both narrow it.
+
+**1. The finder's sentence is the OUTLIER, not one of two equal readings.** A
+third source was found to agree with `portalGuide`: `certificateFaqs` Q "Which
+certificate do I need — Individual or Organisation?" reads *"Organisation, if
+you are signing on behalf of a company or LLP — ROC filings by an authorised
+signatory, corporate tender bidding, **company GST or EPFO submissions**."* So
+two independently reviewed sources agree with each other and the reference's one
+sentence disagrees with both.
+
+**2. NOTHING ON THE SITE ASSERTS IT ANY MORE.** `answer.warn` stopped rendering
+on 03-09-2026 ("remove warning note"), and the new `/dsc/statutory-filings` page
+(11-09-2026) deliberately does not restate it: that page answers "whose name"
+**per portal, from `portalGuide`**, gated by a `nameFromPortals` flag in
+`content/dsc/intents.js` written for exactly this reason. The disputed wording
+now lives only in `finderAnswers["filings|any"].name` and `.warn`, both
+unrendered.
+
+**So the remaining job is a content correction, not a bug.** When you settle it:
+- If `portalGuide` is right (the likely answer, on three-to-one), rewrite that
+  answer's `name` and `warn`, remove `skipsSigner` from the `filings` entry in
+  `finderUses`, and add the three `filings|*` answers. The intent page picks the
+  signer breakdown up automatically — `DscIntent.jsx` renders it for any intent
+  the finder asks question two for — and `nameFromPortals` can then come off.
+- If the reference is right, correct `portalGuide` and the FAQ, and drop
+  `nameFromPortals`.
+
+⚠️ **Correction, later the same day: `nameFromPortals` is now INERT and the
+`name` wording IS indexable.** Clinton cut the intent pages back to the finder's
+own answer card ("keep and same it is showing in when select to card"), so no
+portal table renders on them and the card's spec row shows `answer.name` — "The
+authorised signatory, in their own name" — in the prerendered HTML of
+/dsc/statutory-filings. That sentence was already live on /dsc, client-rendered;
+it is now crawlable too.
+
+The STRONGER claim, `answer.warn`'s "whether you are a proprietor, a company or
+an LLP", is still rendered nowhere — verified, it appears only inside a JS chunk
+as data.
+
+**This raises the priority of settling the question**, because the site now
+publishes the outlier wording where a search engine can read it. Fixing
+`finderAnswers["filings|any"]` in `content/dsc/finder.js` fixes /dsc and
+/dsc/statutory-filings together, with no template change — the card is shared.
+
 ## Confirm the token's FIPS 140-3 certification (03-09-2026)
 The site now says "FIPS 140-3 compliant" in 20 rendered places, on Clinton's
 instruction (03-09-2026), where it previously said the vaguer "FIPS-compliant".
@@ -406,11 +452,20 @@ What was actually established by research:
   independent DSC-industry sources and follows logically from the NIST sunset —
   but **the CCA's own advisory was not located.**
 
-So every sentence on the page is worded as an **expectation** ("are expected
-to", "is expected to"), not a certainty. **Get the CCA circular number and the
-page can harden its wording; until then, do not.** A compliance firm asserting
-a regulatory deadline it cannot cite is the exact failure the statutory-file
-discipline exists to prevent — and this deadline is 16 days away as written.
+**⛔ RESOLVED AS A WORDING QUESTION, 11-09-2026 — Clinton: "it is not expected
+it is offical so write in terms of that."** Every "are expected to" / "is
+expected to" is gone; the page now states the deadline plainly. That is his
+call on his own industry, and it stands.
+
+**⚠️ WHAT IS STILL OPEN IS THE CITATION, NOT THE FACT.** `fips1403DscIssuance`
+still carries a DSC-industry write-up as its `source` rather than the CCA's own
+circular. Get the circular number into that field, so the claim is checkable by
+someone who is not Clinton. Until then this is the one statutory value on the
+site asserted on internal confirmation alone — which is worth knowing if it is
+ever challenged, and worth closing before it is.
+
+**Do not soften the published wording back to an expectation without asking
+him first.**
 
 ### 2. The datasheet revision was not independently verified
 
@@ -444,3 +499,84 @@ Listed so nobody "restores" them from the HTML without a decision:
 The document's own two dev notes named a certifying authority. Those are not on
 the page and must not be — see *"Certifying authority name (02-09-2026)"*
 above.
+
+## DSC document matrix on /dsc/resources — four things to confirm (20-09-2026)
+
+`src/content/dsc/document-matrix.js` is the by-entity-type document breakdown
+now rendered on `/dsc/resources`. Its SUBSTANCE is derived from a certifying
+authority's own published resources page (supplied by Clinton, 20-09-2026); its
+WORDING is ours throughout — see that file's header for why both halves matter.
+Nothing here blocks the page, which renders correctly today. These are sign-off
+items.
+
+1. ⛔ **The whole matrix needs a CA's confirmation.** It is third-party-derived
+   procedure, not ThinkOrange's own reviewed checklist, and it is the longest
+   run of application requirements on the site. It does not contradict
+   `certificates.js`'s per-certificate lists — it adds the alternatives those
+   roll up (GST certificate in place of a bank statement; the partner/director
+   branches). **If a line ever does disagree, `certificates.js` wins** and the
+   matrix is the file to correct.
+
+2. **"List of directors" for an LLP.** The source matrix asks for a list of
+   directors, and the alternative branch for a board resolution or power of
+   attorney, for a limited liability partnership — where the register actually
+   names designated partners. Reproduced as given rather than silently
+   "corrected", since the CA's own intake is what a reader will meet. Confirm
+   the wording they expect.
+
+3. **Service tax / VAT / sales tax registration certificate as address proof.**
+   Still on the accepted list. Those taxes were subsumed by GST in 2017, so this
+   is probably a legacy entry that nobody has pruned. Kept faithful. Confirm
+   before anyone relies on it.
+
+4. **The macOS utility is not linked.** `/dsc/resources` links the Windows
+   build (`SignX-Utility-v1.1.18.exe`, supplied by Clinton). The source site
+   also serves `SignX-Utility-1.1.18-arm64.pkg` for Apple silicon, chosen by
+   user-agent on their own page. Not added here because it was not supplied and
+   was not requested, and because an Intel Mac build — if one exists — has a
+   different filename again. A Mac client currently has no download on our page.
+
+## emSigner 3.3 notice — two things still needed (20-09-2026)
+
+Clinton supplied "ThinkOrange Content Draft - emSigner 3.3.pdf" (marked STATUS:
+READY FOR PUBLISHING) with the instruction "keeps the wording same do not change
+a single word". It is live at `/notices/emsigner-3-3`, reproduced verbatim. Two
+gaps remain, neither of which could be closed without inventing something.
+
+### 1. ⛔ The draft's closing paragraph is CORRUPTED IN THE SOURCE PDF
+
+Page 2 ends with a "Need Technical Support?" panel. Its first line is intact:
+
+> Filing deadlines wait for no one. If you need assistance configuring your
+> FIPS 140-3 tokens,
+
+The **second line did not survive the PDF export.** Only a handful of glyphs
+were embedded — the text layer reads `l i Si J i ll GST li h`, and the panel is
+also visually clipped by the page boundary, so nothing can be read off a render
+either. Confirmed three ways (pypdf text, pypdf layout mode, pdfium character
+boxes): the characters are genuinely absent from the file, not merely mis-
+extracted.
+
+Finishing that sentence would mean writing copy and attributing it to Clinton,
+so **the panel is not reproduced at all** — the page closes with the site's own
+`CtaBand`, whose copy is already approved and does the same job.
+
+**To close this:** send the sentence (or the source document in a format that
+survived export) and add it as a final block in
+`src/content/notices/details.js`. Nothing else has to change.
+
+### 2. ⚠️ `emsigner33GstEnforcement` has no public source
+
+`statutory.js` now carries the date the notice turns on. Its `source` is the
+**client's own draft**, not a GSTN advisory — the only entry in that file whose
+source is not a link. The draft reproduces a "GST Portal Advisory | 19 September
+2026" in its graphic, but no advisory number is on file.
+
+**To close this:** get the GSTN advisory number or URL and put it in `source`.
+This is the same gap `fips1403DscIssuance` still has for its CCA circular, and
+it matters for the same reason: the date is the premise of the page.
+
+⚠️ Note that key exists **alongside** `fips1403DscIssuance` rather than reusing
+it, and the two hold the SAME underlying date in two typographies — because the
+supplied copy writes it US-style and reformatting it inside `s()` would have
+broken the instruction. **Correct both together.**

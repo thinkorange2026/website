@@ -1,5 +1,7 @@
 import { Hero } from "@/modules/home/sections/Hero";
 import { NoticeTicker } from "@/components/ui/NoticeTicker";
+import { NoticeBar } from "@/components/ui/NoticeBar";
+import { featuredNotice } from "@/content/notices/index.js";
 import { TrustStrip } from "@/modules/home/sections/TrustStrip";
 import { WhatWeDo } from "@/modules/home/sections/WhatWeDo";
 import { WhenToCallUs } from "@/modules/home/sections/WhenToCallUs";
@@ -13,6 +15,7 @@ import { DriverDownloads } from "@/modules/home/sections/DriverDownloads";
 import { PartnerProgramme } from "@/modules/home/sections/PartnerProgramme";
 import { Testimonial } from "@/modules/home/sections/Testimonial";
 import { Insights } from "@/modules/home/sections/Insights";
+import { NoticeBoard } from "@/components/ui/NoticeBoard";
 import { CtaBand } from "@/modules/home/sections/CtaBand";
 
 // T1 — the homepage. CONTENT-PLAN.md §6 is the authoritative section-by-
@@ -51,12 +54,30 @@ import { CtaBand } from "@/modules/home/sections/CtaBand";
 // no change here. Faqs is NOT flag-gated in the same way: its content resolves
 // from already-written service leaves, so it renders today.
 export default function Home() {
+  // ⛔ 20-09-2026 (Clinton): "show this notice in bar also. after hero section.
+  // show this one olny. while click redirect to details page."
+  //
+  // ⚠️ THIS PAGE NAMES NO SLUG. It renders whichever notice carries
+  // `featured: true` in notices.js, with the href that file derives — so moving
+  // the feature, or retiring it, is a one-line content edit here and nothing at
+  // all in this file. `confirmed: false` withholds it too, and `NoticeBar`
+  // returns null without `text`, so the homepage degrades to hero -> calendar
+  // with the cadence intact.
+  const featured = featuredNotice();
+
   return (
     <>
       <Hero />
       {/* Small infinite notice bar (Clinton, 04-09-2026). `light-alt`, so the
           cadence runs deep -> light-alt -> light rather than putting two
-          dark-family surfaces under the hero. */}
+          dark-family surfaces under the hero.
+          ⚠️ `NoticeBar` (ONE notice, by prop) rather than `NoticeTicker`
+          (every `scope: "site"` notice) — "show this one olny". The ticker
+          stays commented out; turning it back on here would put two marquees
+          under one hero. */}
+      {featured && (
+        <NoticeBar label={featured.label} text={featured.text} href={featured.href} />
+      )}
       {/* <NoticeTicker /> */}
       <ComplianceCalendarHome />
       <WhatWeDo />
@@ -68,6 +89,35 @@ export default function Home() {
       <PartnerProgramme />
       {/* <Testimonial /> */}
       <Faqs />
+      {/* ⛔ 11-09-2026 (Clinton): "just above the insight keep a notice section
+          and top right keep a view all section in that go to notice page."
+          Same `NoticeBoard` /dsc/faqs and /notices render — one definition, not
+          a homepage fork — with `scope="site"` so it shows the notices written
+          for this surface rather than the DSC-specific ones.
+
+          ⚠️ `light-alt` AND THE `Faqs` SECTION ABOVE IT MOVED TO `light` IN THE
+          SAME EDIT. Inserting anything between Faqs (was light-alt) and
+          Insights (light) had to differ from both; swapping Faqs was the
+          quieter of the two options — the alternative was a fifth dark band
+          this late in the page. It also fixes a LATENT repeat: `Testimonial`
+          returns null once the placeholder quotes are removed, which would
+          otherwise have left PartnerProgramme (light-alt) directly above Faqs
+          (light-alt). Cadence verified in BOTH states. */}
+      <NoticeBoard
+        scope="site"
+        surface="light-alt"
+        gradientId="home-notice-board"
+        eyebrow="Notices"
+        heading="What we are flagging right now"
+        // ⚠️ NO LEDE HERE, DELIBERATELY. The header row is `items-end`, so with
+        // a lede the "View all" link aligns to the BOTTOM of the heading block
+        // — level with the lede, well below the h2 — and Clinton asked for it
+        // top right. Measured: with the lede the link's bottom sat 40px+ below
+        // the h2's. Without one the row is eyebrow + h2, exactly like the
+        // `Insights` header directly beneath it, and the link lands level with
+        // the heading.
+        action={{ to: "/notices", label: "View all" }}
+      />
       <Insights />
       {/* <TrustStrip /> */}
       {/* <DriverDownloads /> */}

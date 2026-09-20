@@ -29,7 +29,13 @@ export function Faqs() {
   if (faqs.length === 0) return null;
 
   return (
-    <section data-surface="light-alt" className="section-pad bg-canvas-alt">
+    // ⚠️ `light`, NOT `light-alt` — changed 11-09-2026 when the notices section
+    // was inserted between this and `Insights`. The new section needed a
+    // surface differing from both its neighbours, and this was the quieter of
+    // the two ways to get one. It also fixes a latent repeat: `Testimonial`
+    // above returns null once the placeholder quotes go, which would have left
+    // PartnerProgramme (light-alt) directly above this section.
+    <section data-surface="light" className="section-pad bg-canvas">
       {/* 19-08-2026: the layout that used to live here — the 4/8 split with a
           sticky left rail, and the accordion treatment inside it — is now the
           shared <FaqSection> / <Accordion> pair, applied to every FAQ section
