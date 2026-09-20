@@ -322,8 +322,10 @@ function HeroShowcase() {
  * The hairline stat row — DESIGN.md §11.4's archetype ("hairline row, no
  * cards"), used here inside the hero rather than as its own section.
  *
- * ⛔ Two of these four tiles are UNCONFIRMED placeholders. See the warning
- * block at the top of src/content/home-hero.js before shipping.
+ * ⚠️ All four tiles are confirmed as of 11-09-2026 (the client count and years
+ * of practice were signed off by Clinton; see the note atop home-hero.js). The
+ * dev warning below stays — it is the guard for the NEXT stat someone adds, not
+ * for these.
  */
 function HeroStats() {
   if (import.meta.env.DEV) {

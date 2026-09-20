@@ -1428,12 +1428,41 @@ export const statutory = {
   fips1403DscIssuance: {
     value: "21 September 2026",
     label:
-      "Date from which new Digital Signature Certificates in India are expected to require a FIPS 140-3 token",
+      "Date from which new Digital Signature Certificates in India require a FIPS 140-3 token",
     basis:
-      "Follows NIST's FIPS 140-2 sunset above. Certifying Authorities are reported to stop downloading fresh certificates and renewals onto FIPS 140-2 tokens from this date; certificates already held on a 140-2 token continue to work until they expire.",
+      "Follows NIST's FIPS 140-2 sunset above. Certifying Authorities stop downloading fresh certificates and renewals onto FIPS 140-2 tokens from this date; certificates already held on a 140-2 token continue to work until they expire.",
     note:
-      "⚠️ NOT CONFIRMED AGAINST A CCA CIRCULAR. Corroborated by multiple independent DSC-industry sources and by the NIST date it derives from, but the CCA's own advisory was not located. Every page that states it is worded as an expectation, not a certainty. Get the circular number before hardening the wording.",
+      "⛔ STATED AS FACT ON CLINTON'S OWN CONFIRMATION, 11-09-2026: \"it is not expected it is offical so write in terms of that.\" Every page that names this date now states it plainly, not as an expectation. ⚠️ THE CCA CIRCULAR ITSELF IS STILL NOT ON FILE — the `source` below is a DSC-industry write-up, not the regulator. That is now the only gap: get the circular number and put it in `source`, so the claim is checkable by someone who is not Clinton. Do NOT soften the published wording again without asking him first.",
     source: "https://www.esolutions.net.in/post/dsc-usb-tokens-moving-to-fips-140-3-from-september-2026-what-businesses-and-dsc-users-must-know",
+  },
+  // ⛔ SAME UNDERLYING DATE AS `fips1403DscIssuance` ABOVE, IN A DIFFERENT
+  // FORMAT — and it is a separate key ONLY because of that. Clinton supplied
+  // the emSigner 3.3 notice as finished copy with the instruction "keeps the
+  // wording same do not change a single word", and that copy writes the date
+  // US-style. Reformatting it inside `s()` would have been the tidier answer
+  // and would have broken the instruction.
+  //
+  // ⚠️ CORRECT BOTH KEYS TOGETHER. If this date moves, `fips1403DscIssuance`
+  // moves with it and vice versa — they are one fact, and the only reason two
+  // entries exist is typography. `npm run content:review` lists both, so a
+  // reviewer sees the pair.
+  //
+  // ⚠️ The notice's own sentence is REPORTED SPEECH — "recent advisories
+  // highlight… as a key enforcement date" — and its whole point is that the
+  // date matters less than which token you hold. That is why this is a
+  // separate downstream claim from the two above: it is about the GST portal
+  // refusing to sign with an older emSigner build, not about when a Certifying
+  // Authority stops issuing onto 140-2 hardware.
+  emsigner33GstEnforcement: {
+    value: "September 21, 2026",
+    label:
+      "Date the GST portal advisories name for emSigner 3.3 enforcement, as written in ThinkOrange's own advisory copy",
+    basis:
+      "ThinkOrange Content Draft — emSigner 3.3 (client-supplied, marked READY FOR PUBLISHING), which reproduces a GST Portal Advisory dated 19 September 2026. Same underlying date as fips1402SunsetDate and fips1403DscIssuance.",
+    note:
+      "⚠️ SOURCE IS THE CLIENT'S OWN DRAFT, NOT THE GST PORTAL. The advisory it reproduces is dated 19 September 2026 but no GSTN advisory number or URL is on file — this is the ONLY entry in this file whose `source` is not a link. Get the advisory number and replace it, exactly as fips1403DscIssuance still needs its CCA circular.",
+    source:
+      "ThinkOrange Content Draft — emSigner 3.3 (supplied by Clinton, 20-09-2026). No public URL on file.",
   },
 };
 

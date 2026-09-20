@@ -1037,6 +1037,66 @@ p {
 }
 
 /* ============================================================
+   .nav-icon-button — the mobile nav trigger and the sheet's close button
+   (components/navbar/MobileNav.jsx), 11-09-2026.
+
+   Both were bare glyphs on a transparent circle, so on a phone there was
+   nothing saying "this is a button" until you tapped it. Same translucent-ink
+   recipe as `.scroll-nav` / `.hero-card` — a directional wash, a hairline
+   ring, §6.4's inset light-catch — rather than a fourth dark-surface
+   definition. NOT `backdrop-filter`: §7.5 keeps blur exclusive to the sticky
+   nav bar this button sits inside, and a blur surface nested in a blurred
+   header is both wrong and expensive on a phone compositor.
+
+   ⚠️ THE FOCUS RING IS AN `outline`, DELIBERATELY, NOT Tailwind's
+   `focus-visible:ring-2`. This class is UNLAYERED CSS, so it beats
+   `@layer utilities` — and Tailwind implements `ring-*` as a box-shadow, which
+   this rule's own box-shadow would silently erase. Same trap `.field-bare`
+   already documents. An outline is on a different property and cannot be
+   clobbered.
+
+   ⚠️ `:active` is NOT hover-gated. A press is real on touch, and the hover
+   block below never fires there — without this a phone user gets no feedback
+   at all from the tap.
+   ============================================================ */
+.nav-icon-button {
+  background:
+    radial-gradient(
+      120% 120% at 32% 10%,
+      color-mix(in oklab, var(--color-ink-700) 78%, transparent) 0%,
+      transparent 64%
+    ),
+    color-mix(in oklab, var(--color-ink-900) 92%, transparent);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, var(--color-ember-300) 30%, transparent),
+    inset 0 0 0 1px color-mix(in oklab, var(--color-ink-100) 46%, transparent),
+    0 6px 18px -10px color-mix(in oklab, var(--color-ink-950) 78%, transparent);
+  transition:
+    box-shadow var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.nav-icon-button:focus-visible {
+  outline: 2px solid var(--color-ember-300);
+  outline-offset: 2px;
+}
+
+.nav-icon-button:active {
+  transform: scale(0.94);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-icon-button:hover {
+    color: var(--color-ember-200);
+    box-shadow:
+      inset 0 1px 0 0 color-mix(in oklab, var(--color-ember-300) 38%, transparent),
+      inset 0 0 0 1px color-mix(in oklab, var(--color-ember-400) 30%, transparent),
+      0 8px 20px -10px color-mix(in oklab, var(--color-ink-950) 75%, transparent);
+  }
+}
+
+/* ============================================================
    Typewriter (components/motion/Typewriter.jsx).
 
    EVERY character of the active sentence is always in flow; unwritten ones

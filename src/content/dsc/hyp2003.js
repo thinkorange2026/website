@@ -35,40 +35,51 @@ import { s } from "../statutory.js";
 // ⛔ THE DEADLINE DATE IS INTERPOLATED, NEVER TYPED. The reference document
 // carries "21 September 2026" as a literal and attaches its own warning to it
 // ("verify the date before publishing. The commercial argument on this page
-// depends on it"). It is now `statutory.js`'s `fips1403DscIssuance`, with its
-// basis, its source and — importantly — a note recording that the CCA's own
-// circular was not located. Read that note before hardening any wording here.
+// depends on it"). It is now `statutory.js`'s `fips1403DscIssuance`.
 //
-// ⚠️ EVERY SENTENCE ABOUT THE DEADLINE IS WORDED AS AN EXPECTATION, not a
-// certainty ("are expected to", "is expected to"). That is not hedging for its
-// own sake: the NIST sunset it derives from is primary-sourced and solid, the
-// India-specific issuance rule is corroborated by industry sources only. If the
-// CCA circular turns up, the wording can harden — and until it does, a
-// compliance firm asserting a regulatory deadline it cannot cite is exactly the
-// failure this file's discipline exists to prevent.
+// ⛔ THE DEADLINE IS STATED AS FACT, NOT AS AN EXPECTATION — 11-09-2026
+// (Clinton): "it is not expected it is offical so write in terms of that."
+// Every "are expected to" / "is expected to" in this file was removed on that
+// instruction. **Do not soften it back without asking him first.**
+//
+// ⚠️ WHAT IS STILL MISSING IS THE CITATION, NOT THE FACT. `fips1403DscIssuance`
+// carries a DSC-industry write-up as its `source`, not the CCA's own circular,
+// which was never located. The NIST sunset it derives from IS primary-sourced.
+// So the remaining job is to put the circular number into that entry's
+// `source`, which makes the claim checkable by someone who is not Clinton —
+// see its `note`.
 
-export const hyp2003Page = {
-  slug: "about-hyp2003",
-  meta: {
-    title: "About the HYP2003 USB Token | FIPS 140-3 | ThinkOrange",
-    description:
-      "The HyperPKI HYP2003 USB crypto token — FIPS 140-3 Level 3, CCA India approved, 64 KB, Windows, macOS and Linux. Full specification, and what the FIPS 140-3 change means for your certificate.",
-    keywords: [
-      "hyp2003 token",
-      "fips 140-3 dsc token",
-      "hyp2003 specification",
-      "dsc token india",
-    ],
-  },
-  h1: "HYP2003 — a FIPS 140-3 token, ready for the September change",
-  heroLede: `New Digital Signature Certificates are expected to require a FIPS 140-3 token from ${s(
-    "fips1403DscIssuance"
-  )}. The HyperPKI HYP2003 is validated to FIPS 140-3 Level 3 and lists CCA India among its certifications — so a certificate issued on it today will still be issuable after the change.`,
-
-  // The hero's four-tile certification strip. Every value is a specification
-  // off the manufacturer's datasheet, not a ThinkOrange claim — no client
-  // count, no years, no turnaround, which is what a spec row is most likely to
-  // smuggle in.
+// ⛔ MERGED INTO /dsc/buy-token — 11-09-2026 (Clinton): "i want to merge Buy
+// token and about HYP2003 like in given html. but order form in top below hero
+// section." Source: `thinkorange-buy-token-merged.html`, which puts both jobs
+// on one URL with the order panel in the hero fold.
+//
+// ⛔ THIS IS NO LONGER A PAGE, WHICH IS WHY IT NO LONGER CARRIES PAGE IDENTITY.
+// `slug`, `meta`, `h1` and `heroLede` were DELETED rather than left unused:
+// they described a route that does not exist any more, and a stale identity
+// field is how the wrong title comes back. The merged page's own h1, lede and
+// meta live in `content/dsc/token.js`. Everything below is CONTENT — the token
+// itself — and is rendered by `modules/dsc/DscBuyToken.jsx`.
+//
+// ⚠️ The deadline date is still interpolated here and only here on this page.
+// `token.js` deliberately does NOT restate it: the notice bar sits directly
+// under the hero, so a lede carrying the same date would say it twice in one
+// fold — and `token.js` is imported by `lib/seo.js`, which plain Node loads
+// during the prerender pass, so keeping `s()` out of it avoids a second
+// import-style constraint on that file.
+export const hyp2003Token = {
+  // ⛔ NOT RENDERED SINCE 11-09-2026 (Clinton: "remove this"). The hero's
+  // four-tile certification strip. Retained rather than deleted — the same
+  // discipline `portalGuide`, `afterIssue`, `switching` and `earnings` already
+  // carry — because restoring it is `spec={heroSpec}` on the hero and nothing
+  // else. Do NOT prune it on a later tidy-up.
+  //
+  // ⚠️ Nothing was lost by removing it: every one of these four values is also
+  // a row in `specs` below, so the strip was stating them twice on one page.
+  //
+  // Every value is a specification off the manufacturer's datasheet, not a
+  // ThinkOrange claim — no client count, no years, no turnaround, which is what
+  // a spec row is most likely to smuggle in.
   heroSpec: [
     { label: "FIPS 140-3", value: "Level 3 validated" },
     { label: "CCA India", value: "Listed on the datasheet" },
@@ -82,7 +93,7 @@ export const hyp2003Page = {
   // change is replacing a token that does not need replacing.
   notice: {
     label: "FIPS 140-3",
-    text: `FIPS 140-3 is expected to become mandatory for new DSC issuance from ${s(
+    text: `FIPS 140-3 becomes mandatory for new DSC issuance from ${s(
       "fips1403DscIssuance"
     )}. Certificates can no longer be downloaded onto FIPS 140-2 tokens after that date. Existing certificates on 140-2 tokens keep working until they expire.`,
   },
@@ -190,7 +201,7 @@ export const hyp2003Page = {
       {
         spec: "Issuable after the change",
         hyp: "Yes",
-        other: "No — new certificates are expected to require a 140-3 token",
+        other: "No — new certificates require a 140-3 token",
       },
       { spec: "Key sizes", hyp: "RSA 2048–4096, ECDSA", other: "Commonly RSA up to 2048" },
       { spec: "PKCS#11 support", hyp: "v2.20", other: "Commonly v2.10" },
@@ -266,7 +277,7 @@ export const hyp2003Page = {
       q: "What changes when FIPS 140-3 becomes mandatory?",
       a: `From ${s(
         "fips1403DscIssuance"
-      )}, Certifying Authorities are expected to stop issuing new Digital Signature Certificates onto FIPS 140-2 tokens, so fresh issuance and renewals will need a FIPS 140-3 token. Certificates already sitting on a 140-2 token continue to work normally until they expire — nothing is switched off. What changes is that at your next renewal you will need 140-3 hardware.`,
+      )}, Certifying Authorities stop issuing new Digital Signature Certificates onto FIPS 140-2 tokens, so fresh issuance and renewals will need a FIPS 140-3 token. Certificates already sitting on a 140-2 token continue to work normally until they expire — nothing is switched off. What changes is that at your next renewal you will need 140-3 hardware.`,
     },
     {
       q: "Do I need to replace my token right now?",

@@ -5,36 +5,33 @@
 
 import { site } from "./nav.js";
 
-// ⛔⛔ TWO UNCONFIRMED PLACEHOLDER FIGURES BELOW — DO NOT SHIP ⛔⛔
+// ✅ SIGNED OFF 11-09-2026. `clients` and `years` were placeholders from
+// 11-08-2026 — dummy figures Clinton asked for to judge the hero layout, which
+// is why they are round. They carried `confirmed: false` for a month and
+// `content:check` warned on every run.
 //
-// `clients` and `years` carry `confirmed: false`. Client count and years of
-// experience are BOTH on CONTENT-PLAN.md §1.1's hold list, and nav.js's
-// confirmed-facts block names them explicitly: "MUST NOT be rendered ... Do
-// not add them speculatively." CLAUDE.md's non-negotiables say the same.
+// Asked directly, with the row listed as a launch blocker and the options
+// spelled out (publish / delete / different numbers), Clinton answered "the
+// figures are accurate — publish them". That is the deliberate sign-off the
+// flag was waiting for, as distinct from the earlier values given in passing
+// while looking at a layout.
 //
-// They exist only because Clinton asked for dummy figures on 11-08-2026 to
-// evaluate the hero layout. They are round, obviously-approximate numbers for
-// exactly that reason.
+// ⚠️ THESE ARE NOW PUBLISHED CLAIMS ABOUT THE BUSINESS, on the homepage hero
+// and on /about. Client count and years of experience are both on
+// CONTENT-PLAN.md §1.1's hold list and nav.js's confirmed-facts block, so this
+// is the one place either is allowed to exist — do not restate them anywhere
+// else, and do not let a future edit change a value without the same
+// confirmation. The client count has already moved 250+ → 500+ → 1000+.
 //
-// Before launch, do ONE of these two things:
-//   1. Replace `value` with the founder-confirmed figure and set
-//      `confirmed: true`, or
-//   2. Delete the entry outright.
-// `HeroStats` renders whatever survives, so deleting is safe and the row
-// simply becomes two tiles. `npm run content:check` prints a loud warning
-// while any unconfirmed stat remains.
+// The `confirmed` flag and `confirmedHeroStats()` stay: they are the mechanism,
+// and a future stat added speculatively must default to `false` so
+// `content:check` catches it the same way.
 export const heroStats = [
-  // 21-08-2026: Clinton asked for "1000+ clients served" on the About hero.
-  // The value lives HERE, not on that page, and /about reads this same entry —
-  // the homepage already renders it, so two pages stating the figure from two
+  // ⚠️ The value lives HERE, not on /about, and that page reads this same entry
+  // — the homepage already renders it, so two pages stating the figure from two
   // places is a contradiction waiting to be shipped. One number, one source.
-  // `confirmed` stays FALSE: the number was given in passing while judging a
-  // layout, which is the same circumstance that produced the 250+/500+ values
-  // before it, and `content:check`'s warning is the only thing standing between
-  // this file and a published client count. Set it to `true` only when the
-  // figure is deliberately being signed off for launch.
-  { id: "clients", value: "1000+", label: "Clients served", confirmed: false },
-  { id: "years", value: "10+", label: "Years of practice", confirmed: false },
+  { id: "clients", value: "1000+", label: "Clients served", confirmed: true },
+  { id: "years", value: "10+", label: "Years of practice", confirmed: true },
   // Both below are confirmed: pan-India service scope is already asserted in
   // index.html's meta description, and the location comes from nav.js.
   {

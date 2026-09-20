@@ -1,4 +1,18 @@
-import { Download, FileText } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Briefcase,
+  Building2,
+  Download,
+  FileText,
+  HeartHandshake,
+  Landmark,
+  MapPin,
+  User,
+  Users,
+  UsersRound,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -11,8 +25,15 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaBand } from "@/modules/home/sections/CtaBand";
 import { dscResourcesPage } from "@/content/nav";
 import { dscResources, dscResourcesContent } from "@/content/dsc/resources";
+import {
+  dscAddressProofOptions,
+  dscDocumentMatrixContent,
+  dscOrganisationTypes,
+} from "@/content/dsc/document-matrix";
+import { Disclosure } from "@/components/ui/Disclosure";
 import { collectionPageJsonLd } from "@/lib/jsonld";
 import { formatArticleDate } from "@/lib/formatDate";
+import { cn } from "@/lib/cn";
 import { dscEnquiryHref } from "@/lib/whatsapp";
 
 // /dsc/resources — the DSC file library.
@@ -93,44 +114,238 @@ function EmptyState() {
 // ⚠️ ONE `Reveal` around the whole list, never one per row — a dozen lines
 // resolving one by one while a reader is scanning for a file is exactly what
 // "body copy never animates" protects against.
+const ROW_CLASS =
+  "group flex flex-col gap-4 rounded-sm py-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 sm:flex-row sm:items-center sm:justify-between";
+
+function ResourceBody({ resource }) {
+  // ⚠️ The meta line renders only when it has something in it. An empty `<p>`
+  // still occupies a line box, so a row with no format/size/version would sit
+  // a line lower than its neighbours — the "heading over nothing" defect class
+  // `DriverPanel` had to be fixed for.
+  const meta = [
+    resource.format,
+    resource.version ? `Version ${resource.version}` : null,
+    resource.size,
+    resource.updated ? `Updated ${formatArticleDate(resource.updated)}` : null,
+    resource.host,
+  ].filter(Boolean);
+
+  const isLink = resource.kind === "link";
+  const ActionIcon = isLink ? ArrowRight : Download;
+
+  return (
+    <>
+      <div className="max-w-[62ch]">
+        <p className="text-body font-medium text-ink-600 transition-colors group-hover:text-ember-600">
+          {resource.title}
+        </p>
+        <p className="mt-1 text-body-sm text-ink-500">{resource.description}</p>
+        {meta.length > 0 ? (
+          <p className="mt-2 text-body-sm text-ink-400">{meta.join(" · ")}</p>
+        ) : null}
+      </div>
+      <span className="inline-flex shrink-0 items-center gap-2 text-body-sm font-medium text-ember-600">
+        <ActionIcon className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+        {resource.action}
+      </span>
+    </>
+  );
+}
+
+// ⚠️ THREE ROW SHAPES, AND THE DIFFERENCES ARE NOT COSMETIC:
+//  - An internal destination is a react-router `<Link>`, never `<a download>` —
+//    that would hand the browser an HTML page to save. It also has to be a Link
+//    rather than a plain `<a>` so it navigates in-app like every other internal
+//    link on the site.
+//  - A file we do NOT host drops the `download` attribute: browsers ignore it
+//    cross-origin, so keeping it would claim behaviour the link does not have.
+//    `rel="noopener noreferrer"` goes on instead.
+//  - A file we host keeps `download`.
+function ResourceRow({ resource }) {
+  if (resource.kind === "link") {
+    return (
+      <Link to={resource.url} className={ROW_CLASS}>
+        <ResourceBody resource={resource} />
+      </Link>
+    );
+  }
+
+  if (resource.external) {
+    return (
+      <a
+        href={resource.url}
+        rel="noopener noreferrer"
+        className={ROW_CLASS}
+      >
+        <ResourceBody resource={resource} />
+      </a>
+    );
+  }
+
+  return (
+    <a href={resource.url} download className={ROW_CLASS}>
+      <ResourceBody resource={resource} />
+    </a>
+  );
+}
+
 function ResourceList() {
   return (
     <Reveal className="mt-10">
       <ul>
         {dscResources.map((resource) => (
           <li key={resource.id} className="border-t border-ink-200">
-            <a
-              href={resource.url}
-              download
-              className="group flex flex-col gap-4 rounded-sm py-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div className="max-w-[62ch]">
-                <p className="text-body font-medium text-ink-600 transition-colors group-hover:text-ember-600">
-                  {resource.title}
-                </p>
-                <p className="mt-1 text-body-sm text-ink-500">{resource.description}</p>
-                {/* ⚠️ `size` and `updated` render only when present. An unknown
-                    file size is left off rather than guessed — both are
-                    checkable claims a reader may act on. */}
-                <p className="mt-2 text-body-sm text-ink-400">
-                  {[
-                    resource.format,
-                    resource.size,
-                    resource.updated ? `Updated ${formatArticleDate(resource.updated)}` : null,
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </p>
-              </div>
-              <span className="inline-flex shrink-0 items-center gap-2 text-body-sm font-medium text-ember-600">
-                <Download className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
-                Download
-              </span>
-            </a>
+            <ResourceRow resource={resource} />
           </li>
         ))}
       </ul>
     </Reveal>
+  );
+}
+
+// ── Document matrix ────────────────────────────────────────────────────────
+//
+// 20-09-2026 (Clinton): "show some details and + on right side while click
+// expand and show the whole details… keep the design like the tools and driver
+// download." So this reuses `Disclosure` — the same open-one-at-a-time row with
+// the `+` that rotates to a `×` that /dsc/drivers and /dsc already use — rather
+// than a second expand treatment for the same gesture.
+//
+// ⚠️ ICONS ARE RESOLVED THROUGH A MAP WITH A FALLBACK, never by indexing it. An
+// unmapped key evaluates to `<undefined />`, which is a hard React crash rather
+// than a missing glyph — that bug has shipped from a slug-keyed icon map here
+// once already (DscBand, 17-08-2026).
+const TYPE_ICONS = {
+  individual: User,
+  partnership: Users,
+  corporate: Building2,
+  association: UsersRound,
+  llp: Briefcase,
+  "ngo-trust": HeartHandshake,
+  banking: Banknote,
+  government: Landmark,
+};
+
+function typeIcon(key) {
+  return TYPE_ICONS[key] ?? FileText;
+}
+
+// One labelled block per group. `when` renders only when a requirement is
+// conditional, so a plain list and an if/else read as the same structure
+// without an empty label above the plain one.
+function DocumentGroups({ groups, empty }) {
+  if (!groups) {
+    return <p className="text-body-sm text-ink-500">{empty}</p>;
+  }
+
+  return (
+    <div className="space-y-5">
+      {groups.map((group) => (
+        <div key={group.when ?? "only"}>
+          {group.when ? (
+            <p className="font-mono text-body-sm uppercase tracking-[0.08em] text-ink-400">
+              {group.when}
+            </p>
+          ) : null}
+          <ul className={cn("space-y-2", group.when && "mt-2")}>
+            {group.items.map((item) => (
+              <li key={item} className="flex gap-3 text-body-sm text-ink-500">
+                <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ember-500" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ⚠️ THE THREE COLUMNS ARE THE POINT. A certifying authority checks the
+// organisation, the signatory and the applicant separately, and rolling them
+// into one list is what makes a reader send the wrong paperwork. Each column
+// keeps its heading even when the answer is "not required", so nothing reads as
+// a block that failed to load.
+function TypePanel({ type }) {
+  const columns = [
+    { label: "Organisation", groups: type.organisation, empty: "No organisation documents are asked for." },
+    { label: "Authorised signatory", groups: type.signatory, empty: "Nothing separate is asked for." },
+    { label: "Applicant", groups: type.applicant, empty: "Nothing separate — the signatory is the applicant." },
+  ];
+
+  return (
+    <div className="grid gap-8 pb-8 md:grid-cols-3 md:gap-10">
+      {columns.map((column) => (
+        <div key={column.label}>
+          <h4 className="text-h4 text-ink-600">{column.label}</h4>
+          <div className="mt-4">
+            <DocumentGroups groups={column.groups} empty={column.empty} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Shared across every type, so it is one row rather than the same twelve lines
+// repeated eight times.
+function AddressProofPanel() {
+  return (
+    <div className="pb-8">
+      <p className="max-w-[68ch] text-body-sm text-ink-500">
+        Any one of these, in the applicant&rsquo;s name. Aadhaar covers it on its own where the
+        eKYC route is used.
+      </p>
+      <ul className="mt-5 grid gap-x-10 gap-y-2 sm:grid-cols-2">
+        {dscAddressProofOptions.map((option) => (
+          <li key={option} className="flex gap-3 text-body-sm text-ink-500">
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ember-500" />
+            <span>{option}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function DocumentMatrix() {
+  return (
+    <>
+      <SectionHeading
+        eyebrow={dscDocumentMatrixContent.eyebrow}
+        heading={dscDocumentMatrixContent.heading}
+        lede={dscDocumentMatrixContent.lede}
+      />
+      {/* ⚠️ `Disclosure` keeps every panel MOUNTED while collapsed, which is
+          what puts all eight types in the prerendered HTML. It also means a
+          link inside a panel would stay in the tab order — there are none
+          here, and there must not be. */}
+      <Disclosure
+        items={[
+          ...dscOrganisationTypes.map((type) => ({
+            key: type.key,
+            anchorId: `documents-${type.key}`,
+            label: type.label,
+            meta: type.meta,
+            icon: typeIcon(type.key),
+            panel: <TypePanel type={type} />,
+          })),
+          {
+            key: "address-proof",
+            anchorId: "documents-address-proof",
+            label: "Address proof",
+            meta: "Accepted for every organisation type",
+            icon: MapPin,
+            panel: <AddressProofPanel />,
+          },
+        ]}
+      />
+      <Reveal className="mt-8">
+        <p className="max-w-[68ch] text-body-sm text-ink-400">
+          {dscDocumentMatrixContent.note}
+        </p>
+      </Reveal>
+    </>
   );
 }
 
@@ -160,10 +375,16 @@ export default function DscResources({ path = dscResourcesPage.path }) {
         <Container>
           <SectionHeading
             eyebrow="Downloads"
-            heading="Forms, checklists and reference documents"
-            lede="Everything we hand clients during a DSC application, in the form we actually send it."
+            heading="Utilities, drivers and reference documents"
+            lede="The tools a certificate needs on the machine it is downloaded to, and the documents we hand clients during an application."
           />
           {hasResources ? <ResourceList /> : <EmptyState />}
+        </Container>
+      </Section>
+
+      <Section surface="light-alt">
+        <Container>
+          <DocumentMatrix />
         </Container>
       </Section>
 

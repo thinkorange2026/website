@@ -59,32 +59,51 @@
  * because that line is always the video-verification contact detail and it
  * reads as the last thing you do. Keep it last in every core list.
  */
+// ⛔ ONE STRING, REFERENCED TWICE. Both routes ask for an email address
+// (11-09-2026, below), and two literals 20 lines apart is how one of them gets
+// reworded and the other quietly keeps the old phrasing — which is the exact
+// failure the 07-09-2026 pass had to clean up when the same fact was stated in
+// two different wordings on one checklist.
+//
+// ⚠️ `isContactDetail` matches it, so it renders in the list but is NOT counted
+// as a document. Reword it and check that predicate still matches, or every
+// PAN and Aadhaar checklist silently gains one from its count.
+const EMAIL_LINE = "Email address";
+
 export const kycRoutes = [
   {
     key: "aadhaar",
     label: "Aadhaar eKYC",
     // ⛔ 07-09-2026 (Clinton): "here it write email id two times in different
     // words so fixed this and in pan base do not include email id at all."
+    // ⛔ 11-09-2026 (Clinton): "in all pan base add email address in document
+    // requirement." The SECOND half of that instruction is reversed; the first
+    // still stands and is what keeps this line where it is.
     //
-    // "Email address" living HERE — in the Aadhaar route's extras rather than
-    // on each certificate — is now the MECHANISM, not an accident: it is what
-    // makes email appear on the Aadhaar route and nowhere else. Every
-    // certificate's own contact line used to read "Active mobile number and
-    // email…", so Aadhaar showed email twice in two different wordings and PAN
-    // showed it once. Those lines are now mobile-only.
+    // Email now appears on BOTH routes, and it lives HERE — in the route
+    // extras rather than on each certificate — because that is what keeps it
+    // appearing exactly ONCE. Every certificate's own contact line used to read
+    // "Active mobile number and email…", so the Aadhaar route showed email
+    // twice in two different wordings. Those lines are mobile-only now.
     //
-    // ⚠️ Moving this onto the variants would put email back on the PAN route.
-    // Adding "and email" back to a contact line would restore the duplicate.
-    extra: ["Aadhaar card", "Email address"],
+    // ⚠️ Adding "and email" back to a contact line restores that duplicate on
+    // both routes. If email is ever wanted on the variant instead, it has to
+    // come OUT of both `extra` arrays in the same edit.
+    extra: ["Aadhaar card", EMAIL_LINE],
     note:
       "The Aadhaar record supplies both the photograph and the address, so neither needs to be sent separately.",
   },
   {
     key: "pan",
     label: "PAN based",
+    // ⚠️ Email sits LAST, so both routes end on the same two contact details in
+    // the same order — `documentsFor` then appends the certificate's own mobile
+    // line after it. A reader switching route sees the documents change and the
+    // contact details stay put, which is the truth of it.
     extra: [
       "Passport-sized photograph",
       "Address proof — driving licence, utility bill, or any other government-issued proof",
+      EMAIL_LINE,
     ],
     note:
       "There is no Aadhaar record on this route, so the photograph and address proof both have to be supplied. The address proof should be recent and carry the same name as the PAN.",

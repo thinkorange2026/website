@@ -27,7 +27,9 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { site, sitemapPaths, dscRetiredRoutes } from "../src/content/nav.js";
+import { generateOgImages } from "./og-images.mjs";
 import { resolveSeo } from "../src/lib/seo.js";
+import { ogImagePath } from "../src/lib/ogImage.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -167,6 +169,35 @@ function writeRedirects() {
  * actually be answered — nav.js knows what it links to, and only the rendered
  * page knows what ids exist.
  */
+/**
+ * Every `og:image` a page points at must exist on disk.
+ *
+ * ⛔ A BROKEN PREVIEW IS INVISIBLE FROM INSIDE THE SITE. The page renders
+ * perfectly, nothing errors, no link is dead and the link-integrity scan passes
+ * — the only symptom is that a shared link previews as a blank card, which you
+ * discover when a client pastes it into WhatsApp. `resolveSeo` and
+ * `og-images.mjs` derive the filename from the same `ogImagePath`, so this can
+ * only fail if one of them stops being run or a path slips past the generator;
+ * that is precisely the failure worth catching at build time.
+ *
+ * Same shape as the fragment gate below, and for the same reason: a whole class
+ * of silent breakage, checked against the RENDERED output rather than against
+ * intentions.
+ */
+function assertOgImagesExist(paths) {
+  const missing = [];
+  for (const routePath of paths) {
+    const file = ogImagePath(routePath).replace(/^\//, "");
+    if (!existsSync(path.join(DIST, file))) missing.push(`${routePath} -> /${file}`);
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `[prerender] ${missing.length} route(s) point at an og:image that was not generated:\n  ${missing.join("\n  ")}`
+    );
+  }
+  console.log(`[prerender] og:image present for all ${paths.length} routes`);
+}
+
 function assertNoDanglingFragments(paths) {
   const idsFor = new Map();
   const idsIn = (file) => {
@@ -233,6 +264,12 @@ async function main() {
   writeFileSync(outputFileFor("*"), notFoundHtml, "utf-8");
 
   assertNoDanglingFragments(paths);
+
+  // ⚠️ AFTER the routes are written and BEFORE the assertion below: the cards
+  // are built from `resolveSeo`'s own titles, so they cannot drift from the
+  // <head> tags that reference them.
+  await generateOgImages({ outDir: DIST, quiet: true });
+  assertOgImagesExist(paths);
 
   writeRedirects();
   writeSitemap(paths);
