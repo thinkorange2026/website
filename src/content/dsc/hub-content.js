@@ -9,16 +9,16 @@
 
 export const dscHubContent = {
   meta: {
-    title: "Digital Signature Certificates (DSC) in Salem | ThinkOrange Consulting",
+    title: "Digital Signature Certificate (DSC) in Salem | ThinkOrange",
     description:
       // ⛔ eSign PAUSED — 21-08-2026. Original ended "…USB tokens and Aadhaar
       // eSign — issued through…"; restore that clause with the rest of eSign.
-      "Class 3 DSCs for individuals and organisations, combo (sign + encrypt) certificates, DGFT certificates and renewals — issued through a licensed Certifying Authority. Salem, Tamil Nadu.",
+      "Class 3 DSCs for individuals and organisations, DGFT and combo certificates, and renewals — from our Salem, Tamil Nadu office, for clients across India.",
   },
   heroLede:
     // ⛔ eSign PAUSED — 21-08-2026. Original: "…renewals, USB tokens and Aadhaar
     // eSign — issued through…".
-    "Class 3 Digital Signature Certificates for individuals and organisations, combo certificates for e-tendering, DGFT certificates for importers and exporters, and renewals — issued through a licensed Certifying Authority.",
+    "Class 3 Digital Signature Certificates for individuals and organisations, combo certificates for e-tendering, DGFT certificates for importers and exporters, and renewals — issued through a licensed Certifying Authority, from our Salem, Tamil Nadu office to clients across India.",
   intro: [
     "A Digital Signature Certificate is what lets you sign legally on the income tax portal, the GST portal, MCA21, e-tendering platforms, EPFO and DGFT/ICEGATE — anywhere a physical signature isn't possible. Getting the wrong class, the wrong validity, or a certificate from an improperly authorised issuer causes more lost time than almost anything else in this line of work.",
     // ⛔ eSign PAUSED — 21-08-2026. Original had, after "running out.":

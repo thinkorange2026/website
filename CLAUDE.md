@@ -11,7 +11,8 @@ Execution: BUILD-PLAN.md — phases, model routing, done-when criteria.
 - Orange stays under ~12% of any viewport. One full-orange band on the whole site.
 - Never invent a fee, client count, year of establishment, turnaround guarantee, or testimonial.
   `fees: null` renders "On request". That is correct, not a gap.
-- Location is Salem, Tamil Nadu. Not Delhi.
+- Registered office is Salem, Tamil Nadu. Not Delhi. **But the FIRM IS PAN-INDIA —
+  never position it as a Salem-only practice.** See "Scope is pan-India" below.
 - All scroll reveals are once:true. Body copy, footers, tables and forms never animate.
 - Stack: React 19, Vite 8, Tailwind 4, motion/react, react-router 7. JS, not TS.
 - No bare `<img>` tags — every image goes through the `<Img>` component (Phase 1, IMAGE-PLAN.md §8.4).
@@ -9954,3 +9955,1109 @@ but it is a real failure and the fix is small (deepen the scrim's hold at mobile
 or darken that eyebrow on the feature panel only). That file's own note already
 warns the figures are specific to the photo in slot 1; **it needs a per-breakpoint
 re-measure, not just a per-photo one.**
+
+## ⛔ Scope is pan-India — Salem is the registered office, not the market — 21-09-2026
+Clinton, during the SEO review: "it is not only for salem. it is for whole india
+so do not confine in salem only." Recorded here because it is a standing content
+rule, not a one-off edit, and because several files still read as though Salem
+were the market rather than the address.
+
+**THE DISTINCTION, and it is the whole rule:**
+
+| Salem is | Treatment |
+|---|---|
+| the REGISTERED OFFICE (a legal fact) | Always correct. Footer `<address>`, CIN block, `site.registeredAddress`, `Organization`/`LocalBusiness` schema, the map embed. **Do not strip these** — they are what makes the business verifiable, and they are what local search actually reads. |
+| a TAMIL NADU STATUTORY FACT | Correct where the fact really is state- or municipality-specific: the TN Societies Act 1975, TN Professional Tax and Salem City Municipal Corporation, the normal-category GST threshold. Keep, but frame as the local instance of a national rule, never as the only answer. |
+| POSITIONING (titles, descriptions, H1s, hero and marketing copy) | ⛔ Was "wrong" — **AMENDED 21-09-2026, see below.** Salem is now carried ALONGSIDE the national claim on four pages; still absent from the 31 service leaves. |
+
+### ⛔ AMENDMENT, 21-09-2026 — Salem is back on four pages, by instruction
+Clinton, hours after the pan-India rewrite shipped: he was ranking at the
+bottom of page 1 for "DSC in Salem", "Digital signature in Salem", "DSC in
+Tamil Nadu" and "DSC tokens in Salem", asked why, and on being told the rewrite
+had just stripped the last Salem signal off `/dsc`, said **"okay mention Salem
+also."**
+
+⚠️ **"ALSO" IS THE WHOLE INSTRUCTION — it is an ADDITION, not a revert.** Every
+string below states Salem AND the national reach in one sentence. **Do not
+"restore" the pan-India-only wording on these four**, and do not read the table
+row above as licence to strip them:
+
+| Route | Now carries |
+|---|---|
+| `/` | title "…DSC Services in Salem", description "from Salem, Tamil Nadu, for clients across India" |
+| `/dsc` | title "Digital Signature Certificate (DSC) in Salem", description + `heroLede` both "…from our Salem, Tamil Nadu office … clients across India" |
+| `/contact` | title "Contact ThinkOrange \| Salem, Tamil Nadu" |
+| `/about` | title "…\| Salem, Tamil Nadu", description "registered in Salem … across India" |
+| `defaultMeta` | "…Tax, Compliance & DSC, Salem" |
+
+⛔ **THE 31 SERVICE LEAVES ARE STILL SALEM-FREE AND MUST STAY THAT WAY.** That
+is a SEPARATE, EARLIER, STILL-LIVE instruction (06-09-2026: "in all services
+pages, it say in Salem, Tamil Nadu so i want to remove all this"). Nothing in
+this amendment touches them, `category-content.js`, `/services`, the DSC intent
+pages, or `insights`. A future session must not generalise "mention Salem also"
+across the whole content layer.
+
+⚠️ **`/dsc`'s `<h1>` IS DELIBERATELY STILL "Digital Signature Certificates",
+with no city** (`DscHub.jsx`, hardcoded there — not from nav.js, so it is safe
+to change without moving the nav label or breadcrumb). It is the strongest
+remaining on-page lever for the Salem queries AND the one most likely to make a
+national buyer bounce off a page whose whole product ships countrywide. Flagged
+to Clinton as available; left national pending his call.
+
+⚠️ **THIS IS NOT WHAT ACTUALLY FIXES THE LOCAL QUERIES, and saying so is part of
+the record.** For any "*X* in Salem" search the top three slots are the local
+pack, which needs a verified **Google Business Profile** — there is none. The
+metadata here competes only for the organic slots underneath it. The other two
+live blockers are the www/apex canonical conflict (`VERCEL.md` §1 — every page
+declares a canonical that 308-redirects) and the absence of Search Console. See
+"Still open, needing Clinton" in the SEO infrastructure pass above.
+
+⚠️ **REMOVING "Salem" FROM A TITLE DOES NOT COST LOCAL RANKING**, which is the
+objection this rule invites. The local pack is driven by the Google Business
+Profile plus NAP consistency and the address in `LocalBusiness` schema — none of
+which lives in a `<title>`. The footer address and the schema stay, so the local
+signal stays; only the national ceiling is removed.
+
+⚠️ **The worst offender was `/dsc`** — titled "Digital Signature Certificates
+(DSC) in Salem" for a product line that ships tokens nationally, has its own
+driver downloads and an order form that takes a delivery address anywhere in
+India. A city qualifier on that page suppressed the one lane that is most
+obviously national.
+
+⚠️ **The 06-09-2026 pass already cleaned the 31 service leaves** ("in all
+services pages, it say in Salem, Tamil Nadu so i want to remove all this"). That
+was the same instruction applied to one template family; this is it applied
+sitewide, so treat the two as one rule rather than two events.
+
+**Where positioning copy still said Salem when this was written** — `meta.js`
+(home, contact, and the sitewide default `meta.title`), `about.js` (title,
+description, and the "based in Salem" body line), `dsc/hub-content.js` (title +
+description), `insights/index.js` ("Salem founders"), `partner-with-us.js`
+("from Salem"), `WhyThinkOrange.jsx` ("Based in Salem"). ⚠️ `statutory.js`'s
+four Salem references are category 2 above and were deliberately left alone.
+
+⚠️ **`site.location` is `"Salem, Tamil Nadu, India"` and is rendered in several
+places.** It is the office's location and reads correctly as such; it is not a
+claim about coverage. Do not repurpose it as a service-area string.
+
+## SEO infrastructure pass — 21-09-2026
+NOT a phase. Clinton asked for an SEO review and then for the mechanical half
+implemented. Audited against the BUILT OUTPUT and the LIVE deployment, not
+against this file — two of the findings are things CLAUDE.md itself asserted
+and the HTML contradicted.
+
+### ⛔ THE BIGGEST FINDING IS NOT IN THE REPO AND IS STILL OPEN
+**The live site serves from `www.thinkorange.in`; every canonical on it points
+at the apex.** Measured, not inferred:
+
+    thinkorange.in/about      -> 308 -> www.thinkorange.in/about
+    www.thinkorange.in/about  -> 200, and its own <head> says
+                                 <link rel="canonical" href="https://thinkorange.in/about">
+
+So all 64 pages are served at one host while declaring the other canonical, and
+that declared URL immediately redirects back. It also affects all 64 `og:url`
+tags, every `<loc>` in sitemap.xml, the `Sitemap:` line in robots.txt and every
+JSON-LD `@id`.
+
+**Fix is a Vercel dashboard toggle, not code** — make the apex the production
+domain, which is what the codebase already says everywhere. Written up in
+`VERCEL.md` §1.
+⚠️ **Do NOT "fix" it by editing `site.domain` to `"www.thinkorange.in"`:**
+`Footer.jsx:237` renders that field as the visible link text, so the footer
+would start printing "www.thinkorange.in". If www must win, add a separate
+`site.origin` and repoint the five ORIGIN constants (`seo.js`, `jsonld.js`,
+`RootLayout.jsx`, `prerender.mjs`, `finderUrl.js`) — all five already derive
+from one field, so it stays a one-line change either way.
+
+### ⛔ `localBusinessJsonLd()` HAD NO ADDRESS, AND ITS OWN DOCBLOCK SAID IT DID
+The comment claimed `streetAddress`/`postalCode` were present "so the schema can
+never assert something the page doesn't say"; the emitted JSON-LD had
+`addressLocality` only. **This file repeated the same false claim** (see the
+20-08-2026 CIN entry). So the one schema type that actually feeds local results
+carried no address, and reading either note would have confirmed the opposite.
+The built HTML settled it. **Check emitted JSON-LD, never the comment.**
+
+Same docblock said geo coordinates "were never supplied". They were, on
+20-08-2026 — `site.registeredAddress.mapsQuery`, the pin behind the map embed.
+
+Now fixed, and `geo` is DERIVED by splitting that one string rather than
+restated, so the schema and the visible map can never point at different
+buildings.
+
+- ⚠️ **`@type` is now `AccountingService`, not `LocalBusiness`** — and NOT
+  `ProfessionalService`, which schema.org marks as deprecated for local
+  businesses precisely because it was confused with `Service`.
+  `AccountingService` is a live `LocalBusiness` subtype, so every inherited
+  property still validates.
+- ⚠️ **NO `priceRange`, NO `openingHours`.** Both are standard on this type and
+  both would have to be invented — `fees` is null sitewide and office hours are
+  still on §1.1's hold list. An absent property is correct; a guessed one is a
+  published claim.
+- `Organization` gained `logo` (the "TO" monogram, already in the repo — the
+  note claiming "no hosted logo asset exists" was never true).
+- `parentOrganization` links the place to the company so the two resolve as one
+  entity rather than two businesses sharing a phone number.
+- ⛔ **STILL NO `sameAs`, AND IT IS THE LARGEST REMAINING GAP.** It is what ties
+  this site to the Google Business Profile, LinkedIn and Facebook as one entity,
+  which is what produces a knowledge panel on a branded search. Needs confirmed
+  URLs from Clinton — guessing them is the same failure as inventing a fee.
+
+### Sitemap: wrong namespace, and an honest partial `lastmod`
+- ⛔ The namespace was `https://www.sitemaps.org/...`. **An XML namespace is an
+  opaque identifier, not a URL that gets fetched**, so the `https` form is a
+  DIFFERENT namespace from the one the protocol defines and a strict validator
+  sees an unknown document. Now `http://`. Do not "correct" it back.
+- ⛔ **`lastmod` IS DELIBERATELY EMITTED ON ONLY 5 OF 64 URLS.** The spec makes
+  it optional per-URL, and Google distrusts a `lastmod` it can tell is
+  mechanical. Both obvious ways to fill all 64 are mechanical:
+  - build date on every URL claims 64 pages changed on a CSS-only deploy;
+  - `git log -1 -- <file>` **looks** honest and is unreliable in the environment
+    that actually produces this file — **Vercel builds from a shallow clone**,
+    so older pages would report a wrong, more recent date. Right locally, wrong
+    in production, which is the worst combination.
+  So only dates a human authored in the content layer are used (`insights`
+  `published`, `notices/details.js` `published`) — which happens to be exactly
+  the set where freshness is worth signalling. If a service leaf ever gains a
+  reviewed-on date, add it to `lastmodFor()`. Do not substitute a proxy.
+
+### Redirect stubs: the canonical was removed and must not come back
+All 14 carried `noindex,follow` AND `rel="canonical"`. Two independent reasons
+it is gone: Google's guidance is not to combine the two (contradictory
+instructions, and the conflict can cause the canonical to be discarded), and
+every one of them pointed at a URL **with a fragment**
+(`https://thinkorange.in/dsc#finder`) — canonicals are compared after the
+fragment is stripped, so it was never doing anything. The meta-refresh is
+already read as a redirect, which is what consolidates them.
+
+### Icons, manifest, `llms.txt`
+- ⛔ `index.html` had `<link rel="icon" type="image" ...>`. **`type="image"` is
+  not a MIME type**, and it pointed at a 600x600 TRANSPARENT PNG of the
+  wordmark — illegible at 32px and transparent, which reads as a smudge on a
+  dark tab strip. `public/favicon.svg` (the arc mark on an opaque ink plate) was
+  sitting unreferenced in the repo the whole time.
+- **`scripts/icons.mjs` (new, the 5th permanent script)** generates
+  favicon-96 / apple-touch-icon / icon-192 / icon-512 / icon-maskable-512 from
+  that mark. ⚠️ **NOT wired into `npm run build`** — unlike og-images.mjs it
+  derives from one mark that never changes, so rasterising five byte-identical
+  files on every deploy is waste. Run it by hand if the mark is redrawn.
+  - Full-bleed plates carry **no rounded corners**: iOS and Android apply their
+    own mask, and a pre-rounded plate shows as a dark halo inside theirs.
+  - The maskable variant keeps the **smaller** arc (r=6.5, i.e. 20% of the width
+    from centre) so Android's circular crop of the central 80% cannot clip it.
+- `public/site.webmanifest` added and linked, plus `theme-color`.
+  ⚠️ The hex in `index.html` and `favicon.svg` is the one sanctioned exception
+  to DESIGN.md's no-raw-hex rule: a `<meta>` tag and a standalone SVG cannot
+  read theme.css's custom properties.
+- **`llms.txt` is GENERATED from `sitemapPaths()` + `resolveSeo()`**, never
+  authored — a hand-written one is a fork of the whole site map and would be
+  stale in a week. It states explicitly that Salem is the registered office and
+  not the service area, because that file exists to be read literally by
+  something summarising the business.
+
+### OG card dimensions are now a shared contract
+`og:image:width`/`height`/`alt` and `twitter:image` were missing. The numbers
+live in **`src/lib/ogImage.js`** (`OG_IMAGE_WIDTH`/`HEIGHT`) because THREE
+things must agree: the generator that rasterises the PNG, and the two `<head>`
+writers. og-images.mjs now imports them instead of declaring `W`/`H` locally.
+⚠️ **`prerender.mjs`'s `buildHeadBlock()` and `RootLayout.jsx`'s effect write
+the same `<head>`** — one at build time, one on navigation. A tag added to
+either must be added to both, or a shared link previews differently depending on
+whether the sharer hard-loaded the page or clicked through to it.
+
+### `vercel.json` + `VERCEL.md` (both new)
+There was no host config at all. `trailingSlash: false` (both `/about` and
+`/about/` returned 200 — two URLs, one page), plus cache headers: Vercel's
+static default was `public, max-age=0, must-revalidate` on **everything**,
+including Vite's content-hashed bundles, so every repeat visitor revalidated
+every JS, CSS and font file.
+- ⛔ **`/og/*` AND `/images/*` ARE DELIBERATELY NOT `immutable`.** Their
+  filenames are stable and the files are REGENERATED EVERY BUILD — og-images.mjs
+  rewrites all 64 cards each time. Marked immutable, a corrected OG card would
+  be stale in browsers for a year with no hash in the name to bust it.
+  Only `/assets/*` (content-hashed) and `/fonts/*` get a year.
+- ⛔ **NEVER ADD `"rewrites": [{"source": "/(.*)", "destination": "/index.html"}]`.**
+  The standard Vite SPA config would serve the HOMEPAGE's HTML for all 64
+  routes, and React would then hydrate and client-route correctly — so the site
+  would look **perfect to a human** and be one page repeated 64 times to a
+  crawler. Same failure this file already records for `npx serve -s` and
+  `vite preview`, but live. Vercel resolves `dist/about/index.html` at `/about`
+  natively; the rewrite is not needed.
+- Same blast radius: if the build command is ever overridden to bare
+  `vite build`, **`postbuild` is skipped** and the site ships as an
+  unprerendered SPA with one shared `<head>`.
+
+### ✅ Verified correct, so do not chase these
+Live `curl`: **`/nope-xyz` returns a real `404`** (Vercel's automatic 404.html
+handling works — the soft-404 risk is a non-issue), HSTS set, edge cache HIT
+from `bom1`/Mumbai. Built output: **zero duplicate titles, zero duplicate
+descriptions**, exactly one `<h1>` per real page, **158 `<img>` with 100% alt
+coverage**, 64 OG cards for 64 routes, `serviceJsonLd` already carrying
+`provider: {@id: #organization}` and `areaServed: India`.
+
+### Still open, needing Clinton
+1. **Vercel domain decision** (VERCEL.md §1) — highest value on the list.
+2. **`sameAs` URLs** — GBP, LinkedIn, Facebook, Instagram.
+3. **Google Business Profile + Search Console**, neither visible from the repo.
+4. **Pan-India metadata rewrite** — `/`, `/about`, `/contact` and especially
+   `/dsc` ("Digital Signature Certificates (DSC) in Salem", on the one lane that
+   is most obviously national). Plus 16 titles over 60 chars and 31 descriptions
+   outside 120-160. A copy pass, so not done unilaterally.
+
+### Verification
+`npm run lint` 0 errors (the 4 warnings are pre-existing, in `DscEsign.jsx` and
+`DscHub.jsx` from other sessions), `content:check` clean apart from the standing
+testimonial blocker, clean-`dist` `build` + prerender **64 routes + 14
+redirects** with the og:image and dangling-fragment gates passing. Then over the
+built output: sitemap parses with the correct namespace and 64 `<url>`s, 5
+`<lastmod>`s on exactly the 4 articles + 1 notice detail, **283 ld+json blocks
+across 65 pages all valid**, **0 pages missing any of the 6 new head tags**,
+**0 canonical/og:url mismatches**, 0 stubs carrying a canonical, and every
+asset referenced by the manifest, the icon links and the schema resolving to a
+real file in `dist/`.
+
+### Pan-India metadata rewrite applied — 21-09-2026
+Same day, straight after the SEO infrastructure pass. Clinton approved the draft
+including the two open questions: **"yes we ship across india"** and the
+Pan-India variant of the /about title.
+
+**Result: titles over 60 chars 16 -> 0, descriptions over 160 chars 16 -> 0,
+Salem in SERP-facing metadata 4 -> 0**, with zero duplicate titles or
+descriptions and one `<h1>` per page throughout.
+
+### The suffix change did most of the work
+`| ThinkOrange Consulting` -> `| ThinkOrange`, 45 occurrences across 28 content
+files plus the two COMPUTED titles in `seo.js` (`fallbackFor` at :68 and the T8
+legal branch at :185). **That alone fixed 9 of the 16 over-length titles** — it
+buys back 12 characters on every page in the set, and `site.shortName` was
+already `"ThinkOrange"` (it is what `og:site_name` uses), so nothing new was
+invented.
+
+⚠️ **A blind global replace of that string is NOT safe, and it bit here.**
+`/contact`'s title was `"Contact Us | ThinkOrange Consulting, Salem"` — the
+suffix appears MID-STRING, so the replace turned it into
+`"Contact Us | ThinkOrange, Salem"` and the follow-up edit keyed on the original
+text failed its assert. No harm done because the edit helper asserts every pair
+before writing anything, so the file was left untouched rather than
+half-edited — **keep that shape for any bulk content edit.** Check for
+mid-string occurrences before a global replace on a suffix.
+
+### What changed, and the one thing that did not
+Positioning copy only. The registered office, the Tamil Nadu statutory facts and
+the "Where we are" section are all untouched, per the scope rule above.
+
+| File | Change |
+|---|---|
+| `meta.js` | `/` title + description, `/contact` title + description, `/services` + `/insights` descriptions, `defaultMeta.title` |
+| `about.js` | title -> "…\| Tax & Compliance, Pan-India", description drops "Salem-based" |
+| `dsc/hub-content.js` | ⭐ title + description |
+| `dsc/intents.js` | all 4 titles and all 4 descriptions |
+| `dsc/token.js`, `notices/index.js`, `insights/index.js`, `services/trust-society-section8.js`, `itr-filing.js`, `tax-planning-advisory.js` | one meta string each |
+| `WhyThinkOrange.jsx`, `partner-with-us.js`, `insights/bodies.js`, `Hero.jsx` | body copy |
+
+- ⭐ **`/dsc` was the worst offender and the fix is a net GAIN, not just a
+  deletion.** It was "Digital Signature Certificates (DSC) in Salem" for a
+  product line that ships nationally. Now "Class 3 Digital Signature
+  Certificates (DSC)" — **"Class 3" is the term people actually type**, and the
+  page is entirely about Class 3 certificates.
+- ⚠️ **`/` dropped the geography from the title entirely rather than swapping
+  Salem for India.** Nobody in India searches "GST consultant in India"; they
+  search "GST consultant". The national claim moved to the description, where it
+  reads as reassurance instead of keyword stuffing.
+- ⚠️ **`/services`' description lost its hardcoded "thirty-one services".** That
+  count is exactly the staleness this file already records for the same page's
+  LEDE (the 17-08-2026 restructure left it asserting "twenty-one"); the lede was
+  made derived then and the meta description was missed. It now names no count
+  at all, so it cannot go stale again.
+- ⛔ **`about.js`'s `whereWeAre` was DELIBERATELY NOT CHANGED.** It sits under a
+  heading that literally reads "Where we are", and it already states the
+  pan-India position and explains why the office does not limit anything.
+  Editing it would be changing copy to satisfy a rule it already satisfies.
+  Leave it.
+
+### ⛔ Two strings the draft MISSED, found only by measuring the built output
+The draft was assembled by scanning `meta` fields plus four known body spots. A
+rendered-text sweep of `dist/` afterwards — footer and `<head>` stripped —
+caught two more, one of them significant:
+
+1. **The homepage hero lede**, i.e. the most-read sentence on the site:
+   *"GST, income tax and company filings handled end to end from
+   `{site.locality}`, for clients across India."* It leads with the office city
+   for a practice that serves the country. Now reads "…handled end to end, for
+   clients across India."
+   ⚠️ **Nothing was lost by removing it**: this same hero states the office
+   TWICE more — the trust line directly below renders `site.location`, and the
+   stat row has a tile explicitly labelled "Head office". A note to that effect
+   is at the call site.
+2. **`insights/bodies.js:144`** — "so a Salem business reads the first pair", in
+   an article about GST thresholds that a reader in any state may land on. Now
+   "so a business there reads the first pair", which is the same fact without
+   the narrowing.
+
+**The lesson is the method:** grep the SOURCE for the positioning strings you
+know about, then sweep the RENDERED output for the term with the footer and head
+stripped. The second pass is what finds copy assembled from a variable
+(`{site.locality}`), which a source grep for "Salem" cannot see.
+
+### Salem now renders in exactly four places, all correct
+13 occurrences outside the footer, on 4 pages, every one legitimate:
+`/` (the trust line + the "Head office" stat tile), `/contact` and `/about` (the
+registered office block and the map), and
+`services/accounting-audit/payroll-processing-returns` (Salem City Municipal
+Corporation, a genuinely municipality-specific Professional Tax fact from
+`statutory.js`). Plus the footer's `<address>` on all 64 routes, which is what
+local search actually reads.
+
+### Verification
+`npm run lint` 0 errors (the same 4 pre-existing warnings), `content:check`
+clean apart from the standing testimonial blocker, clean-`dist` `build` +
+prerender **64 routes + 14 redirects** with both gates passing. Over the built
+output: **0 titles over 60, 0 descriptions over 160, 0 duplicate titles, 0
+duplicate descriptions, 0 pages with a missing or empty title/description, 283
+ld+json blocks all valid, one `<h1>` per page, 0 `undefined`/`[object
+Object]`/`NaN` anywhere**, and 0 Salem in SERP metadata. `llms.txt` and all 64
+OG cards regenerated from the new titles — the `/dsc` card was read back as an
+image to confirm the new headline fits its safe box with the brand suffix
+correctly stripped.
+
+⚠️ **The 15 descriptions UNDER 120 chars were deliberately left alone.** Short
+is not penalised — Google shows them or supplements them. Padding a good
+110-character description to clear an arbitrary 120 makes it worse.
+
+### ⛔ Icons are generated FROM the client's own mark — 21-09-2026
+Supersedes an earlier note in this same session, which recorded `favicon.svg`
+being replaced mid-session as a problem and dropped the SVG favicon link
+entirely. **That was the wrong call and is reverted.** Clinton: *"this are my
+icon so use this icon do not user generate logo. if need to generate according
+to size change from this icons"*, naming `public/favicon.svg` and
+`public/images/logo.png`.
+
+- **`scripts/icons.mjs` now RESIZES AND PADS the supplied artwork and never
+  draws.** Its earlier version composed its own arc plate from `lib/arc.js`
+  geometry; that is gone. ⛔ **Do not reintroduce a generated mark.** The source
+  is `public/favicon.svg` and the script reads it at runtime, so re-running it
+  after the mark changes is the whole maintenance story.
+- **`Organization.logo` and `LocalBusiness.logo` both point at
+  `/images/logo.png`**, the file Clinton named — not `logo-black.png`, and not
+  anything generated. A knowledge panel renders whatever that URL holds.
+
+**Two things about the supplied mark force the output's shape, and both were
+measured rather than assumed:**
+
+1. ⚠️ **SQUARE, because the source is 634x379 (1.67:1) and every icon slot is a
+   square box.** A browser FITS a favicon rather than cropping it intelligently,
+   so the wide original renders as a letterboxed sliver with empty bands above
+   and below. The generated `icons/icon.svg` is the client's own paths
+   re-wrapped on a square canvas — still vector, still their artwork, just no
+   longer the wrong shape for the slot. `index.html` links THAT, not
+   `/favicon.svg`.
+2. ⛔ **WHITE plate, because the mark's navy "T" (#0A2957) measures 1.36:1
+   against the site's ink-950 — i.e. invisible, so half the logo would vanish on
+   a dark plate.** On white it is 14.31:1. The ember "O" (#FF8302) reads on both
+   (7.88:1 / 2.47:1) and is a large solid shape rather than text, so white is
+   the only ground on which the WHOLE monogram survives. Transparent is not
+   available either: iOS composites a transparent apple-touch-icon
+   unpredictably, and a maskable icon must be opaque by spec.
+
+⚠️ **The maskable variant uses a 0.62 mark ratio, not 0.78, and the number is
+derived.** Android may crop to a circle of diameter 0.8x the canvas, so a
+centred RECTANGLE has to fit by its corners: `w² + (w·0.598)² <= (0.8·size)²`
+gives a ceiling of ~0.68 for this aspect ratio. 0.62 keeps margin. Verified by
+compositing the real circle crop over the real file and looking at it.
+
+### ⚠️ Two sharp/verification traps from this pass
+- **`sharp` applies `resize` BEFORE `composite` regardless of call order.**
+  `sharp(x).composite([mask]).resize(160,160)` shrinks the base to 160 first and
+  then fails with "Image to composite must have same dimensions or smaller",
+  which reads as a mask-size bug and is not. Composite at full size, then resize
+  in a SECOND `sharp()` call.
+- **Strip HTML comments before auditing emitted markup.** A check for "is the
+  SVG favicon link gone?" reported 65 pages still carrying it; they were not —
+  the comment explaining the removal contained a literal `<link>` tag as an
+  example, which the parser ignores and a naive regex does not. Prefer prose to
+  literal markup inside a comment.
+
+### ⛔ THE HOMEPAGE KEEPS "SALEM" — reverted on instruction, 21-09-2026
+Clinton asked for homepage Salem content to be changed (*"in index there is so
+content that specifically say salem change this"*), then reversed it within the
+same session: **"do not chagne home page salem revert it."** The second
+instruction stands.
+
+**All three homepage edits are reverted.** `git checkout` on both files, so they
+are byte-identical to before this session touched them:
+
+1. the hero **lede** — back to "…handled end to end from `{site.locality}`, for
+   clients across India";
+2. the hero **trust line** — back to `{site.legalName} · {site.location}`;
+3. the 4th **stat tile** — back to `${site.locality}, TN` / "Head office" (the
+   derived "Services offered: 31" replacement is gone, along with the
+   `serviceCategories` import it needed).
+
+⚠️ **Note the lede was reverted too, although it came from the EARLIER
+pan-India metadata pass rather than the later homepage one.** "Do not change
+home page salem" reads as a rule about the page, not about one edit, and
+leaving one of the three changed would have been the inconsistent outcome.
+
+⛔ **DO NOT RE-APPLY ANY OF THE THREE.** The pan-India scope rule still holds
+everywhere else — metadata, service pages, `/dsc`, insights, partner copy — but
+**the homepage hero is an explicit exception, by name.** A future session
+reading the scope rule will be tempted to "finish the job" on `index`; it is
+finished, and this is the state Clinton wants.
+
+### ⚠️ The dist/ premise was wrong, and the fix was still worth making
+**Vercel DOES serve `dist/`** — it runs `npm run build`, and npm runs
+`postbuild` automatically. Verified live before changing anything:
+`https://www.thinkorange.in/robots.txt` returned **200** and `/sitemap.xml`
+returned **200 with all 64 `<loc>` entries**. They were shipping.
+
+The reason they were invisible is that **`dist/` is gitignored**, so the files
+existed only after a build and never appeared in the repo — which is a
+perfectly reasonable thing to read as "they are not being deployed."
+
+So the premise was wrong but the instinct was sound, and the move is a genuine
+improvement:
+
+- **`scripts/seo-files.mjs` (new, 6th permanent script)** writes robots.txt,
+  sitemap.xml and llms.txt into **`public/`**, wired as **`prebuild`**. They are
+  now committed, reviewable, and diff when routes or meta change. Vite copies
+  `public/` into `dist/`, so they still ship — verified byte-identical in both.
+- ⛔ **IT MUST BE `prebuild`, NOT `postbuild`.** Vite copies `public/` DURING
+  the build, so anything written afterwards misses that copy and would not
+  reach `dist/` until the NEXT build — every deploy would ship the previous
+  deploy's sitemap. Nothing in that script needs built output (`sitemapPaths()`
+  and `resolveSeo()` are plain Node), which is exactly why it can run first.
+- `prerender.mjs` keeps only what genuinely needs `dist/`: the route HTML, the
+  redirect stubs, and the og:image assertion.
+- ⛔ **`sitemap.xml` and `llms.txt` CANNOT become hand-written static files**,
+  only generated ones living in `public/`. Both enumerate all 64 routes with
+  resolved titles and descriptions; a hand-maintained copy is a fork of the
+  entire route table and would be wrong the first time anyone adds a page.
+  Each output carries a "generated, do not edit" banner.
+
+### New build gate: `assertSeoFilesShipped()`
+Every failure mode here is SILENT — skip the prebuild (override Vercel's build
+command to bare `vite build`, or run `vite build` directly) and the site deploys
+perfectly with no sitemap and no robots.txt. Nothing errors, no page 404s, and
+the only symptom is a slow decline in Search Console weeks later. Third gate of
+this shape, after og:image and dangling fragments.
+**Tested by actually breaking it**, not by reading it: removing
+`public/robots.txt` and running `vite build` + prerender directly fails with a
+message naming the file and the cause.
+
+⚠️ `llms.txt` currently 404s in production — it is new this session and has not
+been deployed yet. Expected, not a defect.
+
+### Also worth knowing
+`npm run seo:files` and `npm run icons` were added so the two hand-run
+generators are discoverable from `package.json` rather than only from
+`scripts/`.
+
+### `image` added to every BlogPosting — 21-09-2026
+Clinton asked whether the notice and the articles are in the sitemap "so google
+suggest it". They were — `/notices`, `/notices/emsigner-3-3`, `/insights` and
+all four articles are in all 64 `<loc>` entries, and those five detail pages are
+the only URLs carrying `<lastmod>`. But being in a sitemap only says the URL
+exists, so the rest of the chain was checked, and one link was missing.
+
+⛔ **`image` WAS ABSENT FROM EVERY `BlogPosting` ON THE SITE**, while the
+photographs were sitting on the pages all along — 3 `<img>` in the notice's
+static HTML, 6 in an article's. Google's Article documentation makes `image`
+the property that earns the **thumbnail rich result** in search and in
+Discover; without it the page still ranks and simply renders as a plain blue
+link. Everything else was already right: `index, follow`, self-canonical,
+headline, datePublished, dateModified, author, publisher, mainEntityOfPage, and
+full prerendered body text (642 words on the notice, 1,077 on an article) so a
+crawler needs no JavaScript.
+
+- `articleJsonLd` takes an optional `image`, as a path or `{src,width,height}`,
+  and emits a full `ImageObject` when dimensions are known.
+- **Both call sites pass the SAME object the page renders** — `Article.jsx`
+  reads the imagetools fallback (`picture.img.src/w/h`), `NoticeDetail.jsx`
+  passes `detail.image`. Nothing is restated, so a swapped photograph cannot
+  leave the schema pointing at the old one.
+- ⚠️ **OMITTED, NOT SUBSTITUTED, when a caller has no image.** The tempting
+  fallback is that route's generated OG card, which always exists — but it is a
+  TEXT card, and handing Google a rendered headline as the article's
+  representative photograph is a worse rich result than none. Let Google pick
+  from the page.
+- ⚠️ Google wants ≥1200px. Measured: articles resolve to **1600px** wide, the
+  notice graphic to **1672px**. Check anything narrower added later.
+
+**Verified on the built output, and the check that mattered was not "is the
+property present" but "does it resolve":** for all 5 BlogPosting pages the
+image URL both exists as a file in `dist/` AND appears on that page's own HTML.
+A hashed imagetools URL in schema pointing at a 404 would be worse than no
+image at all, and nothing else in the build would catch it.
+
+### Still not done, and neither is code
+1. **The sitemap is not submitted anywhere** — no Search Console verification is
+   visible in the repo. Google has to be told the sitemap exists, and it is also
+   the only place to see whether any of these pages got indexed.
+2. **Every sitemap URL is the apex form, which 308-redirects to www** — Search
+   Console reports that as "Page with redirect". `VERCEL.md` §1.
+
+## Vercel Web Analytics added — 21-09-2026
+NOT a phase. Clinton pasted Vercel's quickstart and asked for it. `<Analytics />`
+is mounted once in `RootLayout.jsx`, beside `DeferredToaster`.
+
+- ⛔ **`@vercel/analytics/react`, NOT `/next`.** The quickstart Clinton pasted
+  is the Next.js one and its import pulls in Next internals; this app is Vite +
+  react-router, so it would not resolve. The package ships a separate React
+  entry point for exactly this case.
+- ⛔ **PRODUCTION ONLY — `{import.meta.env.PROD && <Analytics />}`.** Two
+  reasons, and the second is the practical one. A localhost session reports
+  into the same property as real traffic and **those hits cannot be deleted**;
+  and the script lives at `/_vercel/insights/script.js`, which only Vercel's
+  edge serves, so under `npm run dev` it 404s and the package logs a failure to
+  the console on every page load.
+  ⚠️ **The package's own dev detection does NOT cover this.** It reads
+  `process.env.NODE_ENV` inside a try/catch — `process` does not exist in a
+  Vite browser bundle, so the catch falls through to `"production"`. Gating at
+  the call site is what actually works. Same rule `lib/analytics.js` already
+  applies to GA4.
+- ⚠️ **Nothing to guard for SSR, and worth knowing WHY** so nobody wraps it in
+  `useIdleMount` later "to be safe": the component `return null` and does all
+  its work in `useEffect`, so it emits no markup during the Phase 9
+  `renderToString` pass and cannot mismatch on hydration. Verified: **0
+  occurrences of `_vercel/insights` in the prerendered HTML**, present in the
+  client bundle. Contrast with the Toaster directly above it, which IS lazy and
+  therefore does need the idle-mount gate.
+- ⚠️ **NO `route` PROP, deliberately.** Passing one sets `disableAutoTrack` and
+  groups URLs under a pattern — right for a `/blog/[slug]` site, wrong here.
+  All 64 routes are distinct pages, and the question worth answering is which
+  service page earns traffic. Auto-tracking reports real paths.
+- ⚠️ **This is the SECOND analytics tag on the site.** GA4 (`G-ZRG07MX0NC`) is
+  still in `index.html` and both now fire. Deliberate, but do not assume one is
+  a replacement for the other when reading numbers — they count differently.
+
+**Verified in a real browser against the production build** (`npx serve dist`,
+port 4177): exactly **1** insights script injected, `src` correct, `defer:
+true`, the `window.va` queue shim installed, `window.vam === "production"`, GA4's
+`gtag` still present alongside it. An in-app navigation `/` -> `/about` updated
+the title, did **not** re-inject the script, and produced **0 window errors**.
+Main chunk 585,400 -> 587,638 bytes (+2.2KB).
+
+⚠️ **Route tracking itself could NOT be verified locally and was not claimed.**
+The pageview-on-history-change logic lives in the remote `script.js`, which
+404s anywhere but Vercel — so `window.vaq` stays empty here. It will only be
+confirmable on a real deploy.
+
+### Two things that are not code
+1. **Web Analytics has to be enabled for the project in the Vercel dashboard**
+   (Project -> Analytics). Until it is, the script 404s in production too and
+   the package logs exactly that hint to the console.
+2. ⛔ **The site now ships TWO third-party analytics trackers and still has no
+   privacy policy.** All five legal pages are `sections: null`. This was already
+   recorded as open for GA4; adding a second collector makes it more pressing,
+   not less. `privacy-policy.js`'s header already notes EmailJS as a third-party
+   recipient — GA4 and Vercel Analytics both belong in that disclosure.
+
+## ⛔ The hero shader no longer runs without a GPU — PSI 53/28 — 21-09-2026
+NOT a phase. Clinton shared a PageSpeed Insights report and asked for a plan;
+P1 + P2 + P5 of that plan are implemented here. **P3 (other animations), P4
+(console errors) and P6 (unused JS) are NOT done** and are still worth doing —
+see the end of this section.
+
+### What the report actually said
+| | Perf | A11y | Best Practices | SEO |
+|---|---|---|---|---|
+| Desktop | **53** | 100 | 96 | 100 |
+| Mobile | **28** | 100 | 96 | 100 |
+
+FCP 0.7s and LCP 1.7s on desktop, CLS 0.007 — all fine. **TBT 20,260ms desktop
+/ 11,130ms mobile.** Exactly ONE opportunity audit failed in the whole report
+(unused-javascript, 120ms). Page weight 881KB. Render-blocking, image sizing,
+compression, caching and CLS all passed.
+
+The main-thread breakdown is the whole diagnosis:
+
+    Other (rasterisation)  27,811 ms      (33,007 ms mobile)
+    Script Evaluation         736 ms      ( 1,318 ms mobile)
+
+**Not a JavaScript problem.** Long tasks were ~600ms each, repeating every
+~600ms from 3.7s to 22.3s — a render loop where one frame costs 600ms.
+
+### ⛔ THIS FILE WAS WRONG THREE TIMES, AND THAT IS THE LESSON
+Phase 4, the DarkVeil session and Phase 10 each record that low fps measured
+under software rendering is "a harness artefact — disregard it". The DarkVeil
+session goes furthest: "the performance panic was an artefact of my own test
+setup… the resolution cut was solving a problem that only existed in the test
+environment."
+
+That was true of a locally-launched `--use-angle=swiftshader` Chrome and
+**false as a general rule. PageSpeed Insights runs precisely that
+environment**, and so does a low-end Android phone — which on this site's
+audience is a large share of real traffic. The 2.6fps reading was never noise;
+it was an accurate preview of a 28/100 mobile score.
+
+⚠️ **Phase 10's standing advice — "always check whether Chrome had a GPU
+before drawing a perf conclusion" — still holds, but it cuts BOTH ways.** A
+GPU-less number is not automatically invalid; it is the correct number for
+every GPU-less client, and Google's own measurement is one of them. Ask which
+population the environment represents, not just whether it had a GPU.
+
+### Measured, three arms, production build under `--use-angle=swiftshader`
+Frame time over 8s, same machine, same flags:
+
+| arm | fps | frame |
+|---|---|---|
+| A — as shipped | **10.5** | 95ms |
+| B — veil canvas removed | 33.3 | 30ms |
+| C — B + all animation disabled | 58.8 | 17ms |
+
+So the shader alone costs **~65ms/frame** and every other animation on the page
+combined costs ~13ms. It is roughly 5× everything else put together.
+
+⚠️ `TaskDuration` from CDP `Performance.getMetrics` reports this BACKWARDS
+(137ms with the veil vs 275ms without) because a blocked main thread runs fewer
+scheduled tasks, and time inside the GL raster is not a task at all. That is
+also why Lighthouse files it under "Other". **Measure frame time, not task
+time, for anything rasterisation-bound.**
+
+### P1 — `src/lib/gpu.js` + `src/hooks/useHardwareGpu.js` (new)
+`hasHardwareGpu()` creates one throwaway context, reads
+`WEBGL_debug_renderer_info` and matches the renderer string against
+SwiftShader / llvmpipe / softpipe / WARP / Mesa offscreen. Memoised; the probe
+context is released with `WEBGL_lose_context` (Chrome caps live contexts at ~16
+and silently drops the oldest).
+- ⚠️ **Asymmetric on purpose:** no WebGL at all → false; a MASKED renderer
+  string → **true**. Firefox with `privacy.resistFingerprinting` and strict
+  Brave mask it, and those users overwhelmingly do have a GPU. PSI's own Chrome
+  reports it plainly (verified: "ANGLE (Google, Vulkan 1.3.0 (SwiftShader
+  Device…"), so the case this exists for is covered without punishing the case
+  it cannot see.
+- ⚠️ **The hook is `useSyncExternalStore`, not `useState` + `useEffect`, and
+  not a bare call during render.** Three constraints at once: the server
+  prerenders with no `document` so it can only answer "no" (a render-time read
+  is a hydration mismatch on the busiest route); `react-hooks/set-state-in-effect`
+  rejects a synchronous setState in an effect body (**the first draft did
+  exactly that and lint caught it** — same rule as `useMountedAt` in Phase 8);
+  and React may call `getSnapshot` repeatedly, which the memoisation makes
+  safe. `getServerSnapshot` returns false, so hydration matches by construction.
+- ⛔ **The fallback is L1 alone (`--gradient-deep`), Clinton's call, and NOT a
+  single static shader frame.** One static frame still pays a full software
+  raster of a full-screen per-pixel shader — the 600ms tasks PSI recorded ARE
+  single frames — so it would keep most of the cost for a fraction of the
+  effect. The gradient is what `prefers-reduced-motion` already ships, so there
+  was nothing new to design.
+
+### P2 — 30fps wall-clock cap (`DarkVeil.jsx`)
+⚠️ **The old `tick % 2` frame-skip was 30fps only on a 60Hz display.** On the
+120Hz panels now shipping it silently ran at 60fps and cost twice what its own
+comment claimed. Now a `performance.now()` budget, refresh-rate independent.
+The 8ms tolerance is load-bearing: a naive `>= 33.33` test clears 33.34ms only
+after jitter and intermittently skips a third frame (20fps, visibly uneven).
+Verified by counting real `drawArrays` calls: **exactly 30/sec** on hardware.
+
+### P5 — source maps (`vite.config.js`)
+⛔ **THIS PUBLISHES THE FULL ORIGINAL SOURCE INCLUDING EVERY COMMENT**, at
+`/assets/*.js.map`. That is a heavier decision in THIS repo than in most,
+because the comments name unconfirmed figures, record which content is
+placeholder and discuss competitors — `testimonials.js` carries
+`confirmed: false` beside eight quotes the homepage renders as real. Flagged to
+Clinton at implementation time. `sourcemap: false` reverts it; `"hidden"` is
+not a middle ground (the maps still ship, Lighthouse still can't find them).
+
+### Verified
+`npm run lint` 0 errors (the 4 warnings are pre-existing, in `DscEsign.jsx` and
+`DscHub.jsx` from other sessions), `content:check` clean apart from the
+standing testimonial blocker, `build` + prerender 64 routes + 14 redirects with
+both gates passing, 87 `.map` files emitted.
+
+Real Chrome over CDP against `npx serve dist`, both environments:
+
+| | renderer | veil canvas | page fps | shader repaints/s |
+|---|---|---|---|---|
+| software GL | SwiftShader | **0** | **33.3** (was 10.5) | n/a |
+| hardware GL | Apple M1 | 1 | **59.9** | **30** |
+
+Base gradient present in both; `<h1>` unchanged; prerendered `dist/index.html`
+contains **0** veil canvases, so there is no hydration mismatch to introduce.
+Reduced motion on hardware: canvas mounted, **0 repaints in 4s**, 0 running
+animations — the `renderOnce(0)` early-return path survived the loop rewrite.
+Console: 1 exception per load in every arm, the long-standing sitewide React
+#418. None added.
+
+⚠️ **A local `npx lighthouse` run was attempted and its trace engine CRASHED**
+(`#computeInsights`), returning `undefined` for LCP/TBT and a score of 0. That
+is an artefact of the crash, not a result — **do not quote it.** The frame-rate
+A/B above is the evidence.
+
+⚠️ **PSI has NOT been re-run** (its API quota was exhausted). The expected
+recovery is inferred from the measurements, not measured end to end. Re-run
+PageSpeed Insights after the next deploy before quoting a score.
+
+### P3 — the two hero idle loops, done the same session
+⛔ **THE GUESS IN THE PLAN WAS WRONG, AND ONLY ABLATION FOUND IT.** The
+candidate list was "the typewriter re-rendering per character, two marquees,
+hero floaters, the 8-quote testimonial carousel" — the busy-looking things.
+Measured on the production build under `--use-angle=swiftshader`, each arm 7s
+of rAF sampling, disabling ONE family at a time:
+
+| ablation | fps |
+|---|---|
+| baseline, as shipped | ~28 |
+| typewriter transitions off (31 of them) | 31 |
+| image-skeleton sweep off | 27 |
+| notice marquee off | 25 |
+| chevron bounce off | 24 |
+| **`.hero-image-drift` + `.hero-card-float` off** | **59.9** |
+
+Everything on the candidate list is inside run-to-run noise. **Two CSS
+keyframe loops are the entire gap**, and removing only one gets ~33fps — both
+layers have to stop, each costing ~15ms of software raster per frame. Removing
+the typewriter element outright (not just its transitions, so React's
+per-character re-render goes too) changed nothing: 27.5fps.
+
+⚠️ **Three plausible fixes were measured and ALL FAILED. Do not retry them:**
+`will-change: transform` (no change — Phase 4 already recorded that an
+actively animating transform is composited regardless); removing the SVG
+`clip-path` from the figure (no change, so the clip is not the cause);
+`visibility: hidden` on the figure while it kept animating (no change, so it
+is not the painting of the image either). The cost is the animated layer and
+its SIZE — which is why a 24px chevron animating a few hundred pixels away
+costs nothing measurable.
+
+**Fix: `data-gpu` on `<html>`**, written once by `RootLayout` from the same
+`hasHardwareGpu()` P1 added, with theme.css withholding both animations under
+`html:not([data-gpu="hw"])`.
+- ⚠️ **An ATTRIBUTE, not React state** — nothing re-renders, one DOM write, and
+  CSS scopes to it directly.
+- ⚠️ **"Absent" means "no GPU", and that direction is deliberate.** The
+  attribute is missing from the prerendered HTML and until the effect runs, so
+  on real hardware the loops start a beat late rather than running for a beat
+  on a machine that cannot afford them. They are ambient idle loops; nobody
+  sees a 50ms late start.
+- ⚠️ It detects SOFTWARE RENDERING, not "slow GPU". A cheap Android has a real
+  if weak GPU and still runs both. Gate on a measured frame budget rather than
+  widening this check if mobile ever needs the same treatment.
+- The hook is reused as-is; `data-gpu` is deliberately generic so any future
+  expensive effect can hang off the same signal.
+
+**Measured end state under software GL: 10.5 → 33.3 (P1) → 59.5 fps (P3).**
+Hardware GL is unchanged at 59.9fps with the veil mounted and both loops
+running. Reduced motion on hardware: veil mounted, **0 repaints in 3s, 0
+running animations, 0 elements stuck mid-opacity**. 52 animations (typewriter,
+marquees, skeletons, chevron) still run under software GL and the page still
+holds 59.5fps — which is the direct confirmation that they were never the
+problem.
+
+⚠️ **Discovered while profiling, not fixed, and not a bug:** four
+`img-skeleton-sweep` loops run forever on the homepage, because they belong to
+`loading="lazy"` images below the fold that never load when nobody scrolls —
+exactly the Lighthouse case. The hero's own skeleton correctly stops
+(`data-loaded="true"`, `animation: none`), so the mechanism works. Measured
+cost is nil, so it was left alone; if it ever matters, pause the sweep with an
+IntersectionObserver rather than removing it.
+
+⚠️ **Probe trap that produced a false alarm:** a 3.5s settle after a full
+`location.href` navigation reported **`h1 0` on `/` and `/about`** while the
+`<title>` was already correct — which reads exactly like the change having
+broken the heading. It is the `React.lazy` + `Suspense` fallback: under
+software rendering the route chunk had not resolved, so `#root` held the plain
+fallback block. The prerendered HTML has exactly one `<h1>` on both, and at an
+8s settle all six routes checked report `h1 1`. **Settle ~8s, not 3.5s, when
+navigating between lazy routes under software GL.**
+
+### P4 — the sitewide React #418 is FIXED, and it was never cosmetic
+⛔ **ROOT CAUSE: `MobileNav.jsx`'s `const canPortal = typeof document !==
+"undefined"`.** Present since 13-08-2026 (the mobile-sheet portal fix), logged
+on EVERY route since, and recorded in this file ~32 times as "long-standing,
+sitewide, unexplained".
+
+The guard was genuinely needed — `document` does not exist in Phase 9's Node
+prerender pass — but it answers the WRONG QUESTION. "Am I in a browser" is
+already true on the client's FIRST render, i.e. the hydration render. So the
+scrim and panel were absent from the prerendered HTML and present the instant
+React hydrated. It is the first bullet in React's own error text: *"a
+server/client branch `if (typeof window !== 'undefined')`"*.
+
+⚠️ **THE CONSEQUENCE WAS FAR WORSE THAN A CONSOLE LINE, and this is why it was
+worth chasing.** A hydration mismatch makes React discard the server-rendered
+tree and re-render it on the client — and every page template is `React.lazy`
+(Phase 7), so the regenerated tree hit an unresolved Suspense boundary and
+rendered `RootLayout`'s blank fallback. **On every route, on every visit, the
+fully-prerendered page was being thrown away and replaced by an empty dark
+block until the route chunk arrived.** That is the "h1 disappears" symptom
+noticed while profiling P3 and written off there as a probe artefact; it was
+the real bug, and the probe was right.
+
+**Fix: `src/hooks/useHydrated.js` (new)** — `useSyncExternalStore` with
+`getServerSnapshot: () => false`, `getSnapshot: () => true`. False on the
+server AND during the hydration render, so it cannot mismatch; true from the
+first commit after. The portal still never runs under Node, so the crash the
+original guard existed to prevent is still prevented. Third use of
+`useSyncExternalStore` this session, for the same underlying reason:
+`react-hooks/set-state-in-effect` rejects the `useState` + `useEffect` shape.
+
+### ⚠️ How to debug a hydration mismatch in this repo — the method, not the fix
+The minified error is useless on its own: `Minified React error #418;
+args[]=HTML&args[]=` names nothing, and its whole stack is React internals, so
+source maps do not help either.
+
+⛔ **`vite build --mode development` DOES NOT WORK** — Vite pins
+`NODE_ENV=production` for every build, so `--mode` changes only `.env` loading
+and `import.meta.env.MODE`. The bundle came out byte-identical (same content
+hash), which looks exactly like the flag having worked.
+
+**What works:**
+
+    rm -rf dist
+    NODE_ENV=development npx vite build
+    NODE_ENV=development node scripts/prerender.mjs
+    npx serve dist          # never `vite preview`, never `-s`
+
+That ships React's development build, which prints the full message **and a
+diff of the offending subtree**, with `+` marking what the client rendered and
+the server did not. It named the exact element in one run:
+
+    + <div aria-hidden="true" data-open="false"
+    +      className="mobile-sheet-scrim fixed inset-0 z-50 ..." >
+
+Then rebuild with plain `npm run build`. Do not leave `dist/` in a dev build.
+
+⚠️ A dev build is also the most sensitive detector this repo has for React
+problems generally — it surfaces every warning the production build swallows.
+Worth a run after any change to SSR, hydration or a portal.
+
+### Verified — P4
+- **Dev build, 15 routes spanning every template family** (`/`, `/about`,
+  `/contact`, `/dsc`, `/dsc/buy-token`, `/dsc/faqs`, `/services`, a T3 hub, a
+  T2 leaf, `/partner-with-us`, `/insights`, `/notices`, a notice detail, a
+  legal page, and a 404): **0 console errors on every one**, one `<h1>` each.
+  No second mismatch was hiding behind the first.
+- **Production build, `<h1>` sampled on every animation frame from the first
+  frame of the document**, under software GL (the slow case where the fallback
+  was appearing): `/`, `/about` and a T2 leaf all report **min 1, max 1, zero
+  frames with no `<h1>`** across ~400 samples each. Before the fix the same
+  probe read 0 at a 3.5s settle.
+- **Mobile sheet at 375px still works** — scrim and sheet present after
+  hydration, opens (`data-open="true"`, `aria-expanded="true"`, 50 links, not
+  inert), closes from the scrim, 0 errors.
+- **P1/P2/P3 unaffected**: software GL `data-gpu=sw`, veil 0, drift none,
+  **59.9fps**; hardware GL `data-gpu=hw`, veil mounted, drift running,
+  **60.2fps**. **0 console errors in both.**
+- `lint` 0 errors, `content:check` clean, `build` + prerender 64 routes + 14
+  redirects, both gates passing.
+
+⚠️ **~32 earlier notes in this file describe "exactly 1 console error per
+route, the long-standing sitewide React #418" as an expected baseline. They are
+now HISTORICAL.** The correct expectation from 21-09-2026 is **zero**. If a
+future verification pass sees one, it is new — do not wave it through as the
+known one.
+
+### P6 — unused JavaScript, and the much bigger thing it was hiding
+The audit itself is worth 137KB / 120ms and **more than half of it (72KB) is
+Google Tag Manager, which cannot be trimmed.** Chasing the audit alone would
+have been close to pointless, which is what I said twice before doing it.
+Measuring properly found something the audit structurally CANNOT report.
+
+**Bundle composition, attributed through the source maps P5 enabled** (note
+`source-map-explorer` CHOKES on Rolldown's maps — "refers to generated column
+Infinity"; the mappings had to be decoded by hand, ~40 lines of base64 VLQ):
+
+    main chunk 574KB   react-dom + scheduler ~360KB
+                       motion-dom + motion-utils ~185KB
+                       react-router 15KB, lucide 8KB
+    home chunk  97KB   ogl 67KB, lucide 16KB
+
+⛔ **THE REAL FINDING: a cold homepage load fetched a 289KB `services-*.js`
+chunk — all 31 service leaves — to render SIX FAQ ANSWERS.** Traced to
+`Faqs.jsx` → `homeFaqs()` → `content/faqs/home.js` → `content/services/index.js`.
+It is the largest asset on the page by a distance.
+
+⚠️ **The "unused JavaScript" audit reports it as 0% unused, because it is
+fully executed** — every leaf module runs on import. That is exactly why it
+never appeared in the report and why it survived Phase 7's code-splitting pass,
+Phase 10's audit and every session since. **A bytes-downloaded measurement
+finds things a bytes-unused audit is blind to; run both.**
+
+**Fix: resolve at BUILD time, keep the by-reference discipline.**
+`scripts/home-faqs.mjs` (new, 7th permanent script, wired into `prebuild`)
+runs the SAME `homeFaqs()` resolver in Node and writes
+`src/content/faqs/home.generated.js` — 3.4KB of literals. `Faqs.jsx` imports
+that.
+- ⛔ **This does NOT fork the content, which is the whole reason the
+  by-reference rule exists.** The generated file is rewritten on every build
+  from the leaves, so a CA correction still reaches the homepage. Editing a
+  homepage FAQ is still not a writing task: change `SELECTION` in `home.js`,
+  never the generated file.
+- The generator **fails the build** if fewer entries resolve than `SELECTION`
+  declares. At runtime an unresolvable pointer is dropped with a warning, which
+  is right for a live page; silently shipping a shorter row is not.
+- The generated file is committed, matching the precedent of `public/sitemap.xml`.
+
+**Second fix: `DarkVeil` is now `React.lazy`, so `ogl` is never DOWNLOADED
+without a GPU** — P1 only stopped it EXECUTING, while a static import kept 67KB
+of `ogl` in the homepage's route chunk and shipped it to precisely the visitors
+P1 had just decided must not use it. `home` chunk 96.6KB → 41.1KB, with
+`DarkVeil-*.js` (57.9KB) split out.
+- ⚠️ **Safe ONLY because `veilReady` gates it.** `useIdleMount`'s docblock
+  warns against `lazy()` + `<Suspense>` here — `renderToString` cannot resolve
+  a lazy import, emits an unfinished boundary, and the client throws React #419.
+  That applies to a BARE Suspense. Here the flag is false during SSR and during
+  the hydration render, so neither boundary nor child is ever server-rendered.
+  **Do not hoist that `<Suspense>` above the `veilReady` check.**
+
+**Measured on a cold homepage load, transferred bytes:**
+
+| | before | after |
+|---|---|---|
+| `services-*.js` (83KB gzip) | fetched | **not fetched** |
+| `DarkVeil`/`ogl` (19KB gzip) | fetched by everyone | **hardware GPU only** |
+| JS transferred, software GL | — | 246KB |
+| JS transferred, hardware GL | — | 265KB |
+
+≈**102KB gzip less JavaScript for a GPU-less mobile visitor**, which is the
+population PSI measures and the one scoring 28.
+
+⚠️ **NOT attempted: `motion` (~185KB, ~47% unused in the eager chunk).** The
+only real lever is framer-motion's `LazyMotion` + `m.*`, which means touching
+every `motion.*` call site across ~30 files, including the hero's
+above-the-fold entrance. High regression risk against a ~120ms audit item, on a
+page now holding 60fps. Deliberately declined, not overlooked.
+
+### Verified — P6
+- FAQ integrity: prerendered `dist/index.html` carries **6 FAQPage entries, all
+  with real answers (208–318 chars), 0 empty**; live accordion shows 6 rows,
+  one open, and clicking row 3 expands to a 350-char answer.
+- Service pages unaffected — they legitimately import the graph:
+  `/services/gst/registration` renders 13,661 chars of body text and 8 FAQ rows.
+- Software GL `data-gpu=sw`, veil 0, **59.9fps**; hardware GL `data-gpu=hw`,
+  veil 1, **60.2fps**. **0 console errors on either**, and 0 across
+  `/services`, `/dsc`, `/about`, `/insights`.
+- `lint` 0 errors, `content:check` clean, `build` + prerender 64 routes + 14
+  redirects, both gates passing.
+
+### Still open from the same report
+- Mobile FCP 4.8s / LCP 6.6s are dominated by the 574KB main chunk and 111KB of
+  CSS over slow 4G, not by the shader — the veil mounts on idle, after FCP.
+
+## HYP2003 token page targeted at Salem / Tamil Nadu — 21-09-2026
+Clinton: "HYP2003 tokens in tamil nadu, HYP2003 tokens in salem, HYP2003 tokens
+nearme — do these keyword add for seo." Two of the three were added;
+the third is explained below and deliberately was not.
+
+`/dsc/buy-token` had **zero** occurrences of Salem or Tamil Nadu in its title,
+description or body. Now:
+
+| | before | after |
+|---|---|---|
+| title | Buy a HYP2003 FIPS 140-3 DSC Token \| ThinkOrange | **Buy HYP2003 DSC Tokens in Salem, Tamil Nadu** \| ThinkOrange (57) |
+| description | …Shipped across India. | **Order HYP2003 DSC tokens in Salem and across Tamil Nadu** — FIPS 140-3 Level 3, CCA India listed, 64 KB. Shipped anywhere in India. (129) |
+| `lede` (body) | — | closes "Order from our **Salem, Tamil Nadu** office — shipped anywhere in India." |
+
+Plural "Tokens" in the title matches the queries as typed. Every string keeps
+the national claim alongside the city, per the 21-09-2026 pan-India amendment.
+
+### ⛔ "near me" was NOT added, and must not be
+Google resolves a "near me" query from the SEARCHER'S LOCATION against a Google
+Business Profile — not from the literal phrase appearing on a page. Writing
+"near me" into copy is a well-known low-value pattern that reads as keyword
+stuffing and ranks for nothing. **The only thing that wins those queries is the
+GBP, which still does not exist.** This is the third separate occasion in one
+day that the missing GBP has been the actual answer to a ranking question.
+
+### ⚠️ `meta.keywords` IN THE CONTENT FILES IS DEAD DATA
+`tokenProduct.meta.keywords` existed already and **nothing reads it** — verified
+against `lib/seo.js` and `prerender.mjs`, and no `<meta name="keywords">` is
+emitted on any of the 80 built pages. That is correct: Google dropped support
+in 2009 and Bing in 2014. It is kept, with the new phrases added and a comment
+saying plainly that it is not rendered, purely as a record of what the page is
+written for. **Do not wire it up to a meta tag, and do not treat adding a
+phrase to it as having done any SEO work.**
+
+### ⚠️ What could NOT be said, and why
+`token.js`'s header lists five claims refused from the vendor reference. Two of
+them bear directly on location copy and both remain refused:
+- **"Exclusive Premium Distributor · Tamil Nadu"** — an authorisation claim
+  about a commercial relationship. So the page targets Tamil Nadu as a market,
+  never as a territory it has rights in.
+- **"Stock in Salem, dispatched the same day"** — a turnaround guarantee on
+  §1.1's hold list. So the new sentence says where the OFFICE is and that we
+  ship nationally, both already published sitewide, and says nothing about
+  where stock sits or how fast it moves. **A future edit that turns "order from
+  our Salem office" into "in stock in Salem" or "dispatched same day" is
+  reintroducing a refused claim.**
+
+Verified: title 57 chars, description 129, **0 titles over 60 / 0 duplicate
+titles / 0 duplicate descriptions across all 80 built pages**, Salem and Tamil
+Nadu each rendering 8 times on the page, no `<meta name="keywords">` anywhere,
+no "near me" anywhere, and none of the refused claims present. OG card
+regenerated from the new title. `lint` 0 errors, `content:check` clean, `build`
++ prerender 64 routes + 14 redirects with both gates passing.
+
+## Placeholder pages are noindex and out of the sitemap — 21-09-2026
+Clinton: "is there anything to added regarding seo." An audit of the BUILT
+output rather than a recollection, which turned up two things worth acting on
+and one correction to this file.
+
+### ✅ CORRECTION: Search Console IS verified
+`public/google1f37f388734d49cc.html` exists and is served. The 21-09-2026 SEO
+pass listed "no Search Console verification is visible in the repo" as an open
+item and as a reason the sitemap was not submitted — **that was wrong**; the
+verification file was already there. What cannot be checked from the repo is
+whether the sitemap has actually been SUBMITTED inside the console, which is a
+different action and still worth confirming.
+
+### ⛔ 6 near-duplicate thin pages were being offered to Google
+Word counts over `dist/`, body text only:
+
+    235  /disclaimer                  237  /privacy-policy
+    237  /terms-and-conditions        239  /refund-policy
+    239  /shipping-delivery-policy    275  /dsc/esign-solution
+
+All five legal pages land within 4 words of each other because they render the
+same `PendingLegal` "being finalised" shell; `/dsc/esign-solution` renders
+`<ComingSoon />`. All six were `index, follow` AND listed in sitemap.xml — i.e.
+the site was actively asking Google to index six near-identical placeholders,
+on a site whose other 58 pages are substantial.
+
+**Fix, and it is ONE decision point:** `resolveSeo()` now returns
+`noindex, follow` for them, and `scripts/seo-files.mjs` filters the sitemap on
+that same value rather than keeping its own list. A noindex page listed in a
+sitemap is a self-contradiction Search Console reports as an error ("Submitted
+URL marked noindex"), so the two must never be able to drift.
+- `follow`, not `nofollow` — their links out should still pass.
+- **They are still prerendered and still reachable.** A visitor clicking
+  "Privacy Policy" in the footer lands on a real page (245 words, correct
+  `<h1>`). This only stops them being offered to a crawler.
+- ⚠️ **The legal test is SELF-HEALING and must stay that way**: it is
+  `sections == null`, the same flag `LegalPage.jsx` branches on to render
+  `PendingLegal`. The day real CA-reviewed copy lands, that page becomes
+  indexable and re-enters the sitemap with no code change. **Do not convert it
+  to a hardcoded list of legal paths.**
+- ⛔ `/dsc/esign-solution` IS hardcoded (`PLACEHOLDER_PATHS` in `lib/seo.js`),
+  because it is not derivable: `DscEsign.jsx` renders `<ComingSoon />` with its
+  real body commented out while `esign-solution.js` still holds the full
+  written content, so the content layer thinks the page is complete.
+  **REMOVE THAT ENTRY when the component's body is uncommented**, or the
+  finished page will stay out of the index.
+- `llms.txt` deliberately keeps the FULL set — it is a map for a reader that
+  asked for one, not a crawl request.
+
+Verified: sitemap 64 → **58 urls, 6 noindex excluded**, all 64 routes still
+prerendered, **0 noindex-in-sitemap contradictions**, 59 indexable pages of
+which 58 are in the sitemap (the 59th is the Search Console verification file,
+correctly absent).
+
+### Still open, and none of it is code
+1. ⛔ **The www/apex canonical conflict — re-confirmed live today.**
+   `https://thinkorange.in/about` still 308s to `www`, and the page served at
+   `www` still declares `<link rel="canonical" href="https://thinkorange.in/about">`.
+   All 64 pages declare a canonical that redirects. Vercel dashboard, `VERCEL.md` §1.
+   Highest-value item on this list.
+2. ⛔ **No Google Business Profile.** Third time in one day this has been the
+   real answer to a ranking question ("DSC in Salem", "HYP2003 tokens near me",
+   and the local pack generally). Free, and nothing on-page substitutes.
+3. **`sameAs` is still absent** from `Organization`/`LocalBusiness` — verified,
+   0 occurrences in the built HTML. Needs the GBP, LinkedIn, Facebook and
+   Instagram URLs from Clinton; guessing them is the same failure as inventing
+   a fee.
+4. **Confirm the sitemap is submitted** in Search Console (verification alone
+   does not submit it).
+5. `hreflang` is absent and that is **fine** — one language, one locale. A
+   self-referencing `en-IN` would add markup and change nothing. Only worth it
+   if a second language is ever published.
+6. Content, not infrastructure: `/insights` has 4 articles, and a dedicated
+   `/dsc/salem` location page was offered on 21-09-2026 and never decided on
+   (it needs one answer from Clinton — walk-in or appointment-only).

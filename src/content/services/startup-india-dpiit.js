@@ -19,7 +19,7 @@ export default {
   h1: "Startup India (DPIIT) Registration",
 
   meta: {
-    title: "Startup India DPIIT Recognition | ThinkOrange Consulting",
+    title: "Startup India DPIIT Recognition | ThinkOrange",
     description:
       "DPIIT startup recognition against the current 2026 eligibility criteria, with the application and supporting documentation handled.",
     keywords: [

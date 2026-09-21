@@ -33,7 +33,7 @@ export default {
   meta: {
     title: "Tax Planning & Advisory | ThinkOrange",
     description:
-      "Regime comparison, advance tax, capital gains timing and business structure reviewed on your actual numbers under the Income Tax Act 2025 — before the year ends.",
+      "Regime comparison, advance tax, capital gains timing and business structure, reviewed on your numbers under the Income Tax Act 2025 — before the year ends.",
     keywords: [
       "tax planning salem",
       "tax advisory consultant tamil nadu",

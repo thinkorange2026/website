@@ -56,6 +56,10 @@ export default function NoticeDetail({ path }) {
           description: notice.meta.description,
           path,
           datePublished: detail.published,
+          // The advisory graphic the page renders below — same object, so the
+          // schema and the visible image cannot diverge. 1672x941, over
+          // Google's 1200px guidance for an article image.
+          image: detail.image,
         })}
       />
 

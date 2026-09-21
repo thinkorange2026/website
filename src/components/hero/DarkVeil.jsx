@@ -302,18 +302,34 @@ export default function DarkVeil({
       renderer.render({ scene: mesh });
     };
 
-    // Render on every OTHER rAF tick, not every one. `speed` defaults to
-    // 0.35, so uTime already advances slowly — an ambient drift like this
-    // has no fast-changing detail for a skipped frame to lose, and halving
-    // how often the expensive per-pixel shader actually runs halves this
-    // layer's real-time cost without a visible change to the pattern. Time
-    // still advances by the FULL elapsed wall-clock each call (not by a
-    // fixed step), so the drift speed itself is unaffected — only how often
-    // the canvas is repainted changes.
-    let tick = 0;
+    // Repaint at most 30 times a second. `speed` defaults to 0.35, so uTime
+    // already advances slowly — an ambient drift like this has no
+    // fast-changing detail for a skipped frame to lose, and halving how often
+    // the expensive per-pixel shader actually runs halves this layer's
+    // real-time cost with no visible change to the pattern. Time still
+    // advances by the FULL elapsed wall-clock on each call (not by a fixed
+    // step), so the drift SPEED is unaffected — only the repaint rate changes.
+    //
+    // ⚠️ This was `tick % 2`, i.e. every other rAF callback — which is 30fps
+    // only on a 60Hz display. On the 120Hz panels now shipping on phones and
+    // laptops it silently doubled back to 60fps and cost twice what the
+    // comment claimed. A wall-clock budget is refresh-rate independent, which
+    // is the whole point.
+    //
+    // The tolerance matters: at exactly 60Hz, frames land 16.67ms apart, so a
+    // naive `>= 33.33` test would find 33.34ms only after jitter and would
+    // intermittently skip a THIRD frame (20fps, visibly uneven). Allowing the
+    // check to pass a little early snaps it to every second frame at 60Hz and
+    // every fourth at 120Hz, both exactly 30fps.
+    const FRAME_BUDGET_MS = 1000 / 30;
+    const FRAME_TOLERANCE_MS = 8;
+    let lastPaint = -Infinity;
     const loop = () => {
-      tick++;
-      if (tick % 2 === 0) renderOnce(performance.now() - start);
+      const now = performance.now();
+      if (now - lastPaint >= FRAME_BUDGET_MS - FRAME_TOLERANCE_MS) {
+        lastPaint = now;
+        renderOnce(now - start);
+      }
       frame = requestAnimationFrame(loop);
     };
 

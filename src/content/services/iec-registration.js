@@ -21,7 +21,7 @@ export default {
   h1: "Import Export Code (IEC) Registration",
 
   meta: {
-    title: "Import Export Code (IEC) Registration | ThinkOrange Consulting",
+    title: "Import Export Code (IEC) Registration | ThinkOrange",
     description:
       "Apply for your Import Export Code with DGFT — documents, fee and the mandatory annual update explained plainly. Handled end to end.",
     keywords: [

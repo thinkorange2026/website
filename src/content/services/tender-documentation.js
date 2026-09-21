@@ -15,7 +15,7 @@ export default {
   h1: "Tender Documentation Support",
 
   meta: {
-    title: "Tender Documentation Support | ThinkOrange Consulting",
+    title: "Tender Documentation Support | ThinkOrange",
     description:
       "Document preparation, eligibility checks and e-tendering portal support for a specific bid. For clients across India.",
     keywords: [

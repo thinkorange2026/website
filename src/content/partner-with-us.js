@@ -36,7 +36,7 @@
 
 export const partnerContent = {
   meta: {
-    title: "Become a DSC Partner | ThinkOrange Consulting",
+    title: "Become a DSC Partner | ThinkOrange",
     description:
       "Partner with ThinkOrange and issue Class 3, Combo and DGFT certificates for your own clients — your own login, your own verification, your clients stay yours.",
   },
@@ -141,7 +141,7 @@ export const partnerContent = {
     },
     {
       title: "Support that speaks your client's language",
-      body: "English and Tamil, from Salem. When your client cannot install a driver on a Friday evening, that call gets resolved rather than becoming a ticket number.",
+      body: "English and Tamil, from our own team. When your client cannot install a driver on a Friday evening, that call gets resolved rather than becoming a ticket number.",
     },
     {
       title: "We issue for government and PSU work ourselves",

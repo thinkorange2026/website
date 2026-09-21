@@ -75,6 +75,24 @@ export default defineConfig({
     imagetools({ exclude: [] }),
     criticalPathHtml(),
   ],
+  build: {
+    // Closes Lighthouse's `valid-source-maps` audit (Best Practices 96 -> 100
+    // alongside the console-errors fix), and makes a production stack trace
+    // readable instead of pointing at minified column offsets.
+    //
+    // ⛔ THIS PUBLISHES THE FULL ORIGINAL SOURCE, COMMENTS INCLUDED, at
+    // /assets/*.js.map — anyone can read it. That is a real decision for THIS
+    // repo specifically, because the comments are unusually candid: they name
+    // unconfirmed figures, record which content is placeholder, and discuss
+    // competitors. `src/content/testimonials.js` in particular carries
+    // `confirmed: false` beside eight quotes the homepage renders as real.
+    //
+    // Set to `false` to stop shipping them; nothing else depends on this.
+    // `"hidden"` is NOT a middle ground — it emits the maps but strips the
+    // sourceMappingURL comment, so Lighthouse cannot find them and the audit
+    // fails anyway, while the files still sit on the origin.
+    sourcemap: true,
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -17,7 +17,7 @@ export default {
   h1: "PF & ESI Registration",
 
   meta: {
-    title: "PF & ESI Registration | ThinkOrange Consulting",
+    title: "PF & ESI Registration | ThinkOrange",
     description:
       "EPFO and ESIC registration for employers — the applicability check, the Shram Suvidha filing, and the contribution calendar.",
     keywords: [

@@ -15,7 +15,7 @@ export default {
   h1: "Business Loan & Financing Support",
 
   meta: {
-    title: "Business Loan Facilitation | ThinkOrange Consulting",
+    title: "Business Loan Facilitation | ThinkOrange",
     description:
       "Financial statement preparation, CMA data and lender coordination for working capital and term loan applications.",
     keywords: [

@@ -21,7 +21,7 @@ export default {
   h1: "ROC & Annual Compliance for Companies and LLPs",
 
   meta: {
-    title: "ROC & Annual Compliance | ThinkOrange Consulting",
+    title: "ROC & Annual Compliance | ThinkOrange",
     description:
       "AOC-4, MGT-7 or MGT-7A, DIR-3 KYC and LLP Forms 8 and 11 — tracked and filed on time, every year. For companies and LLPs anywhere.",
     keywords: [

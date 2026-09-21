@@ -97,9 +97,9 @@ export const dscIntents = [
     lede:
       "GST, income tax, MCA and ROC, EPFO and ESIC, trademark. Which certificate each portal accepts, whose name it has to be in, and what you send us to get it issued.",
     meta: {
-      title: "DSC for GST, Income Tax, MCA and EPFO Filings | ThinkOrange Consulting",
+      title: "DSC for GST, Income Tax, MCA & EPFO Filings | ThinkOrange",
       description:
-        "Which Class 3 digital signature each statutory portal accepts — GST, income tax, MCA and ROC, EPFO and ESIC, trademark — whose name it must carry, and the documents required on the Aadhaar and PAN routes.",
+        "Which Class 3 digital signature GST, income tax, MCA, ROC, EPFO and ESIC accept, whose name it must carry, and the documents needed on each KYC route.",
     },
     intro: [
       "Most statutory portals in India accept a Class 3 signature certificate. What changes between them is whose name the certificate has to be in — your own, or your organisation's — and that depends on the portal and on how you are constituted.",
@@ -133,9 +133,9 @@ export const dscIntents = [
     lede:
       "GeM, CPPP, Railways and the state tender portals need a certificate that can both sign and encrypt. Here is what that means, whose name it goes in, and what to send us.",
     meta: {
-      title: "DSC for GeM and Government Tenders (Class 3 Combo) | ThinkOrange Consulting",
+      title: "DSC for GeM & Government Tenders | ThinkOrange",
       description:
-        "Bidding on GeM, CPPP, Railways or a state tender portal needs a Class 3 Combo digital signature — signing and encryption. Whose name it carries, the documents required, and why encryption cannot be added later.",
+        "Tender portals — GeM, CPPP, Railways, state e-procurement — need a Class 3 Combo certificate. Whose name it carries, and why encryption cannot be added later.",
     },
     intro: [
       "Procurement portals require a bid to be signed and encrypted before it is submitted, so a signing-only certificate is not enough on its own. Encryption cannot be added to a certificate after it has been issued.",
@@ -157,9 +157,9 @@ export const dscIntents = [
     lede:
       "DGFT licences, ICEGATE, RCMC and EPCG. The portal validates your certificate against your IEC profile, so the name on it has to match — here is exactly what that means.",
     meta: {
-      title: "DGFT Digital Signature — Documents Required and Which Certificate | ThinkOrange Consulting",
+      title: "DGFT Digital Signature — Documents Required | ThinkOrange",
       description:
-        "Which Class 3 certificate the DGFT portal accepts for IEC, ICEGATE, RCMC and EPCG, the documents required on the Aadhaar and PAN routes, and why the name on the certificate has to match your IEC profile exactly.",
+        "Which Class 3 certificate the DGFT portal accepts for IEC, ICEGATE, RCMC and EPCG, the documents required, and why the name must match your IEC exactly.",
     },
     intro: [
       "The DGFT portal does not simply check that you hold a certificate — it validates it against the PAN recorded in your IEC profile. A certificate that is perfectly valid elsewhere is rejected here if that name or PAN does not match.",
@@ -181,9 +181,9 @@ export const dscIntents = [
     lede:
       "Identity is verified against a passport rather than Aadhaar, and the whole process can be completed from outside India. Here is the route, the documents, and the attestation rules.",
     meta: {
-      title: "Digital Signature Certificate for Foreign Nationals (Passport Route) | ThinkOrange Consulting",
+      title: "Digital Signature for Foreign Nationals | ThinkOrange",
       description:
-        "How a foreign national gets an Indian Class 3 digital signature without Aadhaar: the passport-based verification route, the documents required, attestation and translation rules, and what changes if the applicant is outside India.",
+        "How a foreign national gets an Indian Class 3 digital signature without Aadhaar — the passport verification route, documents, and attestation rules.",
     },
     intro: [
       "A foreign applicant cannot use the Aadhaar route, so identity is established from the passport with attested supporting documents instead. The certificate itself is the same Class 3 certificate a domestic applicant gets, and it works on the same portals.",

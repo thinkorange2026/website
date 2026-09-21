@@ -9,7 +9,14 @@ import { organizationJsonLd, localBusinessJsonLd } from "@/lib/jsonld";
 import { useIdleMount } from "@/hooks/useIdleMount";
 import { wasPrerendered } from "@/lib/prerendered";
 import { trackPageView } from "@/lib/analytics";
+import { hasHardwareGpu } from "@/lib/gpu";
 import { useContactLinkTracking } from "@/hooks/useContactLinkTracking";
+import { OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT } from "@/lib/ogImage";
+// ⛔ THE "/react" ENTRY POINT, NOT "/next". Vercel's own quickstart hands you
+// `@vercel/analytics/next`, which pulls in Next.js internals — this app is
+// Vite + react-router, so that import does not resolve. The package ships a
+// separate React build for exactly this case.
+import { Analytics } from "@vercel/analytics/react";
 import { site } from "@/content/nav";
 
 const ORIGIN = `https://${site.domain}`;
@@ -104,6 +111,29 @@ export function RootLayout() {
   // one `getElementById` would miss on exactly the case this exists for.
   // `scroll-mt-*` on the targets supplies the fixed header's clearance, so
   // `scrollIntoView` needs no offset of its own here.
+  // ⛔ 21-09-2026 — marks the document with whether WebGL is hardware-backed,
+  // so CSS can withhold the expensive hero animations from machines that
+  // would have to rasterise them on the CPU. See src/lib/gpu.js for the
+  // measurements and theme.css's `html:not([data-gpu="hw"])` block for what
+  // this actually gates.
+  //
+  // Measured on the production build under `--use-angle=swiftshader`: with
+  // `.hero-image-drift` and `.hero-card-float` running the page holds ~28fps;
+  // with just those two stopped it holds 59.9fps, while the typewriter, the
+  // notice marquee, the image skeletons and the chevron all keep animating.
+  // Two large animated layers, ~15ms of software raster each, every frame.
+  //
+  // ⚠️ An ATTRIBUTE, not React state, on purpose: nothing re-renders, so this
+  // costs one DOM write and no reconciliation, and CSS can scope to it
+  // directly. The attribute is absent in the prerendered HTML and until this
+  // effect runs, and the CSS treats "absent" as "no GPU" — so the animations
+  // start a beat late on real hardware rather than running for a beat on a
+  // machine that cannot afford them. That is the right way round: they are
+  // idle ambient loops, and nobody can see that they began 50ms late.
+  useEffect(() => {
+    document.documentElement.dataset.gpu = hasHardwareGpu() ? "hw" : "sw";
+  }, []);
+
   useEffect(() => {
     const id = hash ? decodeURIComponent(hash.slice(1)) : "";
     if (!id) {
@@ -200,9 +230,19 @@ export function RootLayout() {
       upsertMeta("property", "og:description", description);
       upsertMeta("property", "og:url", canonical ?? `${ORIGIN}${pathname}`);
       upsertMeta("property", "og:image", ogImage);
+      // ⚠️ PARITY WITH scripts/prerender.mjs's buildHeadBlock(). These two
+      // write the same <head>, one at build time and one on navigation, and a
+      // tag added to either must be added to both — otherwise a shared link
+      // previews differently depending on whether the sharer hard-loaded the
+      // page or clicked through to it. Dimensions come from lib/ogImage.js,
+      // the one contract the card generator also reads.
+      upsertMeta("property", "og:image:width", String(OG_IMAGE_WIDTH));
+      upsertMeta("property", "og:image:height", String(OG_IMAGE_HEIGHT));
+      upsertMeta("property", "og:image:alt", title);
       upsertMeta("name", "twitter:card", "summary_large_image");
       upsertMeta("name", "twitter:title", title);
       upsertMeta("name", "twitter:description", description);
+      upsertMeta("name", "twitter:image", ogImage);
       upsertCanonical(canonical);
     });
     return () => {
@@ -298,6 +338,35 @@ export function RootLayout() {
           after you have scrolled is one that arrives too late to be useful. */}
       <ScrollNav />
       <DeferredToaster />
+      {/* ---- Vercel Web Analytics ------------------------------------
+          ⚠️ PRODUCTION ONLY, matching lib/analytics.js's own rule for GA4
+          ("DEV DOES NOT SEND"). Two reasons, and the second is the practical
+          one: a localhost session would report into the same property as real
+          traffic and those hits CANNOT be deleted afterwards; and the script
+          lives at /_vercel/insights/script.js, which only Vercel's edge
+          serves, so in `npm run dev` it 404s and the package logs a failure
+          to the console on every page load.
+          ⚠️ The package's own dev detection does NOT cover this — it reads
+          `process.env.NODE_ENV`, which does not exist in a Vite browser
+          bundle, so its try/catch falls through to "production". Gating here
+          is what actually works.
+
+          SSR-safe with nothing to guard: the component returns null and does
+          all its work in an effect, so it emits no markup during the Phase 9
+          `renderToString` pass and cannot cause a hydration mismatch. That is
+          why it needs neither `useIdleMount` nor a Suspense boundary, unlike
+          the Toaster above. The script it injects is `defer`.
+
+          ⚠️ NO `route` PROP, deliberately. Passing one sets
+          `disableAutoTrack` and groups URLs under a pattern — useful for
+          `/blog/[slug]`-style sites, wrong here: every one of these 64 routes
+          is a distinct page, and the whole question worth answering is which
+          service page earns traffic. Auto-tracking reports real paths.
+
+          ⚠️ This is the SECOND analytics tag on the site (GA4 is in
+          index.html). Deliberate and Clinton's call, but worth knowing both
+          are firing — and see the privacy-policy note below. */}
+      {import.meta.env.PROD && <Analytics />}
     </>
   );
 }

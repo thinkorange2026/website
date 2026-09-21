@@ -2,7 +2,32 @@
 <html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image" href="/images/logo-black.png" />
+    <!-- ICONS — all generated FROM public/favicon.svg, the client's own "TO"
+         monogram, by scripts/icons.mjs. ⛔ That script only resizes and pads
+         the supplied artwork; it never draws a mark of its own (Clinton,
+         21-09-2026: "this are my icon ... do not user generate logo. if need
+         to generate according to size change from this icons"). Re-run it by
+         hand after changing favicon.svg and commit the output.
+
+         ⚠️ The SVG link points at /icons/icon.svg, NOT /favicon.svg, and that
+         is deliberate: the supplied mark is 634x379 and every icon slot is a
+         SQUARE box. A browser fits a favicon rather than cropping it, so the
+         wide original renders as a letterboxed sliver. icon.svg is the same
+         paths re-wrapped on a square canvas — still vector, still the client's
+         artwork, just no longer the wrong shape for the slot.
+
+         ⚠️ The plate is WHITE because the mark's navy "T" (#0A2957) measures
+         1.36:1 against the site's ink-950 — invisible — versus 14.31:1 on
+         white. See scripts/icons.mjs for the full measurement.
+
+         ⚠️ theme-color's raw hex is the one sanctioned exception to DESIGN.md's
+         no-raw-hex rule: a <meta> tag cannot read theme.css's custom
+         properties. It is ink-950. -->
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/favicon-96.png" sizes="96x96" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#070C1C" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Google tag (gtag.js) — GA4 property G-ZRG07MX0NC.
          Deliberately OUTSIDE the SEO:START/SEO:END markers below:
@@ -44,13 +69,16 @@
       content="ThinkOrange Consulting Private Limited — GST, income tax, business setup, accounting & audit, government tenders, and Digital Signature Certificates. Salem, Tamil Nadu, serving clients pan-India."
     />
     <meta property="og:url" content="https://thinkorange.in/" />
-    <meta property="og:image" content="https://thinkorange.in/images/home/home-hero.jpg" />
+    <meta property="og:image" content="https://thinkorange.in/og/home.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ThinkOrange Consulting | GST, Income Tax & Compliance Advisory — Salem" />
     <meta
       name="twitter:description"
       content="ThinkOrange Consulting Private Limited — GST, income tax, business setup, accounting & audit, government tenders, and Digital Signature Certificates. Salem, Tamil Nadu, serving clients pan-India."
     />
+    <meta name="twitter:image" content="https://thinkorange.in/og/home.png" />
     <!-- SEO:END -->
   </head>
   <body>

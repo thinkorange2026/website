@@ -20,7 +20,7 @@ const differentiators = [
   },
   {
     title: "Pan-India, digital-first service",
-    body: "Based in Salem, working with clients across India — document collection, verification and filing happen digitally, so your location doesn't limit who you can engage.",
+    body: "Document collection, verification and filing happen digitally, so we work with clients anywhere in India — your location doesn't limit who you can engage.",
   },
   {
     title: "Client-centric, tailored solutions",

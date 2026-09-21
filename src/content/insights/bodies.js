@@ -141,7 +141,7 @@ export const articleBodies = {
             s("gstThresholdGoodsSpecial") +
             " for goods and " +
             s("gstThresholdServicesSpecial") +
-            " for services. Tamil Nadu is not a special category state, so a Salem business reads the first pair.",
+            " for services. Tamil Nadu is not a special category state, so a business there reads the first pair.",
           "Two details matter more than the numbers. Aggregate turnover is computed across all your GSTINs on one PAN and includes exempt supplies, so it is usually larger than the figure a founder has in mind. And once you cross, you have " +
             s("gstRegApplyWindow") +
             " to apply — the clock starts at the crossing, not at the point you notice it.",

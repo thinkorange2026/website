@@ -1,5 +1,22 @@
+import { lazy, Suspense } from "react";
 import { useIdleMount } from "@/hooks/useIdleMount";
-import DarkVeil from "./DarkVeil";
+import { useHardwareGpu } from "@/hooks/useHardwareGpu";
+
+// ⛔ 21-09-2026 — LAZY, so `ogl` is never DOWNLOADED without a GPU, not merely
+// never run. P1 stopped the shader executing on software rendering, but a
+// static import kept it in the homepage's route chunk: `ogl` measured 67KB of
+// that 96KB chunk, shipped to every visitor including the ones P1 had just
+// decided must not use it.
+//
+// ⚠️ SAFE ONLY BECAUSE THE FLAG GATES IT. `useIdleMount`'s own docblock warns
+// against `lazy()` + `<Suspense>` for this layer: `renderToString` cannot
+// resolve a lazy import, so it emits an UNFINISHED boundary and the client
+// throws React #419 and re-renders the subtree. That applies to a bare
+// Suspense. Here `veilReady` is false during SSR and during the hydration
+// render, so neither the boundary nor the lazy child is ever rendered on the
+// server — there is nothing to leave unfinished. Do NOT hoist this Suspense
+// above the `veilReady` check.
+const DarkVeil = lazy(() => import("./DarkVeil"));
 
 // DarkVeil is mounted only once the page has gone idle, never on first render.
 //
@@ -52,7 +69,24 @@ import DarkVeil from "./DarkVeil";
 //       removal reads as deliberate rather than accidental.
 // L1/L5 are untouched.
 export default function ArcField() {
-  const veilReady = useIdleMount();
+  const idle = useIdleMount();
+
+  // ⛔ 21-09-2026 — THE VEIL DOES NOT MOUNT WITHOUT A HARDWARE GPU, and this
+  // is the single highest-value performance change on the site. PageSpeed
+  // Insights scored this page 53 desktop / 28 mobile with 20,260ms and
+  // 11,130ms of total blocking time; main-thread "Other" (rasterisation) was
+  // 27,811ms against 736ms of script. Software-rendered WebGL, nothing else.
+  // Measured locally under `--use-angle=swiftshader`: 10.5fps with the veil,
+  // 33.3fps without, 58.8fps with no animation at all. Full workings and the
+  // detection rules are in src/lib/gpu.js.
+  //
+  // Without a GPU the hero falls back to L1 alone — `--gradient-deep`, the
+  // same static base `prefers-reduced-motion` already shows. Deliberately NOT
+  // a single static shader frame: that still pays one full software raster of
+  // a full-screen per-pixel shader (the 600ms tasks PSI recorded are single
+  // frames), which is most of the cost for a fraction of the effect.
+  const accelerated = useHardwareGpu();
+  const veilReady = idle && accelerated;
 
   return (
     <div className="arcfield grain absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
@@ -60,7 +94,15 @@ export default function ArcField() {
       {/* <div className="arcfield__grid" /> */}
       {/* <div className="arcfield__ring arcfield__ring--a" /> */}
       {/* <div className="arcfield__ring arcfield__ring--b" /> */}
-      <div className="arcfield__veil">{veilReady ? <DarkVeil /> : null}</div>
+      <div className="arcfield__veil">
+        {veilReady ? (
+          // fallback null: the layer is decorative and L1 already fills the
+          // space, so there is nothing to hold and nothing to flash.
+          <Suspense fallback={null}>
+            <DarkVeil />
+          </Suspense>
+        ) : null}
+      </div>
       {/* <div className="arcfield__bloom" data-bloom /> */}
       <div className="arcfield__vignette" />
     </div>
