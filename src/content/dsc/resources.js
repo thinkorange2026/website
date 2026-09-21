@@ -37,7 +37,7 @@ import { dscDriversPage } from "../nav.js";
 
 export const dscResourcesContent = {
   meta: {
-    title: "DSC Resources | ThinkOrange Consulting",
+    title: "DSC Resources | ThinkOrange",
     description:
       "Utilities, drivers and reference documents for Digital Signature Certificates — collected in one place so you are not hunting for them across portals.",
   },

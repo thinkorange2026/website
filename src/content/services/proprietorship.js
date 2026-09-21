@@ -16,7 +16,7 @@ export default {
   h1: "Proprietorship Registration",
 
   meta: {
-    title: "Proprietorship Registration | ThinkOrange Consulting",
+    title: "Proprietorship Registration | ThinkOrange",
     description:
       "The registrations that make a sole proprietorship operational — GST, Udyam and current account documentation.",
     keywords: [

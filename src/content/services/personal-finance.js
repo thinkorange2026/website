@@ -23,7 +23,7 @@ export default {
   h1: "Personal Finance & Debt Management Support",
 
   meta: {
-    title: "Personal Finance & Debt Management | ThinkOrange Consulting",
+    title: "Personal Finance & Debt Management | ThinkOrange",
     description:
       "Personal loan and mortgage documentation, credit report review and structured debt and budgeting guidance for individuals.",
     keywords: [

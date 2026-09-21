@@ -65,11 +65,45 @@ const ORIGIN = `https://${site.domain}`;
 
 function fallbackFor(route) {
   return {
-    title: route ? `${route.label} | ThinkOrange Consulting` : defaultMeta.title,
+    title: route ? `${route.label} | ThinkOrange` : defaultMeta.title,
     description: defaultMeta.description,
   };
 }
 
+
+// ⛔ 21-09-2026 — PLACEHOLDER PAGES ARE `noindex, follow` AND ARE KEPT OUT OF
+// sitemap.xml. Measured on the built output: 6 indexable pages carried under
+// 300 words, and five of them (the legal pages) were near-identical to each
+// other at 235-239 words, because all five render the same "being finalised"
+// shell. Asking Google to index six near-duplicate placeholders is a thin
+// content signal on a site whose other 58 pages are substantial, and it spends
+// crawl budget on pages that say nothing.
+//
+// `follow`, not `nofollow` — the links on them (back to contact, to the DSC
+// tree) should still pass through. And they are STILL PRERENDERED and still
+// reachable: a visitor who clicks "Privacy Policy" in the footer must land on
+// a real page. This only stops them being offered to a search engine.
+//
+// ⚠️ SELF-HEALING FOR THE LEGAL PAGES, deliberately: the test is
+// `sections == null`, which is exactly the flag `LegalPage.jsx` branches on to
+// render `PendingLegal`. The day real CA-reviewed copy lands in one of those
+// files it becomes indexable and re-enters the sitemap with no code change
+// here. Do not convert this to a hardcoded list of legal paths.
+function isPlaceholder(path, route) {
+  if (route?.template === "T8") {
+    const page = getLegalContent(path.replace(/^\//, ""));
+    // No content file at all is also a placeholder, not an indexable page.
+    return !page || page.sections == null;
+  }
+  // ⛔ NOT derivable from data — `DscEsign.jsx` renders <ComingSoon /> with its
+  // real body commented out, while `esign-solution.js` still holds the full
+  // written content. So the page LOOKS complete to the content layer and is a
+  // stub on screen. REMOVE THIS ENTRY when that component's body is
+  // uncommented, or the finished page will stay out of the index.
+  return PLACEHOLDER_PATHS.has(path.replace(/\/+$/, "") || "/");
+}
+
+const PLACEHOLDER_PATHS = new Set(["/dsc/esign-solution"]);
 
 /** Resolves {title, description, canonical, robots} for one path. Never
  * throws — a route this misses falls back to defaultMeta rather than
@@ -182,7 +216,7 @@ export function resolveSeo(path) {
     case "T8": {
       const page = getLegalContent(path.replace(/^\//, ""));
       m = page
-        ? { title: `${page.title} | ThinkOrange Consulting`, description: page.metaDescription }
+        ? { title: `${page.title} | ThinkOrange`, description: page.metaDescription }
         : fallbackFor(route);
       break;
     }
@@ -202,7 +236,8 @@ export function resolveSeo(path) {
     // gets no canonical tag at all rather than one pointing at "/", which
     // would tell crawlers every mistyped URL IS the homepage.
     canonical: isNotFound ? null : `${ORIGIN}${path}`,
-    robots: isNotFound ? "noindex, follow" : "index, follow",
+    robots:
+      isNotFound || isPlaceholder(path, route) ? "noindex, follow" : "index, follow",
     ogImage: absoluteUrl(ogImagePath(path)),
   };
 }

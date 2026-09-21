@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { arcPath } from "../src/lib/arc.js";
-import { ogImagePath } from "../src/lib/ogImage.js";
+import { ogImagePath, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT } from "../src/lib/ogImage.js";
 import { resolveSeo } from "../src/lib/seo.js";
 import { site, sitemapPaths } from "../src/content/nav.js";
 
@@ -30,8 +30,11 @@ import { site, sitemapPaths } from "../src/content/nav.js";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 
-const W = 1200;
-const H = 630;
+// ⚠️ IMPORTED, not redeclared — src/lib/ogImage.js is the single contract the
+// generator and both <head> writers share. A local copy here is how the file
+// and the `og:image:width` tag drift apart.
+const W = OG_IMAGE_WIDTH;
+const H = OG_IMAGE_HEIGHT;
 const PAD = 88;
 const TEXT_W = 1024;   // the safe measure, well clear of the arc on the right
 const TEXT_MAX_H = 250;

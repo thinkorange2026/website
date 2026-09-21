@@ -34,7 +34,7 @@ export const insights = [
     slug: "private-limited-vs-llp-vs-opc",
     title: "Private Limited, LLP or OPC: picking a structure you won't have to unwind",
     excerpt:
-      "The three structures most Salem founders choose between, and the compliance each one commits you to long after incorporation day.",
+      "The three structures most Indian founders choose between, and the compliance each one commits you to long after incorporation day.",
     category: "Business Setup",
     readMinutes: 6,
     published: PUBLISHED,
@@ -42,9 +42,9 @@ export const insights = [
     // against nav.js at render time — never hardcoded paths.
     related: ["private-limited-company", "llp-registration", "opc-registration"],
     meta: {
-      title: "Private Limited vs LLP vs OPC — How to Choose | ThinkOrange Consulting",
+      title: "Private Limited vs LLP vs OPC — How to Choose | ThinkOrange",
       description:
-        "A plain comparison of Private Limited Company, LLP and One Person Company for Indian founders — ownership, annual compliance and what each structure costs you in filings.",
+        "Private Limited Company, LLP and One Person Company compared for Indian founders — ownership, annual compliance, and what each costs you in filings.",
     },
     confirmed: true,
   },
@@ -73,7 +73,7 @@ export const insights = [
   //   published: PUBLISHED,
   //   related: ["class-3-individual", "class-3-organisation", "aadhaar-esign"],
   //   meta: {
-  //     title: "Class 3 DSC or Aadhaar eSign — Which Do You Need? | ThinkOrange Consulting",
+  //     title: "Class 3 DSC or Aadhaar eSign — Which Do You Need? | ThinkOrange",
   //     description:
   //       "When a Class 3 Digital Signature Certificate is mandatory, when Aadhaar eSign is enough, and why government portals accept only one of the two.",
   //   },
@@ -89,9 +89,9 @@ export const insights = [
     published: PUBLISHED,
     related: ["gst-registration", "gst-return-filing", "gst-lut-export-refunds"],
     meta: {
-      title: "When GST Registration Becomes Mandatory | ThinkOrange Consulting",
+      title: "When GST Registration Becomes Mandatory | ThinkOrange",
       description:
-        "The turnover thresholds, the compulsory-registration cases that ignore them, and what the application itself needs — GST registration explained without the jargon.",
+        "The turnover thresholds, the compulsory-registration cases that ignore them, and what the application needs — GST registration without the jargon.",
     },
     confirmed: true,
   },
@@ -105,7 +105,7 @@ export const insights = [
     published: PUBLISHED,
     related: ["gem-registration", "tender-documentation", "msme-udyam"],
     meta: {
-      title: "GeM Registration & Tender Readiness — What to Prepare | ThinkOrange Consulting",
+      title: "GeM Registration & Tender Readiness | ThinkOrange",
       description:
         "What GeM registration involves for a seller, the documents a live bid needs, and the MSME benefits that apply on government tenders.",
     },
@@ -125,9 +125,9 @@ export const insights = [
     published: PUBLISHED,
     related: ["roc-annual-compliance", "private-limited-company", "llp-registration"],
     meta: {
-      title: "Annual ROC Compliance for Companies & LLPs | ThinkOrange Consulting",
+      title: "Annual ROC Compliance for Companies & LLPs | ThinkOrange",
       description:
-        "AOC-4, MGT-7, DIR-3 KYC and the LLP's Form 8 and Form 11 — what every registered company and LLP files each year, when it is due, and what non-filing actually costs.",
+        "AOC-4, MGT-7, DIR-3 KYC, and the LLP's Form 8 and Form 11 — what every company and LLP files each year, when it is due, and what non-filing costs.",
     },
     confirmed: true,
   },

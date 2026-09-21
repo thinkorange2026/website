@@ -17,7 +17,7 @@
 // file.
 export const dscValidityRenewalContent = {
   meta: {
-    title: "DSC Validity, Renewal & FAQs | ThinkOrange Consulting",
+    title: "DSC Validity, Renewal & FAQs | ThinkOrange",
     description:
       "How long a Digital Signature Certificate lasts, what renewal actually means in India, and answers to the questions that come up most before and after issuance.",
   },

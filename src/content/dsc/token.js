@@ -77,19 +77,44 @@ export const tokenProduct = {
   label: "DSC USB Token",
   h1: "Buy the HYP2003 — a FIPS 140-3 DSC token",
   meta: {
-    title: "Buy a HYP2003 FIPS 140-3 DSC Token | ThinkOrange Consulting",
+    title: "Buy HYP2003 DSC Tokens in Salem, Tamil Nadu | ThinkOrange",
     description:
-      "Order the HyperPKI HYP2003 USB crypto token — FIPS 140-3 Level 3, CCA India listed, 64 KB, Windows, macOS and Linux. Full specification, and what the FIPS 140-3 change means for your certificate.",
+      "Order HYP2003 DSC tokens in Salem and across Tamil Nadu — FIPS 140-3 Level 3, CCA India listed, 64 KB. Shipped anywhere in India.",
+    // ⚠️ THIS ARRAY IS NOT RENDERED ANYWHERE, and that is deliberate.
+    // `<meta name="keywords">` has been ignored by Google since 2009 and by
+    // Bing since 2014; emitting one would be pure noise. Nothing in
+    // `lib/seo.js` or `prerender.mjs` reads this field — verified.
+    //
+    // It is kept as a RECORD OF THE QUERIES THIS PAGE IS WRITTEN FOR, so the
+    // next person editing the title or description knows what not to drop.
+    // The targeting itself lives in the title, the description and the body
+    // copy below — that is the only thing that works.
+    //
+    // ⛔ "hyp2003 token near me" is deliberately ABSENT and must not be added
+    // to the visible copy either. Google answers "near me" from the
+    // searcher's location against a Google Business Profile, not from the
+    // literal phrase on a page; writing it into copy is a well-known
+    // low-value pattern that reads as spam and ranks for nothing. The only
+    // thing that wins those queries is the GBP, which does not exist yet.
     keywords: [
       "buy dsc token",
       "hyp2003 token",
+      "hyp2003 tokens in salem",
+      "hyp2003 tokens in tamil nadu",
+      "dsc token salem",
       "fips 140-3 dsc token",
       "hyp2003 specification",
       "dsc token india",
     ],
   },
+  // ⚠️ The closing sentence is the page's only on-page location signal, and
+  // it states ONLY what the site already publishes elsewhere: where the
+  // office is (footer, /contact, /about, LocalBusiness schema) and that we
+  // ship nationally. It deliberately does NOT say stock is held in Salem or
+  // imply a dispatch time — "Stock in Salem, dispatched the same day" is
+  // refused claim (2) in the header above, and remains refused.
   lede:
-    "A Digital Signature Certificate cannot be held as a file on a computer — it lives on a secure USB crypto token. The HyperPKI HYP2003 is validated to FIPS 140-3 Level 3 and lists CCA India among its certifications, so a certificate issued onto it today will still be issuable after the change.",
+    "A Digital Signature Certificate cannot be held as a file on a computer — it lives on a secure USB crypto token. The HyperPKI HYP2003 is validated to FIPS 140-3 Level 3 and lists CCA India among its certifications, so a certificate issued onto it today will still be issuable after the change. Order from our Salem, Tamil Nadu office — shipped anywhere in India.",
 
   // Price is quoted, not published. See the header note.
   price: null,

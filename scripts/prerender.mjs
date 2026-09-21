@@ -1,7 +1,13 @@
-// Phase 9 — prerenders all 49 routes to static HTML, then emits sitemap.xml
-// and robots.txt. Run via `npm run build` (wired as the `postbuild` script,
-// which npm runs automatically once `vite build` finishes) — never run this
-// directly against a stale or missing dist/.
+// Phase 9 — prerenders every route to static HTML and writes the retired-URL
+// redirect stubs. Run via `npm run build` (wired as `postbuild`, which npm runs
+// automatically once `vite build` finishes) — never directly against a stale or
+// missing dist/.
+//
+// ⚠️ robots.txt / sitemap.xml / llms.txt ARE NO LONGER WRITTEN HERE. They moved
+// to scripts/seo-files.mjs, which runs as `prebuild` and writes them into
+// `public/` so they are committed and visible in the repo rather than existing
+// only inside gitignored build output (Clinton, 21-09-2026). Vite copies
+// `public/` into `dist/`; `assertSeoFilesShipped()` below verifies that landed.
 //
 // Approach (BUILD-PLAN.md §1's resolution — vite-react-ssg was ruled out
 // early for pinning a react-router-dom@^6 peer range that conflicts with
@@ -29,7 +35,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { site, sitemapPaths, dscRetiredRoutes } from "../src/content/nav.js";
 import { generateOgImages } from "./og-images.mjs";
 import { resolveSeo } from "../src/lib/seo.js";
-import { ogImagePath } from "../src/lib/ogImage.js";
+import { ogImagePath, OG_IMAGE_WIDTH, OG_IMAGE_HEIGHT } from "../src/lib/ogImage.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -69,9 +75,20 @@ function buildHeadBlock(seo) {
     `<meta property="og:description" content="${d}" />`,
     `<meta property="og:url" content="${canonical ?? `${ORIGIN}/`}" />`,
     `<meta property="og:image" content="${ogImage}" />`,
+    // Declared so a scraper can lay the card out without fetching it first.
+    // ⚠️ The numbers come from lib/ogImage.js, the same contract the generator
+    // rasterises to — a hardcoded pair here is how the tag and the file drift.
+    `<meta property="og:image:width" content="${OG_IMAGE_WIDTH}" />`,
+    `<meta property="og:image:height" content="${OG_IMAGE_HEIGHT}" />`,
+    // The card renders the page title as its only text, so the title IS the
+    // alt text. Not a second string to keep in step.
+    `<meta property="og:image:alt" content="${t}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${t}" />`,
     `<meta name="twitter:description" content="${d}" />`,
+    // X falls back to og:image, so this was working implicitly; stated
+    // explicitly because "works by fallback" is not a thing to rely on.
+    `<meta name="twitter:image" content="${ogImage}" />`,
     "<!-- SEO:END -->"
   );
   return lines.join("\n    ");
@@ -89,19 +106,29 @@ function outputFileFor(routePath) {
   return path.join(DIST, routePath, "index.html");
 }
 
-function writeSitemap(paths) {
-  const urls = paths
-    .map((p) => `  <url>\n    <loc>${ORIGIN}${p === "/" ? "/" : p}</loc>\n  </url>`)
-    .join("\n");
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
-  writeFileSync(path.join(DIST, "sitemap.xml"), xml, "utf-8");
+/**
+ * The three crawler-facing files are written into `public/` by the PREBUILD
+ * step (scripts/seo-files.mjs) and reach `dist/` only because Vite copies
+ * `public/` during the build. This asserts that copy actually happened.
+ *
+ * ⛔ WORTH A BUILD GATE because every failure mode here is SILENT. If the
+ * prebuild is skipped — someone overrides Vercel's build command to bare
+ * `vite build`, or runs `vite build` directly — the site deploys perfectly and
+ * simply has no sitemap and no robots.txt. Nothing errors, no page 404s, and
+ * the only symptom is a slow decline in Search Console weeks later. Same
+ * reasoning as the og:image and dangling-fragment gates.
+ */
+function assertSeoFilesShipped() {
+  const required = ["robots.txt", "sitemap.xml", "llms.txt"];
+  const missing = required.filter((name) => !existsSync(path.join(DIST, name)));
+  if (missing.length) {
+    throw new Error(
+      `[prerender] missing from dist/: ${missing.join(", ")}. These are written into public/ ` +
+        `by the prebuild step (scripts/seo-files.mjs) and copied by Vite. Run \`npm run build\`, ` +
+        `not \`vite build\` — the latter skips prebuild.`
+    );
+  }
 }
-
-function writeRobots() {
-  const txt = `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`;
-  writeFileSync(path.join(DIST, "robots.txt"), txt, "utf-8");
-}
-
 
 /**
  * Redirect stubs for retired URLs.
@@ -111,9 +138,7 @@ function writeRobots() {
  * from elsewhere — deleting them outright would 404 every one.
  *
  * This is a static host, so there is no server to answer 301 with. The stub
- * does the three things a static page can:
- *   - `<link rel="canonical">` at the destination, so a crawler that lands
- *     here attributes the page to /dsc rather than indexing a duplicate;
+ * does the two things a static page can:
  *   - `<meta name="robots" content="noindex,follow">`, so the stub itself
  *     never competes with the page it points at while still passing the link
  *     on;
@@ -124,6 +149,18 @@ function writeRobots() {
  * A visible link is rendered too, for the case where both JS and the refresh
  * are unavailable — a blank page with no way forward is the one outcome worth
  * ruling out.
+ *
+ * ⛔ THE `rel="canonical"` THAT USED TO BE HERE WAS REMOVED 21-09-2026, and it
+ * should not come back. Two reasons, either sufficient:
+ *   1. Google's own guidance is not to combine `noindex` with `rel=canonical`
+ *      — they are contradictory instructions ("do not index me" against
+ *      "credit this other page"), and the conflict can cause the canonical to
+ *      be discarded rather than honoured.
+ *   2. Every one of them pointed at a URL WITH A FRAGMENT
+ *      (`https://thinkorange.in/dsc#finder`). Canonical URLs are compared after
+ *      the fragment is stripped, so the fragment was never doing anything.
+ * The meta-refresh is already read as a redirect, which is what consolidates
+ * these to their destination. `to` is still used by the visible fallback link.
  *
  * These paths are deliberately NOT added to sitemap.xml: `sitemapPaths()`
  * derives from `allRoutes`, which no longer contains them, and asking a
@@ -138,7 +175,6 @@ function writeRedirects() {
 <meta charset="utf-8">
 <title>Moved — ${route.label} | ThinkOrange Consulting</title>
 <meta name="robots" content="noindex,follow">
-<link rel="canonical" href="${to}">
 <meta http-equiv="refresh" content="0; url=${route.redirectTo}">
 <script>location.replace(${JSON.stringify(route.redirectTo)});</script>
 </head>
@@ -272,13 +308,12 @@ async function main() {
   assertOgImagesExist(paths);
 
   writeRedirects();
-  writeSitemap(paths);
-  writeRobots();
+  assertSeoFilesShipped();
 
   rmSync(SSR_OUT, { recursive: true, force: true });
 
   console.log(
-    `[prerender] wrote ${paths.length} routes + ${dscRetiredRoutes.length} redirects + 404.html + sitemap.xml + robots.txt`
+    `[prerender] wrote ${paths.length} routes + ${dscRetiredRoutes.length} redirects + 404.html`
   );
 }
 

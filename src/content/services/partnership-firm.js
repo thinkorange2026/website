@@ -15,7 +15,7 @@ export default {
   h1: "Partnership Firm Registration",
 
   meta: {
-    title: "Partnership Firm Registration | ThinkOrange Consulting",
+    title: "Partnership Firm Registration | ThinkOrange",
     description:
       "Partnership deed drafting and firm registration under the Indian Partnership Act 1932, with PAN and TAN.",
     keywords: [

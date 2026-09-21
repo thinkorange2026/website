@@ -1,0 +1,16 @@
+{
+  "name": "ThinkOrange Consulting",
+  "short_name": "ThinkOrange",
+  "description": "GST, income tax, business setup, accounting, audit, government tenders and Digital Signature Certificates, for clients across India.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#070C1C",
+  "theme_color": "#070C1C",
+  "lang": "en-IN",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

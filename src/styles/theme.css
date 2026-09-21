@@ -986,6 +986,44 @@ p {
   animation: hero-image-drift 11s var(--ease-inout) infinite;
 }
 
+/* ⛔ 21-09-2026 — THE TWO HERO IDLE LOOPS DO NOT RUN WITHOUT A HARDWARE GPU.
+   `data-gpu` is written once by RootLayout (see src/lib/gpu.js for the
+   detection and the measurements); it is ABSENT in the prerendered HTML and
+   until hydration, and "absent" deliberately means "assume no GPU" — these are
+   ambient loops, so starting 50ms late on real hardware is invisible, whereas
+   running for 50ms on a machine that must rasterise them on the CPU is not.
+
+   Why these two specifically, measured by ablation on the production build
+   under `--use-angle=swiftshader` (each arm 7s of rAF sampling):
+
+       baseline, as shipped ....................... ~28 fps
+       typewriter transitions off .................  31
+       image-skeleton sweep off ...................  27
+       notice marquee off .........................  25
+       chevron bounce off .........................  24
+       .hero-image-drift + .hero-card-float off ... *59.9*
+
+   i.e. these two ARE the entire gap, and everything else on the page is
+   within run-to-run noise. Stopping only one gets you ~33fps — both layers
+   have to stop, and each costs roughly 15ms of software raster per frame.
+
+   ⚠️ Three plausible fixes were measured and ALL FAILED, so don't retry them:
+   `will-change: transform` (no change — Phase 4 already recorded that an
+   actively animating transform is composited regardless), removing the SVG
+   `clip-path` from the figure (no change, so the clip is not the cause), and
+   `visibility: hidden` on the figure while still animating (no change, so it
+   is not the painting of the image either). The cost is the animated layer
+   itself, and its size, not what it contains — which is why the 24px chevron
+   animating nearby costs nothing measurable.
+
+   ⚠️ This detects SOFTWARE RENDERING, not "slow GPU". A cheap Android phone
+   has a real if weak GPU and will still run both. If mobile ever needs the
+   same treatment, gate on a measured frame budget rather than widening this. */
+html:not([data-gpu="hw"]) .hero-image-drift,
+html:not([data-gpu="hw"]) .hero-card-float {
+  animation: none;
+}
+
 
 /* ============================================================
    Scroll nav (components/layout/ScrollNav.jsx).

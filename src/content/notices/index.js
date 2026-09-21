@@ -91,9 +91,9 @@ export const notices = [
     // truncated in every search result. The description is the draft's opening
     // sentence, shortened to fit roughly 155 characters.
     meta: {
-      title: "emSigner 3.3 is Mandatory for All FIPS 140-3 Hardware Tokens | ThinkOrange Consulting",
+      title: "emSigner 3.3 Required for FIPS 140-3 Tokens | ThinkOrange",
       description:
-        "The GST network has released emSigner version 3.3, a critical utility update for taxpayers and professionals filing returns using a Digital Signature Certificate.",
+        "The GST network has released emSigner 3.3, a critical utility update for taxpayers and professionals filing returns using a Digital Signature Certificate.",
     },
     confirmed: true,
     basis:

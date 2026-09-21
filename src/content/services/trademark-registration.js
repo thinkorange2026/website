@@ -19,7 +19,7 @@ export default {
   h1: "Trademark Registration in India",
 
   meta: {
-    title: "Trademark Registration | ThinkOrange Consulting",
+    title: "Trademark Registration | ThinkOrange",
     description:
       "Register your business name or logo as a trademark — classes, fees, the opposition window and realistic timelines explained. Filed pan-India.",
     keywords: [

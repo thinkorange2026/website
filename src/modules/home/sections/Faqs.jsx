@@ -1,6 +1,6 @@
 import { FaqSection } from "@/components/ui/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { homeFaqs } from "@/content/faqs/home";
+import { homeFaqsResolved } from "@/content/faqs/home.generated";
 import { faqPageJsonLd } from "@/lib/jsonld";
 
 // Homepage FAQ row — CONTENT-PLAN.md §229 / DESIGN.md §758's archetype
@@ -22,7 +22,19 @@ import { faqPageJsonLd } from "@/lib/jsonld";
 // leaves rather than restating them. Nothing in this file is a fact.
 
 export function Faqs() {
-  const faqs = homeFaqs();
+  // ⛔ 21-09-2026 — imports the GENERATED module, not `homeFaqs()` from
+  // ./home.js, and the difference is 289KB on this page. `home.js` resolves
+  // each answer out of its service leaf at call time, which is the right
+  // discipline but means importing it drags `content/services/index.js` and
+  // all 31 leaf files into the homepage's JavaScript. Measured on the built
+  // output: a cold homepage load fetched a 289KB `services-*.js` chunk to
+  // render these six answers.
+  //
+  // The selection still lives in ./home.js and the answers still come from the
+  // leaves — `scripts/home-faqs.mjs` runs that same resolver in Node during
+  // `prebuild` and writes the result out. Nothing forked; the resolution just
+  // moved to build time. Edit SELECTION in ./home.js, never the generated file.
+  const faqs = homeFaqsResolved;
 
   // Same discipline as Testimonial and Insights: if the source data cannot be
   // resolved, render nothing rather than an empty accordion shell.

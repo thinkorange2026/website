@@ -21,7 +21,7 @@
 export const categoryContent = {
   gst: {
     meta: {
-      title: "GST Services | ThinkOrange Consulting",
+      title: "GST Services | ThinkOrange",
       description:
         "GST registration, return filing, ITC refunds and notices & litigation — one team handling the whole relationship, for clients across India.",
     },
@@ -59,7 +59,7 @@ export const categoryContent = {
 
   "income-tax": {
     meta: {
-      title: "Income Tax Services | ThinkOrange Consulting",
+      title: "Income Tax Services | ThinkOrange",
       description:
         "ITR filing, TDS compliance and tax planning & advisory for individuals, firms, LLPs and companies, advised against the current law.",
     },
@@ -97,7 +97,7 @@ export const categoryContent = {
 
   "business-setup": {
     meta: {
-      title: "Business Registration & Incorporation | ThinkOrange Consulting",
+      title: "Business Registration & Incorporation | ThinkOrange",
       description:
         "Private limited, LLP, OPC, partnership, proprietorship and trust/society/Section 8 incorporation — for clients pan-India.",
     },
@@ -142,7 +142,7 @@ export const categoryContent = {
     // "payroll" to the summary; intro/whyUs/faqs untouched pending real
     // content for the three new payroll/ROC leaves (see MISSING-PAGES.md).
     meta: {
-      title: "Accounting, Payroll & Audit Services | ThinkOrange Consulting",
+      title: "Accounting, Payroll & Audit Services | ThinkOrange",
       description:
         "Monthly bookkeeping on Tally Prime and Zoho Books, payroll processing, and internal and specialised audit work.",
     },
@@ -187,7 +187,7 @@ export const categoryContent = {
   // else in this file.
   "tenders-finance": {
     meta: {
-      title: "Government Tenders & Business Finance | ThinkOrange Consulting",
+      title: "Government Tenders & Business Finance | ThinkOrange",
       description:
         "GeM registration and tender documentation support, plus CMA data, loan documentation and personal finance planning.",
     },
@@ -240,7 +240,7 @@ export const categoryContent = {
   // four children are new leaves written this same session.
   "registrations-licences": {
     meta: {
-      title: "Business Registrations & Licences | ThinkOrange Consulting",
+      title: "Business Registrations & Licences | ThinkOrange",
       description:
         "MSME/Udyam, Startup India, IEC, ICEGATE, trademark and NGO Darpan registration — the specific licences a growing business needs beyond incorporation.",
     },

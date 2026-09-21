@@ -10,7 +10,7 @@ export const aboutContent = {
   meta: {
     title: "About ThinkOrange Consulting | Salem, Tamil Nadu",
     description:
-      "ThinkOrange Consulting Private Limited — a Salem-based professional services firm handling GST, income tax, business setup, accounting, audit and tenders.",
+      "A compliance practice registered in Salem, Tamil Nadu, working with founders and finance teams across India on GST, income tax, accounting and DSC.",
   },
   description:
     "ThinkOrange Consulting Private Limited is a dynamic professional services provider offering comprehensive financial, taxation, and compliance solutions. We combine technical expertise with innovative thinking to help our clients navigate the complexities of modern business operations.",

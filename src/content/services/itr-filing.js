@@ -31,9 +31,9 @@ export default {
   h1: "Income Tax Return Filing",
 
   meta: {
-    title: "Income Tax Return (ITR) Filing | ThinkOrange Consulting",
+    title: "Income Tax Return (ITR) Filing | ThinkOrange",
     description:
-      "ITR filing for salaried individuals, professionals, firms and companies under the Income Tax Act 2025. Due dates, documents and the new Tax Year rules explained.",
+      "ITR filing for salaried individuals, professionals, firms and companies under the Income Tax Act 2025. Due dates, documents and the new Tax Year rules.",
     keywords: [
       "itr filing salem",
       "income tax return filing tamil nadu",

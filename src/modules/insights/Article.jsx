@@ -52,6 +52,19 @@ export default function InsightArticle({ path }) {
           description: article.excerpt,
           path,
           datePublished: article.published,
+          // ⚠️ The SAME picture the header renders, read off the imagetools
+          // fallback rather than restated — so the photo Google is told about
+          // is provably the photo on the page, and a swapped image cannot
+          // leave the schema pointing at the old one. `img.src` is the
+          // largest variant (1600w here), comfortably over Google's 1200px
+          // guidance for an article image.
+          image: image?.picture?.img
+            ? {
+                src: image.picture.img.src,
+                width: image.picture.img.w,
+                height: image.picture.img.h,
+              }
+            : undefined,
         })}
       />
 

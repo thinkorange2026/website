@@ -33,7 +33,7 @@ export default {
   h1: "Trust, Society & Section 8 Company Registration",
 
   meta: {
-    title: "Trust, Society & Section 8 Company Registration | ThinkOrange",
+    title: "Trust, Society & Section 8 Registration | ThinkOrange",
     description:
       "Trust, society or Section 8 company — which structure fits, the law that actually governs it, and the documents each one needs.",
     keywords: [

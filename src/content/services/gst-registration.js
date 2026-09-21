@@ -29,7 +29,7 @@ export default {
   h1: "GST Registration",
 
   meta: {
-    title: "GST Registration | ThinkOrange Consulting",
+    title: "GST Registration | ThinkOrange",
     description:
       "New GST registration, amendments and multi-state registration, handled end to end. Documents, thresholds and timelines explained plainly.",
     keywords: [

@@ -19,7 +19,7 @@
 // copy waiting for it. `DscEsign.jsx`'s commented-out body still reads them.
 export const esignSolutionContent = {
   meta: {
-    title: "eSign Solution | ThinkOrange Consulting",
+    title: "eSign Solution | ThinkOrange",
     description:
       "Aadhaar-based electronic signing for the documents that accept it — no USB token to carry and no certificate to issue in advance. Tell us what you need signed.",
   },

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useHydrated } from "@/hooks/useHydrated";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, ChevronRight, Phone } from "lucide-react";
 import {
@@ -64,12 +65,38 @@ export function MobileNav({ className }) {
   const panelRef = useRef(null);
   const triggerRef = useRef(null);
 
-  // `document` doesn't exist during Phase 9's SSR prerender pass (Node) —
-  // this portal only ever needs to exist client-side, so it's gated behind a
-  // plain runtime check rather than called unconditionally at render time.
-  // Not state: it can't change within a single environment's lifetime, so
-  // there's nothing to synchronize via an effect.
-  const canPortal = typeof document !== "undefined";
+  // ⛔ 21-09-2026 — THIS WAS `typeof document !== "undefined"` AND IT WAS THE
+  // SITEWIDE REACT #418, logged on EVERY route since 13-08-2026 and recorded in
+  // CLAUDE.md as "unexplained" ever since.
+  //
+  // `document` genuinely doesn't exist during Phase 9's SSR prerender pass, so
+  // the guard was needed — but it answers the WRONG QUESTION. "Am I in a
+  // browser" is already true on the client's very first render, i.e. the
+  // hydration render, so the scrim and panel were absent from the prerendered
+  // HTML and present the moment React hydrated. React diffed the two and
+  // reported exactly that:
+  //
+  //     + <div aria-hidden="true" data-open="false"
+  //     +      className="mobile-sheet-scrim fixed inset-0 z-50 ..." >
+  //
+  // (`+` = client rendered it, server did not.) It is the first bullet in
+  // React's own error text: "a server/client branch `if (typeof window !==
+  // 'undefined')`".
+  //
+  // ⚠️ THE CONSEQUENCE WAS MUCH WORSE THAN A CONSOLE LINE. A hydration
+  // mismatch makes React discard the server-rendered tree and re-render the
+  // whole thing on the client — and every page template is `React.lazy`
+  // (Phase 7), so the regenerated tree hit an unresolved Suspense boundary and
+  // rendered RootLayout's blank fallback instead. On a slow connection or a
+  // GPU-less device the fully-prerendered page was being thrown away and
+  // replaced by an empty dark block until the route chunk arrived. That is the
+  // "h1 disappears" symptom seen while profiling P3.
+  //
+  // `useHydrated()` asks "has hydration finished", which is false on BOTH
+  // sides during the hydration render and so cannot mismatch. The portal still
+  // never runs under Node, so the original crash this guard existed to prevent
+  // is still prevented.
+  const canPortal = useHydrated();
 
   // Close on navigation, via React's documented "adjusting state during
   // render" pattern rather than an effect. An effect here would commit an

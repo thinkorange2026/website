@@ -15,7 +15,7 @@ export default {
   h1: "Internal Audit Services",
 
   meta: {
-    title: "Internal Audit Services | ThinkOrange Consulting",
+    title: "Internal Audit Services | ThinkOrange",
     description:
       "Process reviews, control testing and risk assessment for companies and BFSI clients — mandatory or voluntary.",
     keywords: [

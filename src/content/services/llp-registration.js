@@ -14,7 +14,7 @@ export default {
   h1: "LLP Registration",
 
   meta: {
-    title: "LLP Registration | ThinkOrange Consulting",
+    title: "LLP Registration | ThinkOrange",
     description:
       "Limited Liability Partnership formation, LLP agreement drafting and annual Form 8 and Form 11 compliance. For clients across India.",
     keywords: [
