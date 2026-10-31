@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/layout/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { SurfaceTexture } from "@/components/ui/SurfaceTexture";
 import { ArcRings } from "@/components/ui/ArcRings";
+import { Img } from "@/components/ui/Img";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
 
@@ -75,6 +76,7 @@ export function PageHero({
   aside,
   spec,
   ringsId,
+  background,
 }) {
   const textured = Boolean(texture && textureId);
   const ringed = Boolean(ringsId) && !textured;
@@ -95,10 +97,12 @@ export function PageHero({
   // homepage's Typewriter. It was measured after this change (see CLAUDE.md);
   // if a T5 driver page ever misses CONTENT-PLAN.md §9's LCP < 1.2s target,
   // the fix is to drop the H1's opacity from its `Reveal` and let it rise only.
+  // Over a photo the copy carries a soft ink halo, so the scrim can stay
+  // light and the photo visible (Clinton, 31-10-2026: "too dark").
   const copy = (
-    <>
+    <div className={background ? "[text-shadow:0_1px_14px_color-mix(in_oklab,var(--color-ink-950)_85%,transparent)] [&_.rounded-full]:[text-shadow:none]" : undefined}>
       <Reveal margin="0px" delay={0}>
-        <Breadcrumbs path={path} className="mb-6" />
+        <Breadcrumbs path={path} className="mb-6" tone={background ? "photo" : "dark"} />
       </Reveal>
       {eyebrow && (
         <Reveal margin="0px" delay={0.06}>
@@ -117,7 +121,7 @@ export function PageHero({
       </Reveal>
       {lede && (
         <Reveal margin="0px" delay={0.2}>
-          <p className="mt-4 max-w-[62ch] text-body-base sm:text-body-lg text-ink-300">{lede}</p>
+          <p className={cn("mt-4 max-w-[62ch] text-body-base sm:text-body-lg", background ? "text-ink-100" : "text-ink-300")}>{lede}</p>
         </Reveal>
       )}
       {cta && (
@@ -132,7 +136,7 @@ export function PageHero({
           {children}
         </Reveal>
       )}
-    </>
+    </div>
   );
 
   return (
@@ -140,10 +144,46 @@ export function PageHero({
       data-surface="deep"
       className={cn(
         "page-top grain relative overflow-hidden bg-ink-950 pb-14 md:pb-16",
-        (textured || ringed) && "surface-ambient isolate"
+        (textured || ringed) && "surface-ambient isolate",
+        background && "isolate"
       )}
     >
-      {textured ? (
+      {/* OPTIONAL PHOTO BACKGROUND — `background: { picture, alt }`, a
+          vite-imagetools picture. Added 31-10-2026 for /dsc/drivers ("in header
+          bg use image"); additive, so every hero that omits it is unchanged.
+          ⛔ THE SCRIM IS A CONTRAST MECHANISM, NOT DECORATION. The fixed header
+          renders canvas text over this section and so does the copy, so the
+          photo must never be bright enough to drop either below 4.5:1. It is
+          held near-opaque under the copy column (left) and eases off to the
+          right where nothing is written. Re-measure if the photo is swapped.
+          `priority`: on a page that sets it, this image is the LCP element. */}
+      {background && (
+        <>
+          <Img
+            picture={background.picture}
+            alt={background.alt ?? ""}
+            priority
+            sizes="100vw"
+            className="absolute inset-0 -z-10 h-full w-full"
+            style={background.position ? { objectPosition: background.position } : undefined}
+          />
+          <span
+            aria-hidden="true"
+            // ⛔ ONE overlay at every width (Clinton, 31-10-2026: "this
+            // contrast level is okay so use in all screensize", then "darken
+            // in all screen" once a phone measured below AA). It used to go
+            // flat and heavier below `md`; readability on a phone now rests on
+            // the copy's halo and the brighter lede/breadcrumb. Re-measure
+            // contrast if this gradient or the photo changes.
+            className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,color-mix(in_oklab,var(--color-ink-950)_95%,transparent)_0%,color-mix(in_oklab,var(--color-ink-950)_90%,transparent)_45%,color-mix(in_oklab,var(--color-ink-950)_70%,transparent)_100%)]"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 -z-10 h-1/4 bg-[linear-gradient(0deg,color-mix(in_oklab,var(--color-ink-950)_75%,transparent),transparent)]"
+          />
+        </>
+      )}
+      {background ? null : textured ? (
         /* `placement` is DERIVED, never passed by a call site: an `aside` is
            an opaque `.panel-dark` filling the right half, so a top-right motif
            on a hero that has one ends up almost entirely behind it. Deriving

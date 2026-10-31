@@ -343,7 +343,11 @@ export const dscFaqSectionIds = {
 // because `DriverPicker`'s per-token `#driver-<slug>` links and the retired
 // driver-page stubs all address it.
 export const dscDriverSectionIds = {
+  // ⚠️ `drivers` keeps its old value — it is the anchor existing links use.
+  about: "about-token",
   drivers: "drivers",
+  utilities: "utilities",
+  setup: "setup",
 };
 
 // ⛔ MERGED AWAY 11-09-2026 (Clinton): "i want to merge Buy token and about

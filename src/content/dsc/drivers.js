@@ -250,15 +250,117 @@ export const drivers = [
 // `tokenProduct`, which is about the hardware rather than the software. Kept
 // here beside the drivers it describes, not in `token.js`.
 export const driversPage = {
-  h1: "Token Driver Downloads",
+  h1: "HYP2003 Token Drivers",
   lede:
-    "The driver has to be installed before any portal can see your token. Setup steps and the fixes for the things that usually go wrong.",
+    "Drivers for the HYP2003 USB token on Windows, macOS and Linux — in both the FIPS 140-3 and FIPS 140-2 builds — plus the utilities, setup steps and fixes for the things that usually go wrong.",
   meta: {
-    title: "DSC Token Driver Downloads & Setup | ThinkOrange",
+    // ≤60 chars, per the 21-09-2026 SEO pass.
+    title: "HYP2003 Driver Download (FIPS 140-3) | ThinkOrange",
     description:
-      "Install steps and troubleshooting for the USB token we issue Digital Signature Certificates onto — for Windows, macOS and Linux.",
-    keywords: ["dsc token driver", "hyp2003 driver download", "token not detected dsc"],
+      "Download HYP2003 token drivers for Windows, macOS and Linux — FIPS 140-3 and FIPS 140-2 builds — plus utilities, setup steps and troubleshooting.",
+    keywords: ["hyp2003 driver download", "hyp2003 fips 140-3 driver", "hyp2003 token driver windows"],
   },
+};
+
+// ⛔ 31-10-2026 (Clinton): "/dsc/drivers in this page i want to create it same
+// like official website — https://taxpro.co.in/hyp2003-drivers".
+//
+// WHAT WAS TAKEN FROM THAT PAGE, AND WHAT WAS NOT:
+// - Taken: its STRUCTURE (a driver matrix with separate FIPS 140-3 and FIPS
+//   140-2 columns per operating system, then a utilities table) and its FILE
+//   LINKS, which are hosted by Chartered Information Systems
+//   (charteredinfo.com), the publisher behind that page. They are linked, never
+//   re-hosted — CONTENT-PLAN.md §9 says a vendor binary needs its redistribution
+//   terms checked before we host it, and linking sidesteps that.
+// - NOT taken: its prose (rewritten here in our own words) and its images. Its
+//   hero photo is that firm's own asset, and its product render is
+//   AI-generated (the file is literally named "Generated-image_…"), which
+//   IMAGE-PLAN.md §2 rules out. The page uses our own token photograph.
+// - NOT taken: its "signer.digital" browser-extension section and "free online
+//   PDF signing" link — that is the publisher's own signing product, i.e. a
+//   service of a firm in the same business, not something a token needs to
+//   work. Ask Clinton before adding it.
+//
+// ⚠️ EVERY URL BELOW IS THIRD-PARTY AND FILENAME-PINNED. If the publisher
+// renames or moves a file, the link 404s with nothing on our side noticing.
+// Re-check them together, and prefer moving to the manufacturer's own download
+// page (hypersecu.com/downloads) if these ever break.
+//
+// ⚠️ The NIST certificate IS primary-sourced and was checked live on
+// 31-10-2026: CMVP #5255, "HYPERSECU HyperPKI Cryptographic Module", FIPS 140-3,
+// overall Level 3, status Active, sunset 27-01-2031. This is also the
+// certificate number MISSING-PAGES.md asked to have on file for the
+// "FIPS 140-3 compliant" claim made sitewide.
+const CI = "https://charteredinfo.com/DSC/TokenDrivers/";
+
+export const hyp2003Downloads = {
+  certificate: {
+    number: "5255",
+    module: "HyperSecu HyperPKI Cryptographic Module",
+    standard: "FIPS 140-3",
+    level: "Level 3",
+    status: "Active",
+    url: "https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/5255",
+  },
+  about: [
+    "The HYP2003 is a USB crypto token built on smart-card technology. Your Digital Signature Certificate's private key is generated on the token and never leaves it — signing happens inside the device, so the key cannot be copied off it, even by malware on the computer it is plugged into.",
+    "It is validated to FIPS 140-3 at Level 3, the standard Certifying Authorities in India now issue new certificates onto. Beyond DSC signing on government portals it supports document and email signing, file encryption and certificate-based login.",
+  ],
+  // Columns of the driver matrix, in display order. Each driver row carries a
+  // url (or null) under the same key.
+  columns: [
+    { key: "fips1403", label: "FIPS 140-3 driver", highlight: true },
+    { key: "fips1402", label: "FIPS 140-2 driver" },
+  ],
+  columnNote:
+    "Use the build that matches your token. A token supplied for FIPS 140-3 needs the FIPS 140-3 driver; an older HYP2003 bought before the change uses the FIPS 140-2 one. If you are not sure which you have, message us a photo of it.",
+  drivers: [
+    { platform: "Windows", detail: "Windows 11, 10, 8.1 and 7", fips1403: `${CI}HYP2003-Setup-FIPS140-3.zip`, fips1402: `${CI}HYP2003-Setup.zip` },
+    { platform: "Linux (64-bit)", detail: "x86_64 distributions", fips1403: `${CI}HYP2003-Linux-x86_64-FIPS140-3.zip`, fips1402: `${CI}HYP2003-Linux-x86_64.zip` },
+    // No FIPS 140-3 build is published for 32-bit Linux — the cell renders an
+    // explicit "not available", never an empty one.
+    { platform: "Linux (32-bit)", detail: "i386 distributions", fips1403: null, fips1402: `${CI}HYP2003-Linux-i386.zip` },
+    { platform: "macOS", fips1403: `${CI}HYP2003-MAC-iOS-FIPS140-3.zip`, fips1402: `${CI}HYP2003-MAC-iOS.zip` },
+  ],
+  utilities: [
+    {
+      label: "Middleware updater",
+      desc: "Updates the driver files stored inside an existing HYP2003 token.",
+      url: `${CI}Middleware-Updater-for-HYP2003-Tokens.zip`,
+    },
+    {
+      label: "Format tool — HS serial-number tokens",
+      desc: "Resets an HS-series HYP2003 token (FIPS 140-2 driver) to factory state.",
+      url: `${CI}HYP2003_Initialization_Tool.zip`,
+      destructive: true,
+    },
+    {
+      label: "Format tool — FIPS 140-3 tokens",
+      desc: "Resets a FIPS 140-3 HYP2003 token to factory state.",
+      url: `${CI}FIPS140-3_Token_ZeorizationTool.zip`,
+      destructive: true,
+    },
+    {
+      label: "Microsoft Visual C++ 2015 Redistributable",
+      desc: "Fixes the missing mfc140u.dll and wpdshext.dll errors some Windows machines show after installing the driver.",
+      url: "https://download.microsoft.com/download/9/3/f/93fcf1e7-e6a4-478b-96e7-d4b285925b00/vc_redist.x86.exe",
+    },
+    {
+      label: "HYP2003 SDK",
+      desc: "For developers integrating the token into their own software.",
+      url: `${CI}ePass2003-SDK.zip`,
+    },
+    {
+      label: "HYP2003 SDK for Android",
+      desc: "For developers using the token over USB OTG on Android.",
+      url: `${CI}HYP2003OTG_230807.zip`,
+    },
+  ],
+  // Rendered once above the utilities table, because two rows erase tokens.
+  // Same substance as the initialisation-tool `warning` above.
+  destructiveWarning:
+    "The two format tools ERASE everything on a token, including the certificate. There is no undo, and a certificate destroyed this way has to be re-issued from scratch, with fresh verification and a fresh fee. Talk to us before you run either, especially if the certificate on the token is still valid.",
+  source: "Driver and utility files are published by Chartered Information Systems and download from their server.",
 };
 
 export function getDriver(slug) {

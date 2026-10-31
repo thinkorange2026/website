@@ -189,7 +189,10 @@ export function Hero() {
                     just under the floor. ink-100 measures 7:1 there. */}
                 <Reveal
                   delay={0.24}
-                  className="mt-8 border-t border-ink-800/20 pt-4 font-mono text-body-sm text-ink-100"
+                  // Sans, not mono (Clinton, 31-10-2026): same typeface as
+                  // the lede above. Kept at body-sm so it still reads as a
+                  // footnote to the lede rather than a second paragraph.
+                  className="mt-8 border-t border-ink-800/20 pt-4 text-body-sm text-ink-100"
                 >
                   {site.legalName} · {site.location}
                 </Reveal>

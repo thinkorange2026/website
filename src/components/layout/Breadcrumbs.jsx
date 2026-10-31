@@ -27,6 +27,13 @@ const TONES = {
     link: "text-ink-300 hover:text-ember-200 focus-visible:ring-offset-ink-950",
     chevron: "text-ink-400",
   },
+  // Over a photo (PageHero `background`): the lighter scrim leaves ink-300
+  // links at 3.34:1, so every step is one notch brighter. 31-10-2026.
+  photo: {
+    current: "text-canvas",
+    link: "text-ink-100 hover:text-ember-200 focus-visible:ring-offset-ink-950",
+    chevron: "text-ink-200",
+  },
   light: {
     current: "text-ink-600",
     link: "text-ink-400 hover:text-ember-600 focus-visible:ring-offset-canvas",

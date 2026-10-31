@@ -155,11 +155,15 @@ export const notices = [
     // same site contradicts two clicks away is worse than no notice. The
     // DRIVER files are still unhosted and still sent on request, so that half
     // stands; update this again when they are published.
-    text: "The HYP2003 Windows installer is now a direct download — the supplied build is the initialisation utility, which erases the certificate on a token, so read the caution beside it. macOS and Linux builds are still sent on request.",
+    // ⚠️ REWRITTEN AGAIN 31-10-2026: /dsc/drivers now lists every HYP2003
+    // driver build (both FIPS variants, Windows/macOS/Linux) plus the
+    // utilities, so "macOS and Linux builds are still sent on request" became
+    // false. Update this again if those links ever move.
+    text: "HYP2003 drivers for Windows, macOS and Linux — in both FIPS 140-3 and FIPS 140-2 builds — are now on one page, with the token utilities and setup help.",
     href: "/dsc/drivers",
     confirmed: true,
     basis:
-      "content/dsc/drivers.js — HYP2003's Windows row carries a real url (04-09-2026, Clinton: \"software link is for this\"); macOS, Linux and the reset-tool entry are still null.",
+      "content/dsc/drivers.js hyp2003Downloads (31-10-2026, Clinton: rebuild /dsc/drivers like taxpro.co.in/hyp2003-drivers).",
   },
 ];
 

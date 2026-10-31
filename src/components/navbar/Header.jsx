@@ -134,7 +134,13 @@ const PANEL_VARIANTS = {
 };
 
 export function Header() {
-  const scrolled = useScrolled(80);
+  // 24, NOT DESIGN.md §10.1's 80. `.page-top` leaves only 40px between the
+  // header's bottom edge and the first content, and on a SHORT window the
+  // hero cannot centre its copy lower than that — so between 40px and 80px
+  // of scroll the eyebrow slid under a header that was still transparent
+  // (reported 31-10-2026). The threshold must stay below that 40px gap; if
+  // `.page-top`'s offset ever shrinks, this has to shrink with it.
+  const scrolled = useScrolled(24);
   const location = useLocation();
   // CLAUDE.md's layout contract: this header is fixed and transparent over each
   // page's opening section, and its text is canvas-coloured, which is why every
@@ -254,7 +260,11 @@ export function Header() {
                       // the phone number. Re-measure at 1024px before adding a
                       // fifth option or lengthening a label — this change spent
                       // some of the headroom that was there.
-                      "flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-medium transition-colors duration-[var(--dur-fast)]",
+                      // `cursor-pointer` is load-bearing: Tailwind v4's
+                      // preflight resets <button> to the default arrow, so
+                      // these triggers showed an arrow while Home/About Us
+                      // (links) showed the hand (Clinton, 31-10-2026).
+                      "flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 text-body font-medium transition-colors duration-[var(--dur-fast)]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
                       openKey === item.panel
                         ? "text-ember-200"

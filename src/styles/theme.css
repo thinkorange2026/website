@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
+/* Tailwind v4's preflight resets <button> to the default arrow cursor, so
+   every dropdown trigger, FAQ row, finder control and sheet control showed an
+   arrow while links beside them showed the hand (Clinton, 31-10-2026: "use
+   cursor same as home"). In `@layer base` so any `cursor-*` utility still
+   wins; disabled buttons keep the arrow. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+}
+
 /* Self-hosted Satoshi — not on npm, pulled from Fontshare (free, commercial OK).
    DESIGN.md §5.1 asks for the variable cut; Fontshare's CSS API does not expose
    one, so this is the static per-weight set (400/500/700/900). Flagged as a

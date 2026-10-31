@@ -1,0 +1,8 @@
+drivers-hero.jpg — /dsc/drivers hero background
+Photo: "Usb flash drive plugged into a silver laptop" by Mrs Chimpanzeee
+Page:  https://unsplash.com/photos/usb-flash-drive-plugged-into-a-silver-laptop-lZsYLHANao8
+CDN:   https://images.unsplash.com/photo-1782483645462-ded924f6dcd1 (w=2000, q=80)
+Licence: Unsplash License (free; attribution not required). Downloaded 31-10-2026.
+IMAGE-PLAN.md §2 Tier 2 — contextual stock, NO PEOPLE IN FRAME. It is a generic
+USB stick, NOT the HYP2003; it is atmosphere under a dark scrim. The real token
+photograph is /images/drivers/dsc-card.png, used on the same page.
